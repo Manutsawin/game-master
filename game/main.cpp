@@ -370,14 +370,14 @@ void control()
 
 			if (player.direct == 1 || player.direct == 11)
 			{
-				if (x_playercheak + 80 >= x_enamycheak && x_enamycheak > x_playercheak)
+				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak)
 				{
 					damage_enamy++;
 				}
 			}
 			else
 			{
-				if (x_playercheak - 80 <= x_enamycheak && x_enamycheak < x_playercheak)
+				if (x_playercheak - 120 <= x_enamycheak && x_enamycheak < x_playercheak)
 				{
 					damage_enamy++;
 				}
