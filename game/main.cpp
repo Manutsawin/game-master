@@ -2,7 +2,7 @@
 #include<windows.h>
 #include<stdio.h>
 #include "skill.h"
-#include"HP.h"
+#include"Fuc.h"
 
 
 struct charecter
@@ -12,15 +12,22 @@ struct charecter
 	sf::Texture Texture;
 	sf::IntRect rectSource;
 
-} player1,enamy1,   BG,hpBar_player,hpBar_enamy    ,skillthrow;
+} player1,enamy1  ,BG   ,hpBar_player,hpBar_enamy, manaBar_player, manaBar_enamy  ,skillthrow;
 
 sf::RenderWindow window(sf::VideoMode(1200, 800), "Road to champions");
 sf::RectangleShape sprite_BG(sf::Vector2f(1200.0f,800.0f));
 
+//charecter
 sf::RectangleShape sprite_player1(sf::Vector2f(160.0f, 120.0f));
-sf::RectangleShape sprite_hpBar_enamy(sf::Vector2f(500.0f, 40.0f));
 sf::RectangleShape sprite_enamy(sf::Vector2f(160.0f, 120.0f));
+
+//HP
+sf::RectangleShape sprite_hpBar_enamy(sf::Vector2f(500.0f, 40.0f));
 sf::RectangleShape sprite_hpBar_player(sf::Vector2f(500.0f, 40.0f));
+
+//Mana
+sf::RectangleShape sprite_manaBar_enamy(sf::Vector2f(330.0f, 30.0f));
+sf::RectangleShape sprite_manaBar_player(sf::Vector2f(330.0f, 30.0f));
 
 //skill
 sf::RectangleShape sprite_skillthrow(sf::Vector2f(300.0f, 500.0f));
@@ -55,17 +62,21 @@ void draw_pic();
 void setup();
 void hpbar(float);
 void hpbar_enamy(float);
+void manabar(float);
+void manabar_enamy(float);
 
 struct Vector
 {
 	int direct = 0;
-} player , enamy , jump , PG , J ,Uskill;
+} player , enamy , jump_player , PG_player , J_player ,Uskill_player;
 
 int combo_player, combo_enamy = 0;
-int damage_player=21, total_hp_playyer =23, damage_enamy = 0, total_hp_enamy = 23; //hp = 1 lose
+int damage_player=0, total_hp_playyer =23, damage_enamy = 0, total_hp_enamy = 23; //hp = 1 lose
+
+int manaDel_player = 0, total_mana_playyer = 26, manaDel_enamy = 0, total_mana_enamy = 26;// mana
 
 float deltatime = 0.0f;
-float x_playercheak,y_playercheak, x_enamycheak, y_enamycheak;
+float x_playercheak,y_playercheak, x_enamycheak, y_enamycheak, x_skillthrowcheak, y_skillthrowcheak;
 sf::Clock skill_clock;
 
 int main()
@@ -73,8 +84,8 @@ int main()
 	//skill
 	
 	setup();
-
-	skill animetion(&skillthrow.Texture, sf::Vector2u(4,1), 0.1f );
+	skill animetion(&skillthrow.Texture, sf::Vector2u(4, 1), 0.1f);
+	
 
 	
 	while (window.isOpen())
@@ -99,6 +110,15 @@ int main()
 			{
 				x_enamycheak = enamy1.x - 80;
 			}
+			//cheak position skillthrow
+			if (Uskill_player.direct == 1)
+			{
+				x_skillthrowcheak = skillthrow.x + 200;
+			}
+			else
+			{
+				x_skillthrowcheak = skillthrow.x - 200;
+			}
 
 			deltatime = skill_clock.restart().asSeconds();
 			sf::Event event;
@@ -116,12 +136,15 @@ int main()
 				}
 			}
 			printf("x= %f  y=%f\t", x_playercheak, player1.y);
-			printf("x= %f  y=%f\n", x_enamycheak, enamy1.y);
+			printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
+			printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
 			animetion.Update(0, deltatime);
 			sprite_skillthrow.setTextureRect(animetion.uvRect);
 			draw_pic();
 			damage_player = 0;
 			damage_enamy = 0;
+			manaDel_player = 0;
+			manaDel_enamy = 0;
 			control();
 
 		}
@@ -135,7 +158,7 @@ void setup()
 	
 	skillthrow.Texture.loadFromFile("skill/getsuka.png");
 	sprite_skillthrow.setTexture(&skillthrow.Texture);
-
+	
 	
 	player.direct = 1;
 	enamy.direct = 2;
@@ -164,7 +187,7 @@ void setup()
 	sprite_player1.setTextureRect(player1.rectSource);
 
 	//enamy
-	enamy1.x = 1100;
+	enamy1.x = 700;
 	enamy1.rectSource.top = 0;
 	enamy1.rectSource.left = 35;
 	enamy1.rectSource.width = 80;
@@ -176,9 +199,13 @@ void setup()
 
 	//hp_player
 	hpBar_player.Texture.loadFromFile("HP/hpall.png");
-
 	//hp_enamy
 	hpBar_enamy.Texture.loadFromFile("HP/hpall.png");
+
+	//mana_player
+	manaBar_player.Texture.loadFromFile("HP/manaall.png");
+	//mana_enamy
+	manaBar_enamy.Texture.loadFromFile("HP/manaall.png");
 
 	
 }
@@ -190,25 +217,35 @@ void draw_pic()
 	sprite_player1.setPosition(player1.x, player1.y);
 	sprite_enamy.setPosition(enamy1.x, enamy1.y);
 
-
-	
 	sprite_skillthrow.setPosition(skillthrow.x, player1.y);
+	
+	//hp player
 	total_hp_playyer = hpcalculate(damage_player, total_hp_playyer);
 	hpbar(total_hp_playyer);
-
+	//hp enamy
 	total_hp_enamy = hpcalculate(damage_enamy, total_hp_enamy);
 	hpbar_enamy(total_hp_enamy);
+
+	//mana player
+	total_mana_playyer = manacalculate(manaDel_player, total_mana_playyer);
+	manabar(total_mana_playyer);
+	//mana enamy
+	total_mana_enamy = manacalculate(manaDel_enamy, total_mana_enamy);
+	manabar_enamy(total_mana_enamy);
+
 
 	window.clear();
 	window.draw(sprite_BG);
 	window.draw(sprite_enamy);
 	window.draw(sprite_player1);
-	if (Uskill.direct == 1)
+	if (Uskill_player.direct == 1|| Uskill_player.direct == 2)
 	{
 		window.draw(sprite_skillthrow);
 	}
 	window.draw(sprite_hpBar_player);
 	window.draw(sprite_hpBar_enamy);
+	window.draw(sprite_manaBar_player);
+	window.draw(sprite_manaBar_enamy);
 	window.display();
 }
 
@@ -220,7 +257,7 @@ void control()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
 		combo_player = 0;
-		if (J.direct != 1&& PG.direct != 1 )
+		if (J_player.direct != 1&& PG_player.direct != 1 )
 		{
 			player.direct = move_Left_player_Fuc(player.direct);
 		}
@@ -228,7 +265,7 @@ void control()
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
 		combo_player = 0;
-		if (J.direct != 1&& PG.direct != 1 )
+		if (J_player.direct != 1&& PG_player.direct != 1 )
 		{
 			player.direct = move_Right_player_Fuc(player.direct);
 		}
@@ -236,26 +273,26 @@ void control()
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
 	{
 		combo_player = 0;
-		if (J.direct != 1&& PG.direct != 1 )
+		if (J_player.direct != 1&& PG_player.direct != 1 )
 		{
-			jump.direct = 1;
+			jump_player.direct = 1;
 		}
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
 	{
 		
 		combo_player = 0;
-		if (J.direct != 1&& jump.direct != 1&& PG.direct != 1 )
+		if (J_player.direct != 1&& jump_player.direct != 1&& PG_player.direct != 1 )
 		{
 			player.direct = Flash_player_Fuc(player.direct);
 		}
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
 	{
-		if (J.direct == 0 && jump.direct != 1 && PG.direct != 1 &&combo_player<3)
+		if (J_player.direct == 0 && jump_player.direct != 1 && PG_player.direct != 1 &&combo_player<3)
 		{
 			player.direct = Stay_player_Fuc(player.direct);
-			J.direct = 1;
+			J_player.direct = 1;
 			clockJ_player.restart();
 		}
 	}
@@ -263,23 +300,56 @@ void control()
 	{
 		combo_player = 0;
 		PG_player_Fuc();
-		PG.direct = 1;
+		PG_player.direct = 1;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U))
 	{
-		combo_player = 0;
-		PG_player_Fuc();
-		Uskill.direct = 1;
+		if (Uskill_player.direct != 1 && Uskill_player.direct != 2&& total_mana_playyer >6)
+		{
+			combo_player = 0;
+			PG_player_Fuc();
+
+			if (Uskill_player.direct != 22 && Uskill_player.direct != 11)
+			{
+				manaDel_player += 7;
+			}
+
+			if (player.direct == 1 || player.direct == 11)
+			{
+				sprite_skillthrow.setScale({ 1, 1 });
+				skillthrow.x = x_playercheak;
+				Uskill_player.direct = 11;
+				
+			}
+			else
+			{
+				sprite_skillthrow.setScale({ -1, 1 });
+				skillthrow.x = x_playercheak;
+				Uskill_player.direct = 22;
+				
+			}
+
+
+		}
+		
 		
 	}
-	else if (J.direct != 1)
+	else if (J_player.direct != 1)
 	{
 		
-		if (PG.direct == 1 || Uskill.direct == 1)
+		if (PG_player.direct == 1 || Uskill_player.direct == 11|| Uskill_player.direct == 22)
 		{
 			player1.rectSource.left = 35; // left default
-			PG.direct = 0;
-			Uskill.direct = 0;
+			PG_player.direct = 0;
+			if (Uskill_player.direct == 11)
+			{
+				Uskill_player.direct = 1;
+			}
+			else if(Uskill_player.direct == 22)
+			{
+				Uskill_player.direct = 2;
+			}
+			
 		}
 		player1.rectSource.top = 0; // top default
 		player.direct = Stay_player_Fuc(player.direct);
@@ -287,12 +357,12 @@ void control()
 
 	enamy.direct = Stay_enamy_Fuc(enamy.direct);//test anime bot
 
-	if (J.direct == 1)
+	if (J_player.direct == 1)
 	{
 
 		if (clockJ_player.getElapsedTime().asSeconds() > 0.65f)
 		{
-			J.direct = 0;
+			J_player.direct = 0;
 			clockJ_player.restart();
 			player1.rectSource.top = 0;  // top default
 			player.direct = Stay_player_Fuc(player.direct);
@@ -321,7 +391,30 @@ void control()
 		}
 
 	}
-	jump.direct = Jump_player_Fuc(jump.direct);
+	
+	//skill player cheack
+	if (Uskill_player.direct == 1)
+	{
+		skillthrow.x += 4.0f;
+	}
+	else if (Uskill_player.direct == 2)
+	{
+		skillthrow.x -= 4.0f;
+	}
+
+	if (skillthrow.x < 0 || skillthrow.x>1200)
+	{
+		Uskill_player.direct = 0;
+	}
+	// cheack skill position vs enamy
+	if (x_skillthrowcheak < x_enamycheak + 4 && x_skillthrowcheak >= x_enamycheak)
+	{
+		damage_enamy += 3;
+	}
+	//------------------------------------------------
+
+
+	jump_player.direct = Jump_player_Fuc(jump_player.direct);
 
 }
 int Stay_player_Fuc(int direct)
@@ -688,4 +781,27 @@ void hpbar_enamy(float total_hp)
 	sprite_hpBar_enamy.setTexture(&hpBar_enamy.Texture);
 	sprite_hpBar_enamy.setPosition(1185, 35);
 	sprite_hpBar_enamy.setTextureRect(hpBar_enamy.rectSource);
+}
+
+void manabar(float total_mana)
+{
+	manaBar_player.rectSource.top = (total_mana - 1) * 40;
+	manaBar_player.rectSource.left = 0;
+	manaBar_player.rectSource.width = 500;
+	manaBar_player.rectSource.height = 40;
+	sprite_manaBar_player.setTexture(&manaBar_player.Texture);
+	sprite_manaBar_player.setPosition(15, 690);
+	sprite_manaBar_player.setTextureRect(manaBar_player.rectSource);
+}
+
+void manabar_enamy(float total_mana)
+{
+	manaBar_enamy.rectSource.top = (total_mana - 1) * 40;
+	manaBar_enamy.rectSource.left = 0;
+	manaBar_enamy.rectSource.width = 500;
+	manaBar_enamy.rectSource.height = 40;
+	sprite_manaBar_enamy.setScale({ -1, 1 });
+	sprite_manaBar_enamy.setTexture(&manaBar_enamy.Texture);
+	sprite_manaBar_enamy.setPosition(1185, 690);
+	sprite_manaBar_enamy.setTextureRect(manaBar_enamy.rectSource);
 }
