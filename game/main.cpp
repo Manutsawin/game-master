@@ -12,7 +12,7 @@ struct charecter
 	sf::Texture Texture;
 	sf::IntRect rectSource;
 
-} player1,enamy1  ,BG   ,hpBar_player,hpBar_enamy, manaBar_player, manaBar_enamy  ,skillthrow;
+} player1,enamy1  ,BG   ,hpBar_player,hpBar_enamy, manaBar_player, manaBar_enamy  ,skillthrow,   skillicon_enamy, skillicon_player;
 
 sf::RenderWindow window(sf::VideoMode(1200, 800), "Road to champions");
 sf::RectangleShape sprite_BG(sf::Vector2f(1200.0f,800.0f));
@@ -28,6 +28,10 @@ sf::RectangleShape sprite_hpBar_player(sf::Vector2f(500.0f, 40.0f));
 //Mana
 sf::RectangleShape sprite_manaBar_enamy(sf::Vector2f(330.0f, 30.0f));
 sf::RectangleShape sprite_manaBar_player(sf::Vector2f(330.0f, 30.0f));
+
+//skill icon
+sf::RectangleShape sprite_skillicon_enamy(sf::Vector2f(75.0f, 75.0f));
+sf::RectangleShape sprite_skillicon_player(sf::Vector2f(75.0f, 75.0f));
 
 //skill
 sf::RectangleShape sprite_skillthrow(sf::Vector2f(300.0f, 500.0f));
@@ -159,7 +163,27 @@ void setup()
 	skillthrow.Texture.loadFromFile("skill/getsuka.png");
 	sprite_skillthrow.setTexture(&skillthrow.Texture);
 	
+	//skill icon
+	skillicon_player.Texture.loadFromFile("skill icon/ichigozall.png");
+	skillicon_enamy.Texture.loadFromFile("skill icon/ichigozall.png");
+
+	skillicon_enamy.rectSource.top = 0;
+	skillicon_enamy.rectSource.left = 0;
+	skillicon_enamy.rectSource.width = 200;
+	skillicon_enamy.rectSource.height = 200;
+	sprite_skillicon_enamy.setTexture(&skillicon_enamy.Texture);
+	sprite_skillicon_enamy.setPosition(1070, 100);
+	sprite_skillicon_enamy.setTextureRect(skillicon_enamy.rectSource);
+
+	skillicon_player.rectSource.top = 0;
+	skillicon_player.rectSource.left = 0;
+	skillicon_player.rectSource.width = 200;
+	skillicon_player.rectSource.height = 200;
+	sprite_skillicon_player.setTexture(&skillicon_player.Texture);
+	sprite_skillicon_player.setPosition(55, 100);
+	sprite_skillicon_player.setTextureRect(skillicon_player.rectSource);
 	
+	//player setup
 	player.direct = 1;
 	enamy.direct = 2;
 	sprite_enamy.setScale({ -1, 1 });
@@ -236,16 +260,28 @@ void draw_pic()
 
 	window.clear();
 	window.draw(sprite_BG);
+
 	window.draw(sprite_enamy);
 	window.draw(sprite_player1);
 	if (Uskill_player.direct == 1|| Uskill_player.direct == 2)
 	{
 		window.draw(sprite_skillthrow);
 	}
+
 	window.draw(sprite_hpBar_player);
 	window.draw(sprite_hpBar_enamy);
 	window.draw(sprite_manaBar_player);
 	window.draw(sprite_manaBar_enamy);
+
+	//skill icon player
+	skillicon_player.rectSource.top = selectIcon(total_mana_playyer);
+	sprite_skillicon_player.setTextureRect(skillicon_player.rectSource);
+	window.draw(sprite_skillicon_player);
+	//skill icon enamy
+	skillicon_enamy.rectSource.top = selectIcon(total_mana_enamy);
+	sprite_skillicon_enamy.setTextureRect(skillicon_enamy.rectSource);
+	window.draw(sprite_skillicon_enamy);
+	
 	window.display();
 }
 
@@ -370,14 +406,14 @@ void control()
 
 			if (player.direct == 1 || player.direct == 11)
 			{
-				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak)
+				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak-40)
 				{
 					damage_enamy++;
 				}
 			}
 			else
 			{
-				if (x_playercheak - 120 <= x_enamycheak && x_enamycheak < x_playercheak)
+				if (x_playercheak - 120 <= x_enamycheak && x_enamycheak < x_playercheak+40)
 				{
 					damage_enamy++;
 				}
@@ -790,7 +826,7 @@ void manabar(float total_mana)
 	manaBar_player.rectSource.width = 500;
 	manaBar_player.rectSource.height = 40;
 	sprite_manaBar_player.setTexture(&manaBar_player.Texture);
-	sprite_manaBar_player.setPosition(15, 690);
+	sprite_manaBar_player.setPosition(15, 750);
 	sprite_manaBar_player.setTextureRect(manaBar_player.rectSource);
 }
 
@@ -802,6 +838,7 @@ void manabar_enamy(float total_mana)
 	manaBar_enamy.rectSource.height = 40;
 	sprite_manaBar_enamy.setScale({ -1, 1 });
 	sprite_manaBar_enamy.setTexture(&manaBar_enamy.Texture);
-	sprite_manaBar_enamy.setPosition(1185, 690);
+	sprite_manaBar_enamy.setPosition(1185, 750);
 	sprite_manaBar_enamy.setTextureRect(manaBar_enamy.rectSource);
 }
+
