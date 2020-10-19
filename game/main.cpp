@@ -663,16 +663,20 @@ void U_player_Fuc()
 }
 void enamystun()
 {
-	if (enamy_stun_clock.getElapsedTime().asSeconds() > 0.700f)
+	if (enamy_stun_clock.getElapsedTime().asSeconds() > 0.670f)
 	{
 		stun_enamy.direct = 0;
 		enamy1.rectSource.top = 0;
-		enamy1.rectSource.left = 35;
+		enamy1.rectSource.left = 35; 
+
+		//add direct stun = 0;
 	}
 	else
 	{
-		enamy1.rectSource.top = 739; 
-		enamy1.rectSource.left = 1223;
+		enamy1.rectSource.top = 423; 
+		enamy1.rectSource.left = 35;
+
+		//add direct stun = 1;
 	}
 	
 }
