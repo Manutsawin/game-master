@@ -51,6 +51,7 @@ int J_attack_player_Fuc(int);
 void U_player_Fuc();
 
 //movement control enamy
+void enamystun();
 int Stay_enamy_Fuc(int);
 
 //int move_Right_player_Fuc(int);
@@ -72,7 +73,7 @@ void manabar_enamy(float);
 struct Vector
 {
 	int direct = 0;
-} player , enamy , jump_player , PG_player , J_player ,Uskill_player;
+} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player;
 
 int combo_player, combo_enamy = 0;
 int damage_player=0, total_hp_playyer =23, damage_enamy = 0, total_hp_enamy = 23; //hp = 1 lose
@@ -82,7 +83,7 @@ int manaDel_player = 0, total_mana_playyer = 26, manaDel_enamy = 0, total_mana_e
 float deltatime_player_skill = 0.0f;
 float x_playercheak,y_playercheak, x_enamycheak, y_enamycheak, x_skillthrowcheak, y_skillthrowcheak;
 sf::Clock skill_player_clock;
-sf::Clock enamy_stun;
+sf::Clock enamy_stun_clock;
 
 int main()
 {
@@ -220,7 +221,7 @@ void setup()
 	enamy1.rectSource.width = 80;
 	enamy1.rectSource.height = 60;
 
-	enamy1.Texture.loadFromFile("Textures/Itachitest.png");
+	enamy1.Texture.loadFromFile("Textures/12.png");
 	sprite_enamy.setTexture(&enamy1.Texture);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
 
@@ -266,6 +267,7 @@ void draw_pic()
 
 	window.draw(sprite_enamy);
 	window.draw(sprite_player1);
+	
 	if (Uskill_player.direct == 1|| Uskill_player.direct == 2)
 	{
 		window.draw(sprite_skillthrow);
@@ -292,6 +294,7 @@ void control()
 {
 	
 	sprite_player1.setTextureRect(player1.rectSource);
+	sprite_enamy.setTextureRect(enamy1.rectSource);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
@@ -412,6 +415,9 @@ void control()
 				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak-40)
 				{
 					damage_enamy++;
+					
+					stun_enamy.direct = 1;
+					enamy_stun_clock.restart();
 				}
 			}
 			else
@@ -419,6 +425,9 @@ void control()
 				if (x_playercheak - 120 <= x_enamycheak && x_enamycheak < x_playercheak+40)
 				{
 					damage_enamy++;
+
+					stun_enamy.direct = 1;
+					enamy_stun_clock.restart();
 				}
 			}
 
@@ -449,8 +458,15 @@ void control()
 	if (x_skillthrowcheak < x_enamycheak + 4 && x_skillthrowcheak >= x_enamycheak)
 	{
 		damage_enamy += 3;
+		stun_enamy.direct = 1;
+		enamy_stun_clock.restart();
 	}
 	//------------------------------------------------
+
+	if (stun_enamy.direct == 1)
+	{
+		enamystun();
+	}
 
 
 	jump_player.direct = Jump_player_Fuc(jump_player.direct);
@@ -645,7 +661,21 @@ void U_player_Fuc()
 	player1.rectSource.left = 1223;
 
 }
-
+void enamystun()
+{
+	if (enamy_stun_clock.getElapsedTime().asSeconds() > 0.700f)
+	{
+		stun_enamy.direct = 0;
+		enamy1.rectSource.top = 0;
+		enamy1.rectSource.left = 35;
+	}
+	else
+	{
+		enamy1.rectSource.top = 739; 
+		enamy1.rectSource.left = 1223;
+	}
+	
+}
 
 int Flash_player_Fuc(int direct)
 {
