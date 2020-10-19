@@ -139,9 +139,9 @@ int main()
 
 				}
 			}
-			printf("x= %f  y=%f\t", x_playercheak, player1.y);
-			printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
-			printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
+			//printf("x= %f  y=%f\t", x_playercheak, player1.y);
+			//printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
+			//printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
 			animetion.Update(0, deltatime);
 			sprite_skillthrow.setTextureRect(animetion.uvRect);
 			draw_pic();
@@ -160,7 +160,7 @@ void setup()
 {
 	//skill
 	
-	skillthrow.Texture.loadFromFile("skill/getsuka.png");
+	skillthrow.Texture.loadFromFile("skill/fireball.png");
 	sprite_skillthrow.setTexture(&skillthrow.Texture);
 	
 	//skill icon
@@ -217,7 +217,7 @@ void setup()
 	enamy1.rectSource.width = 80;
 	enamy1.rectSource.height = 60;
 
-	enamy1.Texture.loadFromFile("Textures/naruto.png");
+	enamy1.Texture.loadFromFile("Textures/Itachitest.png");
 	sprite_enamy.setTexture(&enamy1.Texture);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
 
@@ -338,12 +338,12 @@ void control()
 		PG_player_Fuc();
 		PG_player.direct = 1;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U) && total_mana_playyer > 6)
 	{
-		if (Uskill_player.direct != 1 && Uskill_player.direct != 2&& total_mana_playyer >6)
+		if (Uskill_player.direct != 1 && Uskill_player.direct != 2)
 		{
 			combo_player = 0;
-			PG_player_Fuc();
+			U_player_Fuc(); //edit
 
 			if (Uskill_player.direct != 22 && Uskill_player.direct != 11)
 			{
@@ -638,8 +638,8 @@ void PG_player_Fuc()
 
 void U_player_Fuc()
 {
-	player1.rectSource.top = 100; //PG top
-	player1.rectSource.left = 695;//PG left
+	player1.rectSource.top = 739; //PG top
+	player1.rectSource.left = 1223;//PG left
 
 }
 
