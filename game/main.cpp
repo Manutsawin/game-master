@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include<windows.h>
 #include<stdio.h>
-#include "skill.h"
+#include"skill_player.h"
 #include"Fuc.h"
 
 
@@ -79,9 +79,10 @@ int damage_player=0, total_hp_playyer =23, damage_enamy = 0, total_hp_enamy = 23
 
 int manaDel_player = 0, total_mana_playyer = 26, manaDel_enamy = 0, total_mana_enamy = 26;// mana
 
-float deltatime = 0.0f;
+float deltatime_player_skill = 0.0f;
 float x_playercheak,y_playercheak, x_enamycheak, y_enamycheak, x_skillthrowcheak, y_skillthrowcheak;
-sf::Clock skill_clock;
+sf::Clock skill_player_clock;
+sf::Clock enamy_stun;
 
 int main()
 {
@@ -124,8 +125,10 @@ int main()
 				x_skillthrowcheak = skillthrow.x - 200;
 			}
 
-			deltatime = skill_clock.restart().asSeconds();
+			deltatime_player_skill = skill_player_clock.restart().asSeconds();
+			
 			sf::Event event;
+
 			while (window.pollEvent(event))
 			{
 				if (event.type == sf::Event::Closed)
@@ -142,7 +145,7 @@ int main()
 			//printf("x= %f  y=%f\t", x_playercheak, player1.y);
 			//printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
 			//printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
-			animetion.Update(0, deltatime);
+			animetion.Update(0, deltatime_player_skill);
 			sprite_skillthrow.setTextureRect(animetion.uvRect);
 			draw_pic();
 			damage_player = 0;
@@ -638,10 +641,11 @@ void PG_player_Fuc()
 
 void U_player_Fuc()
 {
-	player1.rectSource.top = 739; //PG top
-	player1.rectSource.left = 1223;//PG left
+	player1.rectSource.top = 739; 
+	player1.rectSource.left = 1223;
 
 }
+
 
 int Flash_player_Fuc(int direct)
 {

@@ -18,18 +18,18 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Skill.cpp">
+    <ClCompile Include="Fuc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fuc.cpp">
+    <ClCompile Include="Skill_player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="skill.h">
+    <ClInclude Include="Fuc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Fuc.h">
+    <ClInclude Include="skill_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "skill.h"
+#include "skill_player.h"
 
 skill::skill(sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
 
