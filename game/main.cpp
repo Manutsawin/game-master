@@ -50,12 +50,13 @@ void PG_player_Fuc();
 int Flash_player_Fuc(int);
 int J_attack_player_Fuc(int);
 void U_player_Fuc();
+void lose_player_Fuc();
 
 //movement control enamy
 void enamystun();
 int Stay_enamy_Fuc(int);
-int move_Right_enamy_Fuc(int direct);
-int move_Left_enamy_Fuc(int direct);
+int move_Right_enamy_Fuc(int);
+int move_Left_enamy_Fuc(int);
 int Jump_enamy_Fuc(int);
 void PG_enamy_Fuc();
 int Flash_enamy_Fuc(int);
@@ -307,7 +308,7 @@ void control()
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && stun_player.direct != 1)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && total_hp_player != 1 && stun_player.direct != 1)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -315,7 +316,7 @@ void control()
 			player.direct = move_Left_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && total_hp_player != 1 && stun_player.direct != 1)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -323,7 +324,7 @@ void control()
 			player.direct = move_Right_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && total_hp_player != 1 && stun_player.direct != 1)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -331,7 +332,7 @@ void control()
 			jump_player.direct = 1;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && total_hp_player != 1 && stun_player.direct != 1)
 	{
 		
 		combo_player = 0;
@@ -340,7 +341,7 @@ void control()
 			player.direct = Flash_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J)&& combo_player!=3 && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J) && total_hp_player != 1 && combo_player!=3 && stun_player.direct != 1)
 	{
 		if (J_player.direct == 0 && jump_player.direct != 1 && PG_player.direct != 1 &&combo_player<3)
 		{
@@ -349,13 +350,13 @@ void control()
 			clockJ_player.restart();
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && total_hp_player != 1 && stun_player.direct != 1)
 	{
 		combo_player = 0;
 		PG_player_Fuc();
 		PG_player.direct = 1;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U) && total_mana_playyer > 6 && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U) && total_hp_player != 1 && total_mana_playyer > 6 && stun_player.direct != 1)
 	{
 		if (Uskill_player.direct != 1 && Uskill_player.direct != 2)
 		{
@@ -387,7 +388,7 @@ void control()
 		
 		
 	}
-	else if (J_player.direct != 1 && stun_player.direct != 1)
+	else if (J_player.direct != 1 && total_hp_player != 1 && stun_player.direct != 1)
 	{
 		
 		if (PG_player.direct == 1 || Uskill_player.direct == 11|| Uskill_player.direct == 22)
@@ -495,12 +496,18 @@ void control()
 	}
 	//------------------------------------------------
 
-	if (stun_enamy.direct == 1)
+	
+	jump_player.direct = Jump_player_Fuc(jump_player.direct);
+
+	if (stun_player.direct == 1 && total_hp_player != 1)
 	{
-		enamystun();
+		playerstun();
 	}
 
-	jump_player.direct = Jump_player_Fuc(jump_player.direct);
+	if (total_hp_player == 1)
+	{
+		lose_player_Fuc();
+	}
 
 	//------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -639,9 +646,10 @@ void control()
 
 	}
 	
-	if (stun_player.direct == 1)
+	
+	if (stun_enamy.direct == 1 && total_hp_enamy != 1)
 	{
-		playerstun();
+		enamystun();
 	}
 
 	if (total_hp_enamy==1)
@@ -1303,6 +1311,13 @@ void lose_enamy_Fuc()
 {
 	enamy1.rectSource.top = 320; 
 	enamy1.rectSource.left = 167;
+
+}
+
+void lose_player_Fuc()
+{
+	player1.rectSource.top = 320;
+	player1.rectSource.left = 167;
 
 }
 
