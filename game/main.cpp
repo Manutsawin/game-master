@@ -53,14 +53,14 @@ void U_player_Fuc();
 //movement control enamy
 void enamystun();
 int Stay_enamy_Fuc(int);
-
-//int move_Right_player_Fuc(int);
-//int move_Left_player_Fuc(int);
+int move_Right_enamy_Fuc(int direct);
+int move_Left_enamy_Fuc(int direct);
 //int Jump_player_Fuc(int);
 //void PG_player_Fuc();
 //int Flash_player_Fuc(int);
 //int J_attack_player_Fuc(int);
 //void U_player_Fuc();
+void lose_enamy_Fuc();
 
 void control();
 void draw_pic();
@@ -73,17 +73,21 @@ void manabar_enamy(float);
 struct Vector
 {
 	int direct = 0;
-} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player;
+} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player , PG_enamy, J_enamy, Uskill_enamy;
 
 int combo_player, combo_enamy = 0;
-int damage_player=0, total_hp_playyer =23, damage_enamy = 0, total_hp_enamy = 23; //hp = 1 lose
+int damage_player=0, total_hp_playyer =23, damage_enamy = 0, total_hp_enamy = 5; //hp = 1 lose
 
 int manaDel_player = 0, total_mana_playyer = 26, manaDel_enamy = 0, total_mana_enamy = 26;// mana
+
+int cheak_damage_and_J_Player=0;
 
 float deltatime_player_skill = 0.0f;
 float x_playercheak,y_playercheak, x_enamycheak, y_enamycheak, x_skillthrowcheak, y_skillthrowcheak;
 sf::Clock skill_player_clock;
 sf::Clock enamy_stun_clock;
+
+int botcontrol=2;
 
 int main()
 {
@@ -164,7 +168,7 @@ void setup()
 {
 	//skill
 	
-	skillthrow.Texture.loadFromFile("skill/getsuka.png");
+	skillthrow.Texture.loadFromFile("skill/fireball.png");
 	sprite_skillthrow.setTexture(&skillthrow.Texture);
 	
 	//skill icon
@@ -397,10 +401,43 @@ void control()
 		player.direct = Stay_player_Fuc(player.direct);
 	}
 
-	enamy.direct = Stay_enamy_Fuc(enamy.direct);//test anime bot
 
 	if (J_player.direct == 1)
 	{
+		if (clockJ_player.getElapsedTime().asSeconds() > 0.25f&& cheak_damage_and_J_Player == 0)
+		{
+
+			if (player.direct == 1 || player.direct == 11)
+			{
+				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak - 40)
+				{
+					damage_enamy++;
+					if (total_mana_playyer < 26)
+					{
+						total_mana_playyer++;
+					}
+					stun_enamy.direct = 1;
+					enamy_stun_clock.restart();
+					cheak_damage_and_J_Player = 1;
+				}
+			}
+			else
+			{
+				if (x_playercheak - 120 <= x_enamycheak && x_enamycheak < x_playercheak + 40)
+				{
+					damage_enamy++;
+					if (total_mana_playyer < 26)
+					{
+						total_mana_playyer++;
+					}
+
+					stun_enamy.direct = 1;
+					enamy_stun_clock.restart();
+					cheak_damage_and_J_Player = 1;
+				}
+			}
+
+		}
 
 		if (clockJ_player.getElapsedTime().asSeconds() > 0.65f)
 		{
@@ -409,28 +446,7 @@ void control()
 			player1.rectSource.top = 0;  // top default
 			player.direct = Stay_player_Fuc(player.direct);
 			combo_player++;
-
-			if (player.direct == 1 || player.direct == 11)
-			{
-				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak-40)
-				{
-					damage_enamy++;
-					
-					stun_enamy.direct = 1;
-					enamy_stun_clock.restart();
-				}
-			}
-			else
-			{
-				if (x_playercheak - 120 <= x_enamycheak && x_enamycheak < x_playercheak+40)
-				{
-					damage_enamy++;
-
-					stun_enamy.direct = 1;
-					enamy_stun_clock.restart();
-				}
-			}
-
+			cheak_damage_and_J_Player = 0;
 
 		}
 		else
@@ -468,8 +484,36 @@ void control()
 		enamystun();
 	}
 
-
 	jump_player.direct = Jump_player_Fuc(jump_player.direct);
+
+	
+	
+	if (botcontrol==1 && total_hp_enamy != 1)
+	{
+		combo_enamy = 0;
+		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
+		{
+			enamy.direct = move_Right_enamy_Fuc(enamy.direct);
+		}
+	}
+	else if(botcontrol == 2 && total_hp_enamy != 1)
+	{
+		combo_enamy = 0;
+		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
+		{
+			enamy.direct = move_Left_enamy_Fuc(enamy.direct);
+		}
+	}
+	else if (J_enamy.direct != 1 && total_hp_enamy != 1)
+	{
+		enamy.direct = Stay_enamy_Fuc(enamy.direct);//test anime bot
+	}
+	
+
+	if (total_hp_enamy==1)
+	{
+		lose_enamy_Fuc();
+	}
 
 }
 int Stay_player_Fuc(int direct)
@@ -581,6 +625,45 @@ int move_Right_player_Fuc(int direct)
 
 	return direct;
 }
+int move_Right_enamy_Fuc(int direct)
+{
+
+	if (direct == 11)
+	{
+		enamy1.rectSource.left = 563; //move left,right default left 
+	}
+
+	if (direct != 1 && direct != 11)
+	{
+		enamy1.x -= 160;
+		sprite_enamy.setScale({ 1, 1 });
+		enamy1.rectSource.left = 563; //move left,right default left 
+
+	}
+	direct = 1;
+	if (enamy1.x < 1040)
+	{
+		enamy1.x += 0.5f;
+	}
+
+	if (clock_ani_enamy.getElapsedTime().asSeconds() > 0.100f)
+	{
+		if (enamy1.rectSource.left == 1091) //move left,right max left 
+		{
+			enamy1.rectSource.left = 563; //move left,right default left 
+		}
+		else
+		{
+			enamy1.rectSource.left += 132; //plus left 
+		}
+		sprite_enamy.setTextureRect(enamy1.rectSource);
+		clock_ani_enamy.restart();
+
+
+	}
+
+	return direct;
+}
 
 int move_Left_player_Fuc(int direct)
 {
@@ -617,6 +700,47 @@ int move_Left_player_Fuc(int direct)
 		
 		sprite_player1.setTextureRect(player1.rectSource);
 		clock_ani_player.restart();
+
+
+	}
+
+	return direct;
+}
+int move_Left_enamy_Fuc(int direct)
+{
+
+
+	if (direct == 22)
+	{
+		enamy1.rectSource.left = 563; //move left,right default left 
+	}
+
+	if (direct != 2 && direct != 22)
+	{
+		enamy1.x += 160;
+		sprite_enamy.setScale({ -1, 1 });
+		enamy1.rectSource.left = 563; //move left,right default left 
+	}
+	direct = 2;
+	if (enamy1.x >= 160)
+	{
+		enamy1.x += -0.5f;
+	}
+
+	if (clock_ani_enamy.getElapsedTime().asSeconds() > 0.100f)
+	{
+		if (enamy1.rectSource.left == 1091) //move left,right max left 
+		{
+		    enamy1.rectSource.left = 563; //move left,right default left 
+
+		}
+		else
+		{
+			enamy1.rectSource.left += 132; //plus
+		}
+
+		sprite_enamy.setTextureRect(enamy1.rectSource);
+		clock_ani_enamy.restart();
 
 
 	}
@@ -835,6 +959,13 @@ int J_attack_player_Fuc(int direct)
 	}
 
 }
+void lose_enamy_Fuc()
+{
+	enamy1.rectSource.top = 320; 
+	enamy1.rectSource.left = 167;
+
+}
+
 void hpbar(float total_hp)
 {
 	hpBar_player.rectSource.top = (total_hp-1)*40;
