@@ -41,6 +41,7 @@ sf::RectangleShape sprite_skillthrow(sf::Vector2f(300.0f, 500.0f));
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
 //movement control player
+void playerstun();
 int Stay_player_Fuc(int);
 int move_Right_player_Fuc(int);
 int move_Left_player_Fuc(int);
@@ -55,10 +56,10 @@ void enamystun();
 int Stay_enamy_Fuc(int);
 int move_Right_enamy_Fuc(int direct);
 int move_Left_enamy_Fuc(int direct);
-//int Jump_player_Fuc(int);
-//void PG_player_Fuc();
-//int Flash_player_Fuc(int);
-//int J_attack_player_Fuc(int);
+int Jump_enamy_Fuc(int);
+void PG_enamy_Fuc();
+int Flash_enamy_Fuc(int);
+int J_attack_enamy_Fuc(int);
 //void U_player_Fuc();
 void lose_enamy_Fuc();
 
@@ -73,24 +74,25 @@ void manabar_enamy(float);
 struct Vector
 {
 	int direct = 0;
-} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player , PG_enamy, J_enamy, Uskill_enamy;
+} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player, jump_enamy, PG_enamy, J_enamy, Uskill_enamy;
 
 int combo_player, combo_enamy = 0;
-int damage_player=0, total_hp_playyer =23, damage_enamy = 0, total_hp_enamy = 5; //hp = 1 lose
+int damage_player=0, total_hp_player =23, damage_enamy = 0, total_hp_enamy = 23; //hp = 1 lose
 
 int manaDel_player = 0, total_mana_playyer = 26, manaDel_enamy = 0, total_mana_enamy = 26;// mana
 
-int cheak_damage_and_J_Player=0;
+int cheak_damage_and_J_Player=0, cheak_damage_and_J_enamy = 0;
 
 float deltatime_player_skill = 0.0f;
 float x_playercheak,y_playercheak, x_enamycheak, y_enamycheak, x_skillthrowcheak, y_skillthrowcheak;
 sf::Clock skill_player_clock;
-sf::Clock enamy_stun_clock;
+sf::Clock enamy_stun_clock, player_stun_clock;
 
-int botcontrol=2;
 
 int main()
 {
+	
+
 	//skill
 	
 	setup();
@@ -100,7 +102,7 @@ int main()
 	
 	while (window.isOpen())
 	{
-		while (total_hp_playyer > 1)
+		while (1)
 		{
 			//cheak position player
 			if (player.direct == 1 || player.direct == 11)
@@ -150,14 +152,18 @@ int main()
 			//printf("x= %f  y=%f\t", x_playercheak, player1.y);
 			//printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
 			//printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
+			
+			control();
+			
 			animetion.Update(0, deltatime_player_skill);
 			sprite_skillthrow.setTextureRect(animetion.uvRect);
 			draw_pic();
+			printf("%d\n", total_mana_enamy);
 			damage_player = 0;
 			damage_enamy = 0;
 			manaDel_player = 0;
 			manaDel_enamy = 0;
-			control();
+			
 
 		}
 	}	
@@ -252,8 +258,8 @@ void draw_pic()
 	sprite_skillthrow.setPosition(skillthrow.x, player1.y);
 	
 	//hp player
-	total_hp_playyer = hpcalculate(damage_player, total_hp_playyer);
-	hpbar(total_hp_playyer);
+	total_hp_player = hpcalculate(damage_player, total_hp_player);
+	hpbar(total_hp_player);
 	//hp enamy
 	total_hp_enamy = hpcalculate(damage_enamy, total_hp_enamy);
 	hpbar_enamy(total_hp_enamy);
@@ -296,11 +302,12 @@ void draw_pic()
 
 void control()
 {
+	int botcontrol = 6;
 	
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && stun_player.direct != 1)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -308,7 +315,7 @@ void control()
 			player.direct = move_Left_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && stun_player.direct != 1)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -316,7 +323,7 @@ void control()
 			player.direct = move_Right_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && stun_player.direct != 1)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -324,7 +331,7 @@ void control()
 			jump_player.direct = 1;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && stun_player.direct != 1)
 	{
 		
 		combo_player = 0;
@@ -333,7 +340,7 @@ void control()
 			player.direct = Flash_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J)&& combo_player!=3 && stun_player.direct != 1)
 	{
 		if (J_player.direct == 0 && jump_player.direct != 1 && PG_player.direct != 1 &&combo_player<3)
 		{
@@ -342,13 +349,13 @@ void control()
 			clockJ_player.restart();
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && stun_player.direct != 1)
 	{
 		combo_player = 0;
 		PG_player_Fuc();
 		PG_player.direct = 1;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U) && total_mana_playyer > 6)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U) && total_mana_playyer > 6 && stun_player.direct != 1)
 	{
 		if (Uskill_player.direct != 1 && Uskill_player.direct != 2)
 		{
@@ -380,7 +387,7 @@ void control()
 		
 		
 	}
-	else if (J_player.direct != 1)
+	else if (J_player.direct != 1 && stun_player.direct != 1)
 	{
 		
 		if (PG_player.direct == 1 || Uskill_player.direct == 11|| Uskill_player.direct == 22)
@@ -411,29 +418,38 @@ void control()
 			{
 				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak - 40)
 				{
-					damage_enamy++;
-					if (total_mana_playyer < 26)
+					if (PG_enamy.direct != 1)
 					{
-						total_mana_playyer++;
+						damage_enamy++;
+						if (total_mana_playyer < 26)
+						{
+							total_mana_playyer++;
+						}
+						stun_enamy.direct = 1;
+						enamy_stun_clock.restart();
+						cheak_damage_and_J_Player = 1;
 					}
-					stun_enamy.direct = 1;
-					enamy_stun_clock.restart();
-					cheak_damage_and_J_Player = 1;
+					
+					
 				}
 			}
 			else
 			{
 				if (x_playercheak - 120 <= x_enamycheak && x_enamycheak < x_playercheak + 40)
 				{
-					damage_enamy++;
-					if (total_mana_playyer < 26)
+					if (PG_enamy.direct != 1)
 					{
-						total_mana_playyer++;
-					}
+						damage_enamy++;
+						if (total_mana_playyer < 26)
+						{
+							total_mana_playyer++;
+						}
 
-					stun_enamy.direct = 1;
-					enamy_stun_clock.restart();
-					cheak_damage_and_J_Player = 1;
+						stun_enamy.direct = 1;
+						enamy_stun_clock.restart();
+						cheak_damage_and_J_Player = 1;
+					}
+					
 				}
 			}
 
@@ -486,9 +502,10 @@ void control()
 
 	jump_player.direct = Jump_player_Fuc(jump_player.direct);
 
+	//------------------------------------------------------------------------------------------------------------------------------------------
 	
 	
-	if (botcontrol==1 && total_hp_enamy != 1)
+	if (botcontrol==1 && total_hp_enamy != 1&& stun_enamy.direct!=1)
 	{
 		combo_enamy = 0;
 		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
@@ -496,7 +513,7 @@ void control()
 			enamy.direct = move_Right_enamy_Fuc(enamy.direct);
 		}
 	}
-	else if(botcontrol == 2 && total_hp_enamy != 1)
+	else if(botcontrol == 2 && total_hp_enamy != 1 && stun_enamy.direct != 1)
 	{
 		combo_enamy = 0;
 		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
@@ -504,11 +521,128 @@ void control()
 			enamy.direct = move_Left_enamy_Fuc(enamy.direct);
 		}
 	}
-	else if (J_enamy.direct != 1 && total_hp_enamy != 1)
+	else if (botcontrol == 3 && total_hp_enamy != 1 && stun_enamy.direct != 1)
 	{
-		enamy.direct = Stay_enamy_Fuc(enamy.direct);//test anime bot
+		combo_enamy = 0;
+		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
+		{
+			jump_enamy.direct = 1;
+		}
+	}
+	else if (botcontrol == 4 && total_hp_enamy != 1 && stun_enamy.direct != 1)
+	{
+		combo_enamy = 0;
+		PG_enamy_Fuc();
+		PG_enamy.direct = 1;
+	}
+	else if (botcontrol == 5 && total_hp_enamy != 1 && stun_enamy.direct != 1)
+	{
+
+		combo_enamy = 0;
+		if (J_enamy.direct != 1 && jump_enamy.direct != 1 && PG_enamy.direct != 1)
+		{
+			enamy.direct = Flash_enamy_Fuc(enamy.direct);
+		}
+	}
+	else if (botcontrol == 6 && total_hp_enamy != 1 && stun_enamy.direct != 1 && combo_enamy != 3)
+	{
+		if (J_enamy.direct == 0 && jump_enamy.direct != 1 && PG_enamy.direct != 1 && combo_enamy < 3)
+		{
+			enamy.direct = Stay_enamy_Fuc(enamy.direct);
+			J_enamy.direct = 1;
+			clockJ_enamy.restart();
+		}
+	}
+	else if (J_enamy.direct != 1 && total_hp_enamy != 1 && stun_enamy.direct != 1)
+	{
+
+		if (PG_enamy.direct == 1 || Uskill_enamy.direct == 11 || Uskill_enamy.direct == 22)
+		{
+			enamy1.rectSource.left = 35; // left default
+			PG_enamy.direct = 0;
+			if (Uskill_enamy.direct == 11)
+			{
+				Uskill_enamy.direct = 1;
+			}
+			else if (Uskill_enamy.direct == 22)
+			{
+				Uskill_enamy.direct = 2;
+			}
+
+		}
+		enamy1.rectSource.top = 0; // top default
+		enamy.direct = Stay_enamy_Fuc(enamy.direct);
 	}
 	
+	jump_enamy.direct = Jump_enamy_Fuc(jump_enamy.direct);
+
+	if (J_enamy.direct == 1)
+	{
+		if (clockJ_enamy.getElapsedTime().asSeconds() > 0.25f && cheak_damage_and_J_enamy == 0)
+		{
+
+			if (enamy.direct == 1 || enamy.direct == 11)
+			{
+				if (x_enamycheak + 120 >= x_playercheak && x_playercheak > x_enamycheak - 40)
+				{
+					if (PG_player.direct != 1)
+					{
+						damage_player++;
+						if (total_mana_enamy < 26)
+						{
+							total_mana_enamy++;
+						}
+						stun_player.direct = 1;
+						player_stun_clock.restart();
+						cheak_damage_and_J_enamy = 1;
+					}
+
+
+				}
+			}
+			else
+			{
+				if (x_enamycheak - 120 <= x_playercheak && x_playercheak < x_enamycheak + 40)
+				{
+					if (PG_player.direct != 1)
+					{
+						damage_player++;
+						if (total_mana_enamy < 26)
+						{
+							total_mana_enamy++;
+						}
+
+						stun_player.direct = 1;
+						player_stun_clock.restart();
+						cheak_damage_and_J_enamy = 1;
+					}
+
+				}
+			}
+
+		}
+
+		if (clockJ_enamy.getElapsedTime().asSeconds() > 0.65f)
+		{
+			J_enamy.direct = 0;
+			clockJ_enamy.restart();
+			enamy1.rectSource.top = 0;  // top default
+			enamy.direct = Stay_enamy_Fuc(enamy.direct);
+			combo_enamy++;
+			cheak_damage_and_J_enamy = 0;
+
+		}
+		else
+		{
+			enamy.direct = J_attack_enamy_Fuc(enamy.direct);
+		}
+
+	}
+	
+	if (stun_player.direct == 1)
+	{
+		playerstun();
+	}
 
 	if (total_hp_enamy==1)
 	{
@@ -771,6 +905,30 @@ int Jump_player_Fuc(int directjump)
 	}
 	return directjump;
 }
+int Jump_enamy_Fuc(int directjump)
+{
+
+	if (directjump == 1)
+	{
+		enamy1.rectSource.top = 200;
+		enamy1.rectSource.left = 35; //jump defualt left 
+
+		enamy1.y -= enamy1.jump;
+		if (enamy1.y < 390)
+		{
+			enamy1.jump = enamy1.jump * -1;
+		}
+		else if (enamy1.y >= 530 && enamy1.jump < 0)
+		{
+			directjump = 0;
+			enamy1.jump = enamy1.jump * -1;
+			enamy1.y = 530;
+			enamy1.rectSource.top = 0; // top defualt 
+		}
+
+	}
+	return directjump;
+}
 
 void PG_player_Fuc()
 {
@@ -779,10 +937,37 @@ void PG_player_Fuc()
 	
 }
 
+void PG_enamy_Fuc()
+{
+	enamy1.rectSource.top = 100; //PG top
+	enamy1.rectSource.left = 695;//PG left
+
+}
+
 void U_player_Fuc()
 {
 	player1.rectSource.top = 739; 
 	player1.rectSource.left = 1223;
+
+}
+
+void playerstun()
+{
+	if (player_stun_clock.getElapsedTime().asSeconds() > 0.675f)
+	{
+		stun_player.direct = 0;
+		player1.rectSource.top = 0;
+		player1.rectSource.left = 35;
+
+		//add direct stun = 0;
+	}
+	else
+	{
+		player1.rectSource.top = 423;
+		player1.rectSource.left = 35;
+
+		//add direct stun = 1;
+	}
 
 }
 void enamystun()
@@ -888,6 +1073,89 @@ int Flash_player_Fuc(int direct)
 	}
 	
 }
+int Flash_enamy_Fuc(int direct)
+{
+	if (direct == 1 || direct == 11)
+	{
+		if (direct == 11)
+		{
+			enamy1.rectSource.left = 563; //move left,right default left
+		}
+
+		if (direct != 1 && direct != 11)
+		{
+			enamy1.x -= 160;
+			sprite_enamy.setScale({ 1, 1 });
+			enamy1.rectSource.left = 563; //move left,right default left
+
+		}
+		direct = 1;
+
+		if (enamy1.x < 1040)
+		{
+			enamy1.x += 3.0f;
+		}
+
+		if (clock_ani_enamy.getElapsedTime().asSeconds() > 0.100f)
+		{
+			if (enamy1.rectSource.left == 1091) //move left,right  max left
+			{
+				enamy1.rectSource.left = 563; //move left,right default left
+			}
+			else
+			{
+				enamy1.rectSource.left += 132; // plus left 
+			}
+			sprite_enamy.setTextureRect(enamy1.rectSource);
+			clock_ani_enamy.restart();
+
+
+		}
+
+		return direct;
+	}
+
+	if (direct == 2 || direct == 22)
+	{
+
+		if (direct == 22)
+		{
+			enamy1.rectSource.left = 563; //move left,right default left
+		}
+
+		if (direct != 2 && direct != 22)
+		{
+			enamy1.x += 160;
+			sprite_enamy.setScale({ -1, 1 });
+			enamy1.rectSource.left = 563; //move left,right default left
+		}
+		direct = 2;
+		if (enamy1.x >= 160)
+		{
+			enamy1.x += -3.0f;
+		}
+		if (clock_ani_enamy.getElapsedTime().asSeconds() > 0.100f)
+		{
+			if (enamy1.rectSource.left == 1091) //move left,right max left
+			{
+				enamy1.rectSource.left = 563; //move left,right default left
+
+			}
+			else
+			{
+				enamy1.rectSource.left += 132; //plus left
+			}
+
+			sprite_enamy.setTextureRect(enamy1.rectSource);
+			clock_ani_enamy.restart();
+
+
+		}
+
+		return direct;
+	}
+
+}
 int J_attack_player_Fuc(int direct)
 {
 	if (direct == 1 || direct == 11)
@@ -954,6 +1222,78 @@ int J_attack_player_Fuc(int direct)
 			}
 			sprite_player1.setTextureRect(player1.rectSource);
 			clock_ani_player.restart();
+		}
+		return direct;
+	}
+
+}
+
+int J_attack_enamy_Fuc(int direct)
+{
+	if (direct == 1 || direct == 11)
+	{
+		if (direct == 11)
+		{
+			enamy1.rectSource.left = 563; //attack  default left
+			enamy1.rectSource.top = 950; //attack  default top
+		}
+		if (direct != 1 && direct != 11)
+		{
+			enamy1.x -= 160;
+			sprite_enamy.setScale({ 1, 1 });
+			enamy1.rectSource.left = 563; //attack  default left
+		}
+		if (enamy1.x < 1040)
+		{
+			enamy1.x += 0.03f;
+		}
+		direct = 1;
+		if (clock_ani_enamy.getElapsedTime().asSeconds() > 0.120f)
+		{
+			if (enamy1.rectSource.left == 1223) //attack  max left
+			{
+				enamy1.rectSource.left = 563; //attack  default left
+			}
+			else
+			{
+				enamy1.rectSource.left += 132; // plus left
+			}
+			sprite_enamy.setTextureRect(enamy1.rectSource);
+			clock_ani_enamy.restart();
+		}
+
+		return direct;
+	}
+	if (direct == 2 || direct == 22)
+	{
+		if (direct == 22)
+		{
+			enamy1.rectSource.left = 563; //attack  default left
+			enamy1.rectSource.top = 950; //attack  default top
+		}
+		if (direct != 2 && direct != 22)
+		{
+			enamy1.x += 160;
+			sprite_enamy.setScale({ -1, 1 });
+			enamy1.rectSource.left = 563; //attack  default left
+		}
+		if (enamy1.x >= 160)
+		{
+			enamy1.x += -0.03f;
+		}
+		direct = 2;
+		if (clock_ani_enamy.getElapsedTime().asSeconds() > 0.120f)
+		{
+			if (enamy1.rectSource.left == 1223) //attack  max left
+			{
+				enamy1.rectSource.left = 563; //attack  default left
+			}
+			else
+			{
+				enamy1.rectSource.left += 132; //plus left
+			}
+			sprite_enamy.setTextureRect(enamy1.rectSource);
+			clock_ani_enamy.restart();
 		}
 		return direct;
 	}

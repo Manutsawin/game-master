@@ -145,11 +145,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="skill_enamy.cpp" />
     <ClCompile Include="Skill_player.cpp" />
     <ClCompile Include="Fuc.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="skill_enamy.h" />
     <ClInclude Include="skill_player.h" />
     <ClInclude Include="Fuc.h" />
   </ItemGroup>
