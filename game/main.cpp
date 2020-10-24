@@ -14,7 +14,7 @@ struct charecter
 
 } player1,enamy1  ,BG   ,hpBar_player,hpBar_enamy, manaBar_player, manaBar_enamy  ,skillthrow,   skillicon_enamy, skillicon_player;
 
-sf::RenderWindow window(sf::VideoMode(1200, 800), "Road to champions");
+sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 sf::RectangleShape sprite_BG(sf::Vector2f(1200.0f,800.0f));
 
 //charecter
@@ -164,7 +164,7 @@ void setup()
 {
 	//skill
 	
-	skillthrow.Texture.loadFromFile("skill/fireball.png");
+	skillthrow.Texture.loadFromFile("skill/getsuka.png");
 	sprite_skillthrow.setTexture(&skillthrow.Texture);
 	
 	//skill icon
@@ -194,10 +194,10 @@ void setup()
 	//player.setFillColor(sf::Color::Cyan);
 	
 	//BG
-	BG.rectSource.top = 10;
-	BG.rectSource.left = 200;
-	BG.rectSource.width = 300;
-	BG.rectSource.height = 200;
+	BG.rectSource.top = 0;
+	BG.rectSource.left = 0;
+	BG.rectSource.width = 1200;
+	BG.rectSource.height = 800;
 
 	BG.Texture.loadFromFile("Map/1.png");
 	sprite_BG.setTexture(&BG.Texture);
@@ -663,7 +663,7 @@ void U_player_Fuc()
 }
 void enamystun()
 {
-	if (enamy_stun_clock.getElapsedTime().asSeconds() > 0.670f)
+	if (enamy_stun_clock.getElapsedTime().asSeconds() > 0.675f)
 	{
 		stun_enamy.direct = 0;
 		enamy1.rectSource.top = 0;
