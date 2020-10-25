@@ -1,12 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include<stdio.h>
-class skilll
+class skillenamy
 {
 public:
 
-	skilll(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
-	~skilll();
+	skillenamy(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
+	~skillenamy();
 
 	void Update(int row, float deltaTime);
 

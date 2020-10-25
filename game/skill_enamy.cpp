@@ -1,6 +1,6 @@
 #include "skill_enamy.h"
 
-skilll::skilll(sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
+skillenamy::skillenamy(sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
 
 {
 	this->imageCount = imageCount;
@@ -14,11 +14,11 @@ skilll::skilll(sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
 
 }
 
-skilll::~skilll()
+skillenamy::~skillenamy()
 {
 }
 
-void skilll::Update(int row, float deltaTime)
+void skillenamy::Update(int row, float deltaTime)
 {
 	currentImage.y = row;
 	totalTime += deltaTime;

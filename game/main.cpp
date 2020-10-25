@@ -97,7 +97,7 @@ int main()
 	//skill
 	
 	setup();
-	skill animetion(&skillthrow.Texture, sf::Vector2u(4, 1), 0.1f);
+	skill animetion_skilll_player(&skillthrow.Texture, sf::Vector2u(4, 1), 0.1f);
 	
 
 	
@@ -156,8 +156,8 @@ int main()
 			
 			control();
 			
-			animetion.Update(0, deltatime_player_skill);
-			sprite_skillthrow.setTextureRect(animetion.uvRect);
+			animetion_skilll_player.Update(0, deltatime_player_skill);
+			sprite_skillthrow.setTextureRect(animetion_skilll_player.uvRect);
 			draw_pic();
 			printf("%d\n", total_mana_enamy);
 			damage_player = 0;
@@ -173,7 +173,7 @@ int main()
 }
 void setup()
 {
-	//skill
+	//skill player
 	
 	skillthrow.Texture.loadFromFile("skill/fireball.png");
 	sprite_skillthrow.setTexture(&skillthrow.Texture);
@@ -363,11 +363,6 @@ void control()
 			combo_player = 0;
 			U_player_Fuc(); //edit
 
-			if (Uskill_player.direct != 22 && Uskill_player.direct != 11)
-			{
-				manaDel_player += 7;
-			}
-
 			if (player.direct == 1 || player.direct == 11)
 			{
 				sprite_skillthrow.setScale({ 1, 1 });
@@ -398,10 +393,12 @@ void control()
 			if (Uskill_player.direct == 11)
 			{
 				Uskill_player.direct = 1;
+				manaDel_player += 7;
 			}
 			else if(Uskill_player.direct == 22)
 			{
 				Uskill_player.direct = 2;
+				manaDel_player += 7;
 			}
 			
 		}
