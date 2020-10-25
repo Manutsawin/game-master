@@ -49,7 +49,7 @@ struct charecter
   ,manaBar_player, manaBar_enamy  
   ,skillthrow_player, skillthrow_enamy
   ,skillicon_enamy, skillicon_player
-  ,victory,defeat,blackscreen1,blackscreen2;
+  ,victory,defeat,blackscreen1,blackscreen2,nextstage;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 sf::RectangleShape sprite_BG(sf::Vector2f(1200.0f,800.0f));
@@ -80,6 +80,10 @@ sf::RectangleShape sprite_defeat(sf::Vector2f(600.0f, 200.0f));
 sf::RectangleShape sprite_blackscreen1(sf::Vector2f(1600.0f, 800.0f));
 sf::RectangleShape sprite_blackscreen2(sf::Vector2f(1600.0f, 800.0f));
 
+//nextstage
+sf::RectangleShape sprite_nextstage(sf::Vector2f(1200.0f, 800.0f));
+
+
 
 
 
@@ -88,7 +92,7 @@ sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 struct Vector
 {
 	int direct = 0;
-} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player, jump_enamy, PG_enamy, J_enamy, Uskill_enamy;
+} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player, jump_enamy, PG_enamy, J_enamy, Uskill_enamy,    blackscreen_2;
 
 int combo_player, combo_enamy = 0;
 int damage_player=0, total_hp_player =23, damage_enamy = 0, total_hp_enamy = 23; //hp = 1 lose
@@ -106,12 +110,13 @@ sf::Clock enamy_stun_clock, player_stun_clock;
 int main()
 {
 	
-
+	player.direct = 1;
 	//skill
-	
+	blackscreen2.x = -1600;
 	setup();
 	skill animetion_skilll_player(&skillthrow_player.Texture, sf::Vector2u(4, 1), 0.1f);//skill player
 	skill animetion_skilll_enamy(&skillthrow_enamy.Texture, sf::Vector2u(4, 1), 0.1f);//skill enamy
+	skill animetion_nextstage(&nextstage.Texture, sf::Vector2u(4, 1), 0.5f);//skill enamy
 	
 
 	
@@ -119,6 +124,8 @@ int main()
 	{
 		while (1)
 		{
+			
+
 			//cheak position player
 			if (player.direct == 1 || player.direct == 11)
 			{
@@ -184,6 +191,9 @@ int main()
 			animetion_skilll_enamy.Update(0, deltatime_player_skill);
 			sprite_skillthrow_player.setTextureRect(animetion_skilll_player.uvRect);
 			sprite_skillthrow_enamy.setTextureRect(animetion_skilll_enamy.uvRect);
+
+			animetion_nextstage.Update(0, deltatime_player_skill);
+			sprite_nextstage.setTextureRect(animetion_nextstage.uvRect);
 			draw_pic();
 			damage_player = 0;
 			damage_enamy = 0;
@@ -198,8 +208,13 @@ int main()
 }
 void setup()
 {
+	total_mana_playyer = 26;
+	total_mana_enamy = 26;
+
+	total_hp_player = 23;
+	total_hp_enamy = 23;
+
 	//skill player
-	
 	skillthrow_player.Texture.loadFromFile("skill/fireball.png");
 	sprite_skillthrow_player.setTexture(&skillthrow_player.Texture);
 
@@ -228,12 +243,6 @@ void setup()
 	sprite_skillicon_player.setPosition(55, 100);
 	sprite_skillicon_player.setTextureRect(skillicon_player.rectSource);
 	
-	//player setup
-	player.direct = 1;
-	enamy.direct = 2;
-	sprite_enamy.setScale({ -1, 1 });
-	//player.setFillColor(sf::Color::Cyan);
-	
 	//BG
 	BG.rectSource.top = 0;
 	BG.rectSource.left = 0;
@@ -245,18 +254,34 @@ void setup()
 	sprite_BG.setTextureRect(BG.rectSource);
 
 	//player
-	player1.x = 0;
+	if (player.direct == 1 || player.direct == 11)
+	{
+		player1.x = 0;// edit
+	}
+	else
+	{
+		player1.x = 160;// edit
+	}
 	player1.rectSource.top = 0;
 	player1.rectSource.left = 35;
 	player1.rectSource.width = 80;
 	player1.rectSource.height = 60;
+	player.direct = move_Left_player_Fuc(player.direct);
+	player.direct = move_Right_player_Fuc(player.direct);
+	player.direct = Stay_player_Fuc(player.direct);
+
+	//player setup
+	player.direct = 11;
+	enamy.direct = 2;
+	sprite_enamy.setScale({ -1, 1 });
+	//player.setFillColor(sf::Color::Cyan);
 
 	player1.Texture.loadFromFile("Textures/12.png");
 	sprite_player1.setTexture(&player1.Texture);
 	sprite_player1.setTextureRect(player1.rectSource);
 
 	//enamy
-	enamy1.x = 700;
+	enamy1.x = 1000;
 	enamy1.rectSource.top = 0;
 	enamy1.rectSource.left = 35;
 	enamy1.rectSource.width = 80;
@@ -309,7 +334,7 @@ void setup()
 	sprite_blackscreen1.setPosition(blackscreen1.x, 0);
 	sprite_blackscreen1.setTextureRect(blackscreen1.rectSource);
 
-	blackscreen2.x = -1600;
+	//blackscreen2.x = -1600;
 	blackscreen2.rectSource.top = 0;
 	blackscreen2.rectSource.left = 0;
 	blackscreen2.rectSource.width = 1600;
@@ -317,6 +342,10 @@ void setup()
 	sprite_blackscreen2.setTexture(&blackscreen2.Texture);
 	sprite_blackscreen2.setPosition(blackscreen2.x, 0);
 	sprite_blackscreen2.setTextureRect(blackscreen2.rectSource);
+
+	nextstage.Texture.loadFromFile("Victory/nextstageall.png");
+	sprite_nextstage.setTexture(&nextstage.Texture);
+
 }
 void draw_pic()
 {
@@ -331,6 +360,8 @@ void draw_pic()
 
 	sprite_victory.setPosition(victory.x, 200);
 	sprite_defeat.setPosition(defeat.x, 200);
+
+	sprite_nextstage.setPosition(0, 0);// next stage
 
 
 	sprite_blackscreen1.setPosition(blackscreen1.x, 0);
@@ -384,9 +415,15 @@ void draw_pic()
 	skillicon_enamy.rectSource.top = selectIcon(total_mana_enamy);
 	sprite_skillicon_enamy.setTextureRect(skillicon_enamy.rectSource);
 	window.draw(sprite_skillicon_enamy);
+	
+	if (total_hp_enamy == 1 && blackscreen1.x>=0)
+	{
+		window.draw(sprite_nextstage);// test
+	}
 
 	window.draw(sprite_blackscreen1);
 	window.draw(sprite_blackscreen2);
+	
 	
 	window.display();
 }
@@ -750,15 +787,15 @@ void control()
 				{
 					if (PG_player.direct != 1)
 					{
-						damage_player++;
-						if (total_mana_enamy < 26)
-						{
-							total_mana_enamy++;
-						}
+					damage_player++;
+					if (total_mana_enamy < 26)
+					{
+						total_mana_enamy++;
+					}
 
-						stun_player.direct = 1;
-						player_stun_clock.restart();
-						cheak_damage_and_J_enamy = 1;
+					stun_player.direct = 1;
+					player_stun_clock.restart();
+					cheak_damage_and_J_enamy = 1;
 					}
 
 				}
@@ -782,7 +819,7 @@ void control()
 		}
 
 	}
-	
+
 	//skill enamy cheack
 	if (Uskill_enamy.direct == 1)
 	{
@@ -818,29 +855,47 @@ void control()
 				player_stun_clock.restart();
 			}
 		}
-		
-		
+
+
 	}
 	//------------------------------------------------
-	
+
 	if (stun_enamy.direct == 1 && total_hp_enamy != 1)
 	{
 		J_enamy.direct = 0;
 		enamystun();
 	}
 
-	if (total_hp_enamy==1)
+	if (total_hp_enamy == 1)
 	{
 		lose_enamy_Fuc();
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	if (total_hp_enamy == 1&& victory.x<600) // victory
+	if (total_hp_enamy == 1 && victory.x < 600) // victory
 	{
 		victory.x += 0.7f;
 	}
-	if (total_hp_enamy == 1&& victory.x>=600)
+	if (total_hp_enamy == 1 && victory.x >= 600)
 	{
-		blackscreen1.x += 0.9f;
+		blackscreen1.x += 1.5f;
+	}
+	if (blackscreen1.x >= 2000)
+	{
+		blackscreen_2.direct = 1;
+	}
+	if (blackscreen_2.direct == 1)
+	{
+		if (blackscreen2.x >= 1200)
+		{
+			blackscreen_2.direct = 0;
+			blackscreen2.x = -1600;
+		}
+		blackscreen2.x += 1.5f;
+
+	}
+	if (blackscreen2.x >= 0 && blackscreen2.x <=1.5)
+	{
+		setup();
 	}
 
 	if (total_hp_player == 1 && defeat.x > 0) // defeat
