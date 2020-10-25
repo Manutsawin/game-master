@@ -49,7 +49,7 @@ struct charecter
   ,manaBar_player, manaBar_enamy  
   ,skillthrow_player, skillthrow_enamy
   ,skillicon_enamy, skillicon_player
-  ,victory,defeat;
+  ,victory,defeat,blackscreen1,blackscreen2;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 sf::RectangleShape sprite_BG(sf::Vector2f(1200.0f,800.0f));
@@ -77,6 +77,8 @@ sf::RectangleShape sprite_skillthrow_enamy(sf::Vector2f(300.0f, 500.0f));
 //cvictory and defeat
 sf::RectangleShape sprite_victory(sf::Vector2f(600.0f, 200.0f));
 sf::RectangleShape sprite_defeat(sf::Vector2f(600.0f, 200.0f));
+sf::RectangleShape sprite_blackscreen1(sf::Vector2f(1600.0f, 800.0f));
+sf::RectangleShape sprite_blackscreen2(sf::Vector2f(1600.0f, 800.0f));
 
 
 
@@ -277,6 +279,9 @@ void setup()
 	//victory and defeat
 	victory.Texture.loadFromFile("Victory/victorymini.png");
 	defeat.Texture.loadFromFile("Victory/defeat.png");
+	blackscreen1.Texture.loadFromFile("Victory/black.png");
+	blackscreen2.Texture.loadFromFile("Victory/black.png");
+	
 	victory.x = -600;
 	victory.rectSource.top = 0;
 	victory.rectSource.left = 0;
@@ -294,6 +299,24 @@ void setup()
 	sprite_defeat.setTexture(&defeat.Texture);
 	sprite_defeat.setPosition(defeat.x, 200);
 	sprite_defeat.setTextureRect(defeat.rectSource);
+
+	blackscreen1.x = -1600;
+	blackscreen1.rectSource.top = 0;
+	blackscreen1.rectSource.left = 0;
+	blackscreen1.rectSource.width = 1600;
+	blackscreen1.rectSource.height = 800;
+	sprite_blackscreen1.setTexture(&blackscreen1.Texture);
+	sprite_blackscreen1.setPosition(blackscreen1.x, 0);
+	sprite_blackscreen1.setTextureRect(blackscreen1.rectSource);
+
+	blackscreen2.x = -1600;
+	blackscreen2.rectSource.top = 0;
+	blackscreen2.rectSource.left = 0;
+	blackscreen2.rectSource.width = 1600;
+	blackscreen2.rectSource.height = 800;
+	sprite_blackscreen2.setTexture(&blackscreen2.Texture);
+	sprite_blackscreen2.setPosition(blackscreen2.x, 0);
+	sprite_blackscreen2.setTextureRect(blackscreen2.rectSource);
 }
 void draw_pic()
 {
@@ -308,6 +331,10 @@ void draw_pic()
 
 	sprite_victory.setPosition(victory.x, 200);
 	sprite_defeat.setPosition(defeat.x, 200);
+
+
+	sprite_blackscreen1.setPosition(blackscreen1.x, 0);
+	sprite_blackscreen2.setPosition(blackscreen2.x, 0);
 	
 	//hp player
 	total_hp_player = hpcalculate(damage_player, total_hp_player);
@@ -357,6 +384,9 @@ void draw_pic()
 	skillicon_enamy.rectSource.top = selectIcon(total_mana_enamy);
 	sprite_skillicon_enamy.setTextureRect(skillicon_enamy.rectSource);
 	window.draw(sprite_skillicon_enamy);
+
+	window.draw(sprite_blackscreen1);
+	window.draw(sprite_blackscreen2);
 	
 	window.display();
 }
@@ -804,11 +834,16 @@ void control()
 		lose_enamy_Fuc();
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	if (total_hp_enamy == 1&& victory.x<600)
+	if (total_hp_enamy == 1&& victory.x<600) // victory
 	{
 		victory.x += 0.7f;
 	}
-	if (total_hp_player == 1 && defeat.x > 0)
+	if (total_hp_enamy == 1&& victory.x>=600)
+	{
+		blackscreen1.x += 0.9f;
+	}
+
+	if (total_hp_player == 1 && defeat.x > 0) // defeat
 	{
 		defeat.x -= 0.7f;
 	}
