@@ -511,12 +511,25 @@ void control()
 	// cheack skill position vs enamy
 	if (x_skillthrowcheak_player < x_enamycheak + 4 && x_skillthrowcheak_player >= x_enamycheak)
 	{
-		if (Uskill_player.direct == 1 || Uskill_player.direct == 2)
+		if (skillthrow_player.y <= enamy1.y && skillthrow_player.y+80 >= enamy1.y)
 		{
-			damage_enamy += 3;
-			stun_enamy.direct = 1;
-			enamy_stun_clock.restart();
+			if (Uskill_player.direct == 1 || Uskill_player.direct == 2)
+			{
+				damage_enamy += 3;
+				stun_enamy.direct = 1;
+				enamy_stun_clock.restart();
+			}
 		}
+		else if (skillthrow_player.y >= enamy1.y && skillthrow_player.y -80 <= enamy1.y)
+		{
+			if (Uskill_player.direct == 1 || Uskill_player.direct == 2)
+			{
+				damage_enamy += 3;
+				stun_enamy.direct = 1;
+				enamy_stun_clock.restart();
+			}
+		}
+		
 	}
 	//------------------------------------------------
 
@@ -719,12 +732,25 @@ void control()
 	// cheack skill position vs player
 	if (x_skillthrowcheak_enamy < x_playercheak + 4 && x_skillthrowcheak_enamy >= x_playercheak)
 	{
-		if (Uskill_enamy.direct == 1 || Uskill_enamy.direct == 2)
+		if (skillthrow_enamy.y <= player1.y && skillthrow_enamy.y + 80 >= player1.y)
 		{
-			damage_player += 3;
-			stun_player.direct = 1;
-			player_stun_clock.restart();
+			if (Uskill_enamy.direct == 1 || Uskill_enamy.direct == 2)
+			{
+				damage_player += 3;
+				stun_player.direct = 1;
+				player_stun_clock.restart();
+			}
 		}
+		if (skillthrow_enamy.y >= player1.y && skillthrow_enamy.y - 80 <= player1.y)
+		{
+			if (Uskill_enamy.direct == 1 || Uskill_enamy.direct == 2)
+			{
+				damage_player += 3;
+				stun_player.direct = 1;
+				player_stun_clock.restart();
+			}
+		}
+		
 		
 	}
 	//------------------------------------------------
