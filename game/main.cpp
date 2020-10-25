@@ -4,6 +4,37 @@
 #include"skill_player.h"
 #include"Fuc.h"
 
+//movement control player
+void playerstun();
+int Stay_player_Fuc(int);
+int move_Right_player_Fuc(int);
+int move_Left_player_Fuc(int);
+int Jump_player_Fuc(int);
+void PG_player_Fuc();
+int Flash_player_Fuc(int);
+int J_attack_player_Fuc(int);
+void U_player_Fuc();
+void lose_player_Fuc();
+
+//movement control enamy
+void enamystun();
+int Stay_enamy_Fuc(int);
+int move_Right_enamy_Fuc(int);
+int move_Left_enamy_Fuc(int);
+int Jump_enamy_Fuc(int);
+void PG_enamy_Fuc();
+int Flash_enamy_Fuc(int);
+int J_attack_enamy_Fuc(int);
+void U_enamy_Fuc();
+void lose_enamy_Fuc();
+
+void control();
+void draw_pic();
+void setup();
+void hpbar(float);
+void hpbar_enamy(float);
+void manabar(float);
+void manabar_enamy(float);
 
 struct charecter
 {
@@ -37,42 +68,7 @@ sf::RectangleShape sprite_skillicon_player(sf::Vector2f(75.0f, 75.0f));
 sf::RectangleShape sprite_skillthrow_player(sf::Vector2f(300.0f, 500.0f));
 sf::RectangleShape sprite_skillthrow_enamy(sf::Vector2f(300.0f, 500.0f));
 
-
-
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
-
-//movement control player
-void playerstun();
-int Stay_player_Fuc(int);
-int move_Right_player_Fuc(int);
-int move_Left_player_Fuc(int);
-int Jump_player_Fuc(int);
-void PG_player_Fuc();
-int Flash_player_Fuc(int);
-int J_attack_player_Fuc(int);
-void U_player_Fuc();
-void lose_player_Fuc();
-
-//movement control enamy
-void enamystun();
-int Stay_enamy_Fuc(int);
-int move_Right_enamy_Fuc(int);
-int move_Left_enamy_Fuc(int);
-int Jump_enamy_Fuc(int);
-void PG_enamy_Fuc();
-int Flash_enamy_Fuc(int);
-int J_attack_enamy_Fuc(int);
-void U_enamy_Fuc();
-void lose_enamy_Fuc();
-
-void control();
-void draw_pic();
-void setup();
-void hpbar(float);
-void hpbar_enamy(float);
-void manabar(float);
-void manabar_enamy(float);
-
 
 struct Vector
 {
@@ -173,9 +169,7 @@ int main()
 			animetion_skilll_enamy.Update(0, deltatime_player_skill);
 			sprite_skillthrow_player.setTextureRect(animetion_skilll_player.uvRect);
 			sprite_skillthrow_enamy.setTextureRect(animetion_skilll_enamy.uvRect);
-
 			draw_pic();
-			printf("%d\n", total_mana_enamy);
 			damage_player = 0;
 			damage_enamy = 0;
 			manaDel_player = 0;
@@ -277,8 +271,8 @@ void draw_pic()
 	sprite_player1.setPosition(player1.x, player1.y);
 	sprite_enamy.setPosition(enamy1.x, enamy1.y);
 
-	sprite_skillthrow_player.setPosition(skillthrow_player.x, player1.y);
-	sprite_skillthrow_enamy.setPosition(skillthrow_enamy.x, enamy1.y);
+	sprite_skillthrow_player.setPosition(skillthrow_player.x, skillthrow_player.y);
+	sprite_skillthrow_enamy.setPosition(skillthrow_enamy.x, skillthrow_enamy.y);
 	
 	//hp player
 	total_hp_player = hpcalculate(damage_player, total_hp_player);
@@ -395,6 +389,7 @@ void control()
 			{
 				sprite_skillthrow_player.setScale({ 1, 1 });
 				skillthrow_player.x = x_playercheak;
+				skillthrow_player.y = player1.y;
 				Uskill_player.direct = 11;
 				
 			}
@@ -402,6 +397,7 @@ void control()
 			{
 				sprite_skillthrow_player.setScale({ -1, 1 });
 				skillthrow_player.x = x_playercheak;
+				skillthrow_player.y = player1.y;
 				Uskill_player.direct = 22;
 				
 			}
@@ -600,6 +596,7 @@ void control()
 			{
 				sprite_skillthrow_enamy.setScale({ 1, 1 });
 				skillthrow_enamy.x = x_enamycheak;
+				skillthrow_enamy.y = enamy1.y;
 				Uskill_enamy.direct = 11;
 
 			}
@@ -607,6 +604,7 @@ void control()
 			{
 				sprite_skillthrow_enamy.setScale({ -1, 1 });
 				skillthrow_enamy.x = x_enamycheak;
+				skillthrow_enamy.y = enamy1.y;
 				Uskill_enamy.direct = 22;
 
 			}
