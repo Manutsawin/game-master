@@ -43,7 +43,13 @@ struct charecter
 	sf::Texture Texture;
 	sf::IntRect rectSource;
 
-} player1,enamy1  ,BG   ,hpBar_player,hpBar_enamy, manaBar_player, manaBar_enamy  ,skillthrow_player, skillthrow_enamy,   skillicon_enamy, skillicon_player;
+} player1,enamy1  
+  ,BG   
+  ,hpBar_player,hpBar_enamy
+  ,manaBar_player, manaBar_enamy  
+  ,skillthrow_player, skillthrow_enamy
+  ,skillicon_enamy, skillicon_player
+  ,victory,defeat;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 sf::RectangleShape sprite_BG(sf::Vector2f(1200.0f,800.0f));
@@ -67,6 +73,13 @@ sf::RectangleShape sprite_skillicon_player(sf::Vector2f(75.0f, 75.0f));
 //skill
 sf::RectangleShape sprite_skillthrow_player(sf::Vector2f(300.0f, 500.0f));
 sf::RectangleShape sprite_skillthrow_enamy(sf::Vector2f(300.0f, 500.0f));
+
+//cvictory and defeat
+sf::RectangleShape sprite_victory(sf::Vector2f(600.0f, 200.0f));
+sf::RectangleShape sprite_defeat(sf::Vector2f(600.0f, 200.0f));
+
+
+
 
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
@@ -261,7 +274,26 @@ void setup()
 	//mana_enamy
 	manaBar_enamy.Texture.loadFromFile("HP/manaall.png");
 
-	
+	//victory and defeat
+	victory.Texture.loadFromFile("Victory/victorymini.png");
+	defeat.Texture.loadFromFile("Victory/defeat.png");
+	victory.x = -600;
+	victory.rectSource.top = 0;
+	victory.rectSource.left = 0;
+	victory.rectSource.width = 600;
+	victory.rectSource.height = 200;
+	sprite_victory.setTexture(&victory.Texture);
+	sprite_victory.setPosition(victory.x, 200);
+	sprite_victory.setTextureRect(victory.rectSource);
+
+	defeat.x = 1200;
+	defeat.rectSource.top = 0;
+	defeat.rectSource.left = 0;
+	defeat.rectSource.width = 600;
+	defeat.rectSource.height = 200;
+	sprite_defeat.setTexture(&defeat.Texture);
+	sprite_defeat.setPosition(defeat.x, 200);
+	sprite_defeat.setTextureRect(defeat.rectSource);
 }
 void draw_pic()
 {
@@ -273,6 +305,9 @@ void draw_pic()
 
 	sprite_skillthrow_player.setPosition(skillthrow_player.x, skillthrow_player.y);
 	sprite_skillthrow_enamy.setPosition(skillthrow_enamy.x, skillthrow_enamy.y);
+
+	sprite_victory.setPosition(victory.x, 200);
+	sprite_defeat.setPosition(defeat.x, 200);
 	
 	//hp player
 	total_hp_player = hpcalculate(damage_player, total_hp_player);
@@ -310,6 +345,9 @@ void draw_pic()
 	window.draw(sprite_hpBar_enamy);
 	window.draw(sprite_manaBar_player);
 	window.draw(sprite_manaBar_enamy);
+
+	window.draw(sprite_victory);
+	window.draw(sprite_defeat);
 
 	//skill icon player
 	skillicon_player.rectSource.top = selectIcon(total_mana_playyer);
@@ -765,8 +803,15 @@ void control()
 	{
 		lose_enamy_Fuc();
 	}
-	
-
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	if (total_hp_enamy == 1&& victory.x<600)
+	{
+		victory.x += 0.7f;
+	}
+	if (total_hp_player == 1 && defeat.x > 0)
+	{
+		defeat.x -= 0.7f;
+	}
 }
 int Stay_player_Fuc(int direct)
 {
