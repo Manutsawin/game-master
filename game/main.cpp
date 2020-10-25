@@ -129,21 +129,21 @@ int main()
 			//cheak position skillthrow player
 			if (Uskill_player.direct == 1)
 			{
-				x_skillthrowcheak_player = skillthrow_player.x + 200;
+				x_skillthrowcheak_player = skillthrow_player.x + 100;
 			}
 			else
 			{
-				x_skillthrowcheak_player = skillthrow_player.x - 200;
+				x_skillthrowcheak_player = skillthrow_player.x - 100;
 			}
 
 			//cheak position skillthrow enamy
 			if (Uskill_enamy.direct == 1)
 			{
-				x_skillthrowcheak_enamy = skillthrow_enamy.x + 200;
+				x_skillthrowcheak_enamy = skillthrow_enamy.x + 100;
 			}
 			else
 			{
-				x_skillthrowcheak_enamy = skillthrow_enamy.x - 200;
+				x_skillthrowcheak_enamy = skillthrow_enamy.x - 100;
 			}
 
 			deltatime_player_skill = skill_player_clock.restart().asSeconds();
@@ -442,7 +442,7 @@ void control()
 
 			if (player.direct == 1 || player.direct == 11)
 			{
-				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak - 40)
+				if (x_playercheak + 100 >= x_enamycheak && x_enamycheak > x_playercheak - 40)
 				{
 					if (PG_enamy.direct != 1)
 					{
@@ -529,6 +529,7 @@ void control()
 
 	if (stun_player.direct == 1 && total_hp_player != 1)
 	{
+		J_player.direct = 0;
 		playerstun();
 	}
 
@@ -647,7 +648,7 @@ void control()
 
 			if (enamy.direct == 1 || enamy.direct == 11)
 			{
-				if (x_enamycheak + 120 >= x_playercheak && x_playercheak > x_enamycheak - 40)
+				if (x_enamycheak + 100 >= x_playercheak && x_playercheak > x_enamycheak - 40)
 				{
 					if (PG_player.direct != 1)
 					{
@@ -732,6 +733,7 @@ void control()
 	
 	if (stun_enamy.direct == 1 && total_hp_enamy != 1)
 	{
+		J_enamy.direct = 0;
 		enamystun();
 	}
 
