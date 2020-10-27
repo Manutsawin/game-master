@@ -59,16 +59,16 @@ sf::RectangleShape sprite_player1(sf::Vector2f(160.0f, 120.0f));
 sf::RectangleShape sprite_enamy(sf::Vector2f(160.0f, 120.0f));
 
 //HP
-sf::RectangleShape sprite_hpBar_enamy(sf::Vector2f(500.0f, 40.0f));
-sf::RectangleShape sprite_hpBar_player(sf::Vector2f(500.0f, 40.0f));
+sf::RectangleShape sprite_hpBar_enamy(sf::Vector2f(470.0f, 40.0f));
+sf::RectangleShape sprite_hpBar_player(sf::Vector2f(470.0f, 40.0f));
 
 //Mana
 sf::RectangleShape sprite_manaBar_enamy(sf::Vector2f(330.0f, 30.0f));
 sf::RectangleShape sprite_manaBar_player(sf::Vector2f(330.0f, 30.0f));
 
 //skill icon
-sf::RectangleShape sprite_skillicon_enamy(sf::Vector2f(75.0f, 75.0f));
-sf::RectangleShape sprite_skillicon_player(sf::Vector2f(75.0f, 75.0f));
+sf::RectangleShape sprite_skillicon_enamy(sf::Vector2f(50.0f, 50.0f));
+sf::RectangleShape sprite_skillicon_player(sf::Vector2f(50.0f, 50.0f));
 
 //skill
 sf::RectangleShape sprite_skillthrow_player(sf::Vector2f(300.0f, 500.0f));
@@ -211,8 +211,8 @@ void setup()
 	total_mana_playyer = 26;
 	total_mana_enamy = 26;
 
-	total_hp_player = 23;
-	total_hp_enamy = 23;
+	total_hp_player = 48;
+	total_hp_enamy = 48;
 
 	//skill player
 	skillthrow_player.Texture.loadFromFile("skill/getsuka.png");
@@ -232,7 +232,7 @@ void setup()
 	skillicon_enamy.rectSource.width = 200;
 	skillicon_enamy.rectSource.height = 200;
 	sprite_skillicon_enamy.setTexture(&skillicon_enamy.Texture);
-	sprite_skillicon_enamy.setPosition(1070, 100);
+	sprite_skillicon_enamy.setPosition(1020, 125);
 	sprite_skillicon_enamy.setTextureRect(skillicon_enamy.rectSource);
 
 	skillicon_player.rectSource.top = 0;
@@ -240,7 +240,7 @@ void setup()
 	skillicon_player.rectSource.width = 200;
 	skillicon_player.rectSource.height = 200;
 	sprite_skillicon_player.setTexture(&skillicon_player.Texture);
-	sprite_skillicon_player.setPosition(55, 100);
+	sprite_skillicon_player.setPosition(130, 125);
 	sprite_skillicon_player.setTextureRect(skillicon_player.rectSource);
 	
 	//BG
@@ -292,9 +292,9 @@ void setup()
 	sprite_enamy.setTextureRect(enamy1.rectSource);
 
 	//hp_player
-	hpBar_player.Texture.loadFromFile("HP/hpall.png");
+	hpBar_player.Texture.loadFromFile("HP/newhpall.png");
 	//hp_enamy
-	hpBar_enamy.Texture.loadFromFile("HP/hpall.png");
+	hpBar_enamy.Texture.loadFromFile("HP/newhpall.png");
 
 	//mana_player
 	manaBar_player.Texture.loadFromFile("HP/manaall.png");
@@ -1580,7 +1580,7 @@ void hpbar(float total_hp)
 	hpBar_player.rectSource.width = 500;
 	hpBar_player.rectSource.height = 40;
 	sprite_hpBar_player.setTexture(&hpBar_player.Texture);
-	sprite_hpBar_player.setPosition(15, 35);
+	sprite_hpBar_player.setPosition(95, 75);
 	sprite_hpBar_player.setTextureRect(hpBar_player.rectSource);
 }
 void hpbar_enamy(float total_hp)
@@ -1591,7 +1591,7 @@ void hpbar_enamy(float total_hp)
 	hpBar_enamy.rectSource.height = 40;
 	sprite_hpBar_enamy.setScale({ -1, 1 });
 	sprite_hpBar_enamy.setTexture(&hpBar_enamy.Texture);
-	sprite_hpBar_enamy.setPosition(1185, 35);
+	sprite_hpBar_enamy.setPosition(1105, 75);
 	sprite_hpBar_enamy.setTextureRect(hpBar_enamy.rectSource);
 }
 
