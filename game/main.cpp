@@ -147,21 +147,21 @@ int main()
 			//cheak position skillthrow player
 			if (Uskill_player.direct == 1)
 			{
-				x_skillthrowcheak_player = skillthrow_player.x + 100;
+				x_skillthrowcheak_player = skillthrow_player.x + 30;
 			}
 			else
 			{
-				x_skillthrowcheak_player = skillthrow_player.x - 100;
+				x_skillthrowcheak_player = skillthrow_player.x - 30;
 			}
 
 			//cheak position skillthrow enamy
 			if (Uskill_enamy.direct == 1)
 			{
-				x_skillthrowcheak_enamy = skillthrow_enamy.x + 100;
+				x_skillthrowcheak_enamy = skillthrow_enamy.x + 30;
 			}
 			else
 			{
-				x_skillthrowcheak_enamy = skillthrow_enamy.x - 100;
+				x_skillthrowcheak_enamy = skillthrow_enamy.x - 30;
 			}
 
 			deltatime_player_skill = skill_player_clock.restart().asSeconds();
@@ -215,7 +215,7 @@ void setup()
 	total_hp_enamy = 23;
 
 	//skill player
-	skillthrow_player.Texture.loadFromFile("skill/fireball.png");
+	skillthrow_player.Texture.loadFromFile("skill/getsuka.png");
 	sprite_skillthrow_player.setTexture(&skillthrow_player.Texture);
 
 	//skill enamy
@@ -430,7 +430,7 @@ void draw_pic()
 
 void control()
 {
-	int botcontrol = 6;
+	int botcontrol = 0;
 	
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
