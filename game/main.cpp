@@ -49,7 +49,8 @@ struct charecter
   ,manaBar_player, manaBar_enamy  
   ,skillthrow_player, skillthrow_enamy
   ,skillicon_enamy, skillicon_player
-  ,victory,defeat,blackscreen1,blackscreen2,nextstage;
+  ,victory,defeat,blackscreen1,blackscreen2,nextstage
+  ,iconcharecter_player, iconcharecter_enamy;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 sf::RectangleShape sprite_BG(sf::Vector2f(1200.0f,800.0f));
@@ -65,6 +66,10 @@ sf::RectangleShape sprite_hpBar_player(sf::Vector2f(470.0f, 40.0f));
 //Mana
 sf::RectangleShape sprite_manaBar_enamy(sf::Vector2f(330.0f, 30.0f));
 sf::RectangleShape sprite_manaBar_player(sf::Vector2f(330.0f, 30.0f));
+
+//icon charecter
+sf::RectangleShape sprite_iconcharecter_enamy(sf::Vector2f(100.0f, 100.0f));
+sf::RectangleShape sprite_iconcharecter_player(sf::Vector2f(100.0f, 100.0f));
 
 //skill icon
 sf::RectangleShape sprite_skillicon_enamy(sf::Vector2f(50.0f, 50.0f));
@@ -227,6 +232,11 @@ void setup()
 	skillicon_player.Texture.loadFromFile("skill icon/ichigozall.png");
 	skillicon_enamy.Texture.loadFromFile("skill icon/ichigozall.png");
 
+
+	//charecter icon
+	iconcharecter_player.Texture.loadFromFile("iconcharecter/11.png");
+	iconcharecter_enamy.Texture.loadFromFile("iconcharecter/11.png");
+
 	skillicon_enamy.rectSource.top = 0;
 	skillicon_enamy.rectSource.left = 0;
 	skillicon_enamy.rectSource.width = 200;
@@ -243,6 +253,24 @@ void setup()
 	sprite_skillicon_player.setPosition(130, 125);
 	sprite_skillicon_player.setTextureRect(skillicon_player.rectSource);
 	
+
+	iconcharecter_player.rectSource.top = 0;
+	iconcharecter_player.rectSource.left = 0;
+	iconcharecter_player.rectSource.width = 300;
+	iconcharecter_player.rectSource.height = 300;
+	sprite_iconcharecter_player.setTexture(&iconcharecter_player.Texture);
+	sprite_iconcharecter_player.setPosition(5,35);
+	sprite_iconcharecter_player.setTextureRect(iconcharecter_player.rectSource);
+
+	iconcharecter_enamy.rectSource.top = 0;
+	iconcharecter_enamy.rectSource.left = 0;
+	iconcharecter_enamy.rectSource.width = 300;
+	iconcharecter_enamy.rectSource.height = 300;
+	sprite_iconcharecter_enamy.setTexture(&iconcharecter_enamy.Texture);
+	sprite_iconcharecter_enamy.setPosition(1195,35);
+	sprite_iconcharecter_enamy.setTextureRect(iconcharecter_enamy.rectSource);
+	sprite_iconcharecter_enamy.setScale({ -1, 1 });
+
 	//BG
 	BG.rectSource.top = 0;
 	BG.rectSource.left = 0;
@@ -416,6 +444,23 @@ void draw_pic()
 	sprite_skillicon_enamy.setTextureRect(skillicon_enamy.rectSource);
 	window.draw(sprite_skillicon_enamy);
 	
+	// icon charecter
+	if (total_hp_player == 1)
+	{	iconcharecter_player.rectSource.top = 300;	}
+	else
+	{	iconcharecter_player.rectSource.top = 0;	}
+
+	if (total_hp_enamy == 1)
+	{	iconcharecter_enamy.rectSource.top = 300;	}
+	else
+	{	iconcharecter_enamy.rectSource.top = 0;	}
+
+
+	sprite_iconcharecter_player.setTextureRect(iconcharecter_player.rectSource);
+	window.draw(sprite_iconcharecter_player);
+	sprite_iconcharecter_enamy.setTextureRect(iconcharecter_enamy.rectSource);
+	window.draw(sprite_iconcharecter_enamy);
+
 	if (total_hp_enamy == 1 && blackscreen1.x>=0)
 	{
 		window.draw(sprite_nextstage);// test
