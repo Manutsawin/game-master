@@ -483,7 +483,7 @@ void control()
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && total_hp_player != 1 && stun_player.direct != 1)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && total_hp_player != 1 && stun_player.direct != 1 && Uskill_player.direct != 11&& Uskill_player.direct != 22)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -491,7 +491,7 @@ void control()
 			player.direct = move_Left_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && total_hp_player != 1 && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && total_hp_player != 1 && stun_player.direct != 1 && Uskill_player.direct != 11 && Uskill_player.direct != 22)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -499,7 +499,7 @@ void control()
 			player.direct = move_Right_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && total_hp_player != 1 && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && total_hp_player != 1 && stun_player.direct != 1 && Uskill_player.direct != 11 && Uskill_player.direct != 22)
 	{
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
@@ -507,7 +507,7 @@ void control()
 			jump_player.direct = 1;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && total_hp_player != 1 && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && total_hp_player != 1 && stun_player.direct != 1 && Uskill_player.direct != 11 && Uskill_player.direct != 22)
 	{
 		
 		combo_player = 0;
@@ -516,7 +516,7 @@ void control()
 			player.direct = Flash_player_Fuc(player.direct);
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J) && total_hp_player != 1 && combo_player!=3 && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J) && total_hp_player != 1 && combo_player!=3 && stun_player.direct != 1 && Uskill_player.direct != 11 && Uskill_player.direct != 22)
 	{
 		if (J_player.direct == 0 && jump_player.direct != 1 && PG_player.direct != 1 &&combo_player<3)
 		{
@@ -525,7 +525,7 @@ void control()
 			clockJ_player.restart();
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && total_hp_player != 1 && stun_player.direct != 1&& J_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && total_hp_player != 1 && stun_player.direct != 1&& J_player.direct != 1 && Uskill_player.direct != 11 && Uskill_player.direct != 22)
 	{
 		combo_player = 0;
 		PG_player_Fuc();
@@ -703,7 +703,7 @@ void control()
 	//------------------------------------------------------------------------------------------------------------------------------------------
 	
 	
-	if (botcontrol==1 && total_hp_enamy != 1&& stun_enamy.direct!=1)
+	if (botcontrol==1 && total_hp_enamy != 1&& stun_enamy.direct!=1 && Uskill_enamy.direct != 11 && Uskill_enamy.direct != 22)
 	{
 		combo_enamy = 0;
 		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
@@ -711,7 +711,7 @@ void control()
 			enamy.direct = move_Right_enamy_Fuc(enamy.direct);
 		}
 	}
-	else if(botcontrol == 2 && total_hp_enamy != 1 && stun_enamy.direct != 1)
+	else if(botcontrol == 2 && total_hp_enamy != 1 && stun_enamy.direct != 1 && Uskill_enamy.direct != 11 && Uskill_enamy.direct != 22)
 	{
 		combo_enamy = 0;
 		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
@@ -719,7 +719,7 @@ void control()
 			enamy.direct = move_Left_enamy_Fuc(enamy.direct);
 		}
 	}
-	else if (botcontrol == 3 && total_hp_enamy != 1 && stun_enamy.direct != 1)
+	else if (botcontrol == 3 && total_hp_enamy != 1 && stun_enamy.direct != 1 && Uskill_enamy.direct != 11 && Uskill_enamy.direct != 22)
 	{
 		combo_enamy = 0;
 		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
@@ -727,13 +727,13 @@ void control()
 			jump_enamy.direct = 1;
 		}
 	}
-	else if (botcontrol == 4 && total_hp_enamy != 1 && stun_enamy.direct != 1)
+	else if (botcontrol == 4 && total_hp_enamy != 1 && stun_enamy.direct != 1 && Uskill_enamy.direct != 11 && Uskill_enamy.direct != 22)
 	{
 		combo_enamy = 0;
 		PG_enamy_Fuc();
 		PG_enamy.direct = 1;
 	}
-	else if (botcontrol == 5 && total_hp_enamy != 1 && stun_enamy.direct != 1)
+	else if (botcontrol == 5 && total_hp_enamy != 1 && stun_enamy.direct != 1 && Uskill_enamy.direct != 11 && Uskill_enamy.direct != 22)
 	{
 
 		combo_enamy = 0;
@@ -742,7 +742,7 @@ void control()
 			enamy.direct = Flash_enamy_Fuc(enamy.direct);
 		}
 	}
-	else if (botcontrol == 6 && total_hp_enamy != 1 && stun_enamy.direct != 1 && combo_enamy != 3)
+	else if (botcontrol == 6 && total_hp_enamy != 1 && stun_enamy.direct != 1 && combo_enamy != 3 && Uskill_enamy.direct != 11 && Uskill_enamy.direct != 22)
 	{
 		if (J_enamy.direct == 0 && jump_enamy.direct != 1 && PG_enamy.direct != 1 && combo_enamy < 3)
 		{
