@@ -92,10 +92,10 @@ sf::RectangleShape sprite_blackscreen2(sf::Vector2f(1600.0f, 800.0f));
 sf::RectangleShape sprite_nextstage(sf::Vector2f(1200.0f, 800.0f));
 
 
-
-
-
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
+
+
+int level = 1;
 
 struct Vector
 {
@@ -478,7 +478,7 @@ void draw_pic()
 
 void control()
 {
-	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak);
+	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level);
 	
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
