@@ -145,11 +145,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bot_control.cpp" />
     <ClCompile Include="Skill_player.cpp" />
     <ClCompile Include="Fuc.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bot_control.h" />
     <ClInclude Include="skill_player.h" />
     <ClInclude Include="Fuc.h" />
   </ItemGroup>

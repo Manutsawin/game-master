@@ -53,6 +53,8 @@ struct charecter
   ,iconcharecter_player, iconcharecter_enamy;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
+
+//BG
 sf::RectangleShape sprite_BG(sf::Vector2f(1200.0f,800.0f));
 
 //charecter
@@ -304,7 +306,7 @@ void setup()
 	sprite_enamy.setScale({ -1, 1 });
 	//player.setFillColor(sf::Color::Cyan);
 
-	player1.Texture.loadFromFile("Textures/12.png");
+	player1.Texture.loadFromFile("Textures/10.png");
 	sprite_player1.setTexture(&player1.Texture);
 	sprite_player1.setTextureRect(player1.rectSource);
 
@@ -315,7 +317,7 @@ void setup()
 	enamy1.rectSource.width = 80;
 	enamy1.rectSource.height = 60;
 
-	enamy1.Texture.loadFromFile("Textures/12.png");
+	enamy1.Texture.loadFromFile("Textures/10.png");
 	sprite_enamy.setTexture(&enamy1.Texture);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
 
@@ -475,7 +477,7 @@ void draw_pic()
 
 void control()
 {
-	int botcontrol = 0;
+	int botcontrol = 1;
 	
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
