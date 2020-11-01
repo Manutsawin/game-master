@@ -4,6 +4,7 @@
 #include"skill_player.h"
 #include"Fuc.h"
 #include"bot_control.h"
+#include"select_enamy.h"
 
 //movement control player
 void playerstun();
@@ -91,11 +92,10 @@ sf::RectangleShape sprite_blackscreen2(sf::Vector2f(1600.0f, 800.0f));
 //nextstage
 sf::RectangleShape sprite_nextstage(sf::Vector2f(1200.0f, 800.0f));
 
-
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
-
 int level = 1;
+int stop = 0;
 
 struct Vector
 {
@@ -193,7 +193,23 @@ int main()
 			//printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
 			//printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
 			
-			control();
+			if (stop == 0)
+			{
+				control();
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
+			{
+				
+					stop = 1;
+				
+				
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O))
+			{
+				
+					stop = 0;
+				
+			}
 			
 			animetion_skilll_player.Update(0, deltatime_player_skill);
 			animetion_skilll_enamy.Update(0, deltatime_player_skill);
@@ -202,7 +218,11 @@ int main()
 
 			animetion_nextstage.Update(0, deltatime_player_skill);
 			sprite_nextstage.setTextureRect(animetion_nextstage.uvRect);
-			draw_pic();
+			if (stop == 0)
+			{
+				draw_pic();
+			}
+			
 			damage_player = 0;
 			damage_enamy = 0;
 			manaDel_player = 0;
@@ -312,13 +332,13 @@ void setup()
 	sprite_player1.setTextureRect(player1.rectSource);
 
 	//enamy
-	enamy1.x = 1000;
+	enamy1.x = 1100;
 	enamy1.rectSource.top = 0;
 	enamy1.rectSource.left = 35;
 	enamy1.rectSource.width = 80;
 	enamy1.rectSource.height = 60;
 
-	enamy1.Texture.loadFromFile("Textures/10.png");
+	enamy1.Texture=selectenamy(level);
 	sprite_enamy.setTexture(&enamy1.Texture);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
 
@@ -943,6 +963,7 @@ void control()
 	}
 	if (blackscreen2.x >= 0 && blackscreen2.x <=1.5)
 	{
+		level++;
 		setup();
 	}
 
@@ -1611,14 +1632,12 @@ void lose_enamy_Fuc()
 {
 	enamy1.rectSource.top = 320; 
 	enamy1.rectSource.left = 167;
-
 }
 
 void lose_player_Fuc()
 {
 	player1.rectSource.top = 320;
 	player1.rectSource.left = 167;
-
 }
 
 void hpbar(float total_hp)

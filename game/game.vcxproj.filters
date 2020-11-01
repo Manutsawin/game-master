@@ -27,6 +27,9 @@
     <ClCompile Include="bot_control.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="select_enamy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fuc.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bot_control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="select_enamy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
