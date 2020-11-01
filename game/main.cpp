@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include"skill_player.h"
 #include"Fuc.h"
+#include"bot_control.h"
 
 //movement control player
 void playerstun();
@@ -477,7 +478,7 @@ void draw_pic()
 
 void control()
 {
-	int botcontrol = 1;
+	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak);
 	
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
@@ -524,7 +525,7 @@ void control()
 			clockJ_player.restart();
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && total_hp_player != 1 && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && total_hp_player != 1 && stun_player.direct != 1&& J_player.direct != 1)
 	{
 		combo_player = 0;
 		PG_player_Fuc();
@@ -661,7 +662,7 @@ void control()
 		Uskill_player.direct = 0;
 	}
 	// cheack skill position vs enamy
-	if (x_skillthrowcheak_player < x_enamycheak + 4 && x_skillthrowcheak_player >= x_enamycheak)
+	if (x_skillthrowcheak_player <= x_enamycheak + 5 && x_skillthrowcheak_player >= x_enamycheak)
 	{
 		if (skillthrow_player.y <= enamy1.y && skillthrow_player.y+80 >= enamy1.y)
 		{
@@ -882,7 +883,7 @@ void control()
 		Uskill_enamy.direct = 0;
 	}
 	// cheack skill position vs player
-	if (x_skillthrowcheak_enamy < x_playercheak + 4 && x_skillthrowcheak_enamy >= x_playercheak)
+	if (x_skillthrowcheak_enamy <= x_playercheak + 5 && x_skillthrowcheak_enamy >= x_playercheak)
 	{
 		if (skillthrow_enamy.y <= player1.y && skillthrow_enamy.y + 80 >= player1.y)
 		{

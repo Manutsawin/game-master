@@ -1,5 +1,1 @@
-#pragma once
-class bot_control
-{
-};
-
+int fucbotcontrol(float xplayer, float xenamy);
