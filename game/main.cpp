@@ -95,6 +95,7 @@ sf::RectangleShape sprite_nextstage(sf::Vector2f(1200.0f, 800.0f));
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
 int level = 1;
+sf::Texture enamytext;
 int stop = 0;
 
 struct Vector
@@ -192,6 +193,7 @@ int main()
 			//printf("x= %f  y=%f\t", x_playercheak, player1.y);
 			//printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
 			//printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
+			printf("x= %d \n", enamytext);
 			
 			if (stop == 0)
 			{
@@ -254,12 +256,7 @@ void setup()
 	//skill icon
 	skillicon_player.Texture.loadFromFile("skill icon/ichigozall.png");
 	skillicon_enamy.Texture.loadFromFile("skill icon/ichigozall.png");
-
-
-	//charecter icon
-	iconcharecter_player.Texture.loadFromFile("iconcharecter/11.png");
-	iconcharecter_enamy.Texture.loadFromFile("iconcharecter/11.png");
-
+	
 	skillicon_enamy.rectSource.top = 0;
 	skillicon_enamy.rectSource.left = 0;
 	skillicon_enamy.rectSource.width = 200;
@@ -277,6 +274,9 @@ void setup()
 	sprite_skillicon_player.setTextureRect(skillicon_player.rectSource);
 	
 
+	//charecter icon
+	iconcharecter_player.Texture.loadFromFile("iconcharecter/11.png");
+
 	iconcharecter_player.rectSource.top = 0;
 	iconcharecter_player.rectSource.left = 0;
 	iconcharecter_player.rectSource.width = 300;
@@ -285,14 +285,6 @@ void setup()
 	sprite_iconcharecter_player.setPosition(5,35);
 	sprite_iconcharecter_player.setTextureRect(iconcharecter_player.rectSource);
 
-	iconcharecter_enamy.rectSource.top = 0;
-	iconcharecter_enamy.rectSource.left = 0;
-	iconcharecter_enamy.rectSource.width = 300;
-	iconcharecter_enamy.rectSource.height = 300;
-	sprite_iconcharecter_enamy.setTexture(&iconcharecter_enamy.Texture);
-	sprite_iconcharecter_enamy.setPosition(1195,35);
-	sprite_iconcharecter_enamy.setTextureRect(iconcharecter_enamy.rectSource);
-	sprite_iconcharecter_enamy.setScale({ -1, 1 });
 
 	//BG
 	BG.rectSource.top = 0;
@@ -327,7 +319,7 @@ void setup()
 	sprite_enamy.setScale({ -1, 1 });
 	//player.setFillColor(sf::Color::Cyan);
 
-	player1.Texture.loadFromFile("Textures/10.png");
+	player1.Texture.loadFromFile("Textures/1.png");
 	sprite_player1.setTexture(&player1.Texture);
 	sprite_player1.setTextureRect(player1.rectSource);
 
@@ -338,9 +330,20 @@ void setup()
 	enamy1.rectSource.width = 80;
 	enamy1.rectSource.height = 60;
 
-	enamy1.Texture=selectenamy(level);
+	enamy1.Texture=selectenamy(level,&enamytext);
 	sprite_enamy.setTexture(&enamy1.Texture);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
+
+	//icon enamy
+	iconcharecter_enamy.Texture = enamytext;
+	iconcharecter_enamy.rectSource.top = 0;
+	iconcharecter_enamy.rectSource.left = 0;
+	iconcharecter_enamy.rectSource.width = 300;
+	iconcharecter_enamy.rectSource.height = 300;
+	sprite_iconcharecter_enamy.setTexture(&iconcharecter_enamy.Texture);
+	sprite_iconcharecter_enamy.setPosition(1195, 35);
+	sprite_iconcharecter_enamy.setTextureRect(iconcharecter_enamy.rectSource);
+	sprite_iconcharecter_enamy.setScale({ -1, 1 });
 
 	//hp_player
 	hpBar_player.Texture.loadFromFile("HP/newhpall.png");
