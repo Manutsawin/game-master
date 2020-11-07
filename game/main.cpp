@@ -194,6 +194,7 @@ int main()
 				if (event.type == sf::Event::Closed)
 				{
 					window.close();
+					return 0;
 				}
 				if (event.type == sf::Event::TextEntered)
 				{
@@ -1735,12 +1736,16 @@ void Calculation_system_potion()
 
 		if (typepotion == 0)
 		{
-
 			damage_player = -7;
 		}
 		if (typepotion == 1)
 		{
 			manaDel_player = -7;
+		}
+		if (typepotion == 2)
+		{
+			manaDel_player = -5;
+			damage_player =  -5;
 		}
 
 		potionv.direct = 0;

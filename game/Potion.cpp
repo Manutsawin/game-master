@@ -3,7 +3,7 @@ int randompositionpotion()
 {
     
     srand(time(NULL));
-    int position = ((rand()* rand() + rand() - rand()) % 1100) + 50;
+    int position = ((rand()* rand() + rand() - rand()) % 1000) + 50;
     return position;
 }
 
@@ -11,7 +11,7 @@ int randomtypepotion()
 {
 
     srand(time(NULL));
-    int type = rand()%2;
+    int type = rand()%3;
     return type;
 }
 
@@ -37,7 +37,8 @@ sf::Texture selectpotion(int type, int* typepotion)
 	else
 	{
 
-		Texture.loadFromFile("potion/hpall.png");
+		Texture.loadFromFile("potion/hpmanaall.png");
+		*typepotion = 2;
 		return Texture;
 	}
 	
