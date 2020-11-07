@@ -5,6 +5,7 @@
 #include"Fuc.h"
 #include"bot_control.h"
 #include"select_enamy.h"
+#include "Potion.h"
 
 //movement control player
 void playerstun();
@@ -38,6 +39,9 @@ void hpbar_enamy(float);
 void manabar(float);
 void manabar_enamy(float);
 
+//potion
+void Calculation_system_potion();
+
 struct charecter
 {
 	float x= 0, y= 530;
@@ -52,7 +56,8 @@ struct charecter
   ,skillthrow_player, skillthrow_enamy
   ,skillicon_enamy, skillicon_player
   ,victory,defeat,blackscreen1,blackscreen2,nextstage
-  ,iconcharecter_player, iconcharecter_enamy;
+  ,iconcharecter_player, iconcharecter_enamy
+  ,potion;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 
@@ -83,6 +88,9 @@ sf::RectangleShape sprite_skillicon_player(sf::Vector2f(50.0f, 50.0f));
 sf::RectangleShape sprite_skillthrow_player(sf::Vector2f(300.0f, 500.0f));
 sf::RectangleShape sprite_skillthrow_enamy(sf::Vector2f(300.0f, 500.0f));
 
+//potion
+sf::RectangleShape sprite_potion(sf::Vector2f(70.0f, 70.0f));
+
 //cvictory and defeat
 sf::RectangleShape sprite_victory(sf::Vector2f(600.0f, 200.0f));
 sf::RectangleShape sprite_defeat(sf::Vector2f(600.0f, 200.0f));
@@ -98,10 +106,12 @@ int level = 1;
 sf::Texture enamytext;
 int stop = 0;
 
+int typepotion;
+
 struct Vector
 {
 	int direct = 0;
-} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player, jump_enamy, PG_enamy, J_enamy, Uskill_enamy,    blackscreen_2;
+} player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player, jump_enamy, PG_enamy, J_enamy, Uskill_enamy,    blackscreen_2,  potionv;
 
 int combo_player, combo_enamy = 0;
 int damage_player=0, total_hp_player =23, damage_enamy = 0, total_hp_enamy = 23; //hp = 1 lose
@@ -114,6 +124,7 @@ float deltatime_player_skill = 0.0f;
 float x_playercheak,y_playercheak, x_enamycheak, y_enamycheak, x_skillthrowcheak_player, y_skillthrowcheak_player, x_skillthrowcheak_enamy, y_skillthrowcheak_enamy;
 sf::Clock skill_player_clock;
 sf::Clock enamy_stun_clock, player_stun_clock;
+sf::Clock potion_clock;
 
 
 int main()
@@ -126,14 +137,14 @@ int main()
 	skill animetion_skilll_player(&skillthrow_player.Texture, sf::Vector2u(4, 1), 0.1f);//skill player
 	skill animetion_skilll_enamy(&skillthrow_enamy.Texture, sf::Vector2u(4, 1), 0.1f);//skill enamy
 	skill animetion_nextstage(&nextstage.Texture, sf::Vector2u(4, 1), 0.5f);//skill enamy
-	
+	skill animetion_potion(&potion.Texture, sf::Vector2u(5, 1), 0.5f);//potion
 
 	
 	while (window.isOpen())
 	{
 		while (1)
 		{
-			
+			Calculation_system_potion();
 
 			//cheak position player
 			if (player.direct == 1 || player.direct == 11)
@@ -175,6 +186,7 @@ int main()
 
 			deltatime_player_skill = skill_player_clock.restart().asSeconds();
 			
+
 			sf::Event event;
 
 			while (window.pollEvent(event))
@@ -193,7 +205,7 @@ int main()
 			//printf("x= %f  y=%f\t", x_playercheak, player1.y);
 			//printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
 			//printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
-			printf("x= %d \n", enamytext);
+			
 			
 			if (stop == 0)
 			{
@@ -220,6 +232,12 @@ int main()
 
 			animetion_nextstage.Update(0, deltatime_player_skill);
 			sprite_nextstage.setTextureRect(animetion_nextstage.uvRect);
+			
+			
+			
+			animetion_potion.Update(0, deltatime_player_skill);
+			sprite_potion.setTextureRect(animetion_potion.uvRect);
+			
 			if (stop == 0)
 			{
 				draw_pic();
@@ -238,11 +256,16 @@ int main()
 }
 void setup()
 {
+	
+
 	total_mana_playyer = 26;
 	total_mana_enamy = 26;
 
 	total_hp_player = 48;
 	total_hp_enamy = 48;
+	
+	potion.Texture.loadFromFile("potion/hpall.png");
+	sprite_potion.setTexture(&potion.Texture);
 
 	//skill player
 	skillthrow_player.Texture.loadFromFile("skill/getsuka.png");
@@ -319,7 +342,7 @@ void setup()
 	sprite_enamy.setScale({ -1, 1 });
 	//player.setFillColor(sf::Color::Cyan);
 
-	player1.Texture.loadFromFile("Textures/1.png");
+	player1.Texture.loadFromFile("Textures/2.png");
 	sprite_player1.setTexture(&player1.Texture);
 	sprite_player1.setTextureRect(player1.rectSource);
 
@@ -439,6 +462,11 @@ void draw_pic()
 	window.clear();
 	window.draw(sprite_BG);
 
+	if (potionv.direct == 1)
+	{
+		window.draw(sprite_potion);
+	}
+	
 	window.draw(sprite_enamy);
 	window.draw(sprite_player1);
 	
@@ -469,6 +497,7 @@ void draw_pic()
 	skillicon_enamy.rectSource.top = selectIcon(total_mana_enamy);
 	sprite_skillicon_enamy.setTextureRect(skillicon_enamy.rectSource);
 	window.draw(sprite_skillicon_enamy);
+	
 	
 	// icon charecter
 	if (total_hp_player == 1)
@@ -524,6 +553,7 @@ void control()
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && total_hp_player != 1 && stun_player.direct != 1 && Uskill_player.direct != 11 && Uskill_player.direct != 22)
 	{
+		
 		combo_player = 0;
 		if (J_player.direct != 1&& PG_player.direct != 1 )
 		{
@@ -1687,4 +1717,35 @@ void manabar_enamy(float total_mana)
 	sprite_manaBar_enamy.setPosition(1185, 750);
 	sprite_manaBar_enamy.setTextureRect(manaBar_enamy.rectSource);
 }
+
+void Calculation_system_potion()
+{
+
+	if (potion_clock.getElapsedTime().asSeconds() > 5.00f)
+	{
+		potionv.direct = 1;
+		potion_clock.restart().asSeconds();
+		sprite_potion.setPosition(randompositionpotion(), 390);
+		potion.Texture = selectpotion(randomtypepotion(), &typepotion);
+		sprite_potion.setTexture(&potion.Texture);
+	}
+	if (player1.y >= sprite_potion.getPosition().y && player1.y < sprite_potion.getPosition().y + 10 && x_playercheak >= sprite_potion.getPosition().x && x_playercheak < sprite_potion.getPosition().x + 70 && potionv.direct == 1)
+	{
+		sprite_potion.setPosition(randompositionpotion(), 390);
+
+		if (typepotion == 0)
+		{
+
+			damage_player = -7;
+		}
+		if (typepotion == 1)
+		{
+			manaDel_player = -7;
+		}
+
+		potionv.direct = 0;
+		potion_clock.restart().asSeconds();
+	}
+}
+
 

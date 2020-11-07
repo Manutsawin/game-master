@@ -30,6 +30,9 @@
     <ClCompile Include="select_enamy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Potion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fuc.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="select_enamy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Potion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

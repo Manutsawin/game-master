@@ -1,6 +1,7 @@
 #include "bot_control.h"
 int fucbotcontrol(float xplayer,float xenamy,int level)
 {
+	level = 0;
 	if (level == 1)
 	{
 		if (xenamy <= xplayer + 70 && xenamy >= xplayer - 70)
@@ -18,7 +19,7 @@ int fucbotcontrol(float xplayer,float xenamy,int level)
 			return 1; //move right
 		}
 	}
-	else
+	else if (level>0)
 	{
 		if (xenamy <= xplayer + 70 && xenamy >= xplayer - 70)
 		{
