@@ -206,6 +206,26 @@ int main()
 					//printf("x= %f  y=%f\n", x_playercheak, player1.y);
 
 				}
+				
+				if (event.type == sf::Event::TextEntered)
+				{
+					if (event.text.unicode=='p')
+					{
+						if (stop == 0)
+						{
+							stop = 1;
+						}
+						else
+						{
+							stop = 0;
+						}
+
+					}
+					
+
+
+				}
+
 				if (section == 0)
 				{
 					switch (event.type)
@@ -265,19 +285,7 @@ int main()
 				{
 					control();
 				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
-				{
-
-					stop = 1;
-
-
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O))
-				{
-
-					stop = 0;
-
-				}
+				
 
 				animetion_skilll_player.Update(0, deltatime_player_skill);
 				animetion_skilll_enamy.Update(0, deltatime_player_skill);
