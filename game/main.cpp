@@ -6,6 +6,7 @@
 #include"bot_control.h"
 #include"select_enamy.h"
 #include "Potion.h"
+#include "Menu.h"
 
 //movement control player
 void playerstun();
@@ -126,24 +127,27 @@ sf::Clock skill_player_clock;
 sf::Clock enamy_stun_clock, player_stun_clock;
 sf::Clock potion_clock;
 
+Menu menu(window.getSize().x, window.getSize().y);
+
+
 
 int main()
 {
 	
 	player.direct = 1;
-	//skill
 	blackscreen2.x = -1600;
+	int section = 0;
 	setup();
+
+	//skill
 	skill animetion_skilll_player(&skillthrow_player.Texture, sf::Vector2u(4, 1), 0.1f);//skill player
 	skill animetion_skilll_enamy(&skillthrow_enamy.Texture, sf::Vector2u(4, 1), 0.1f);//skill enamy
 	skill animetion_nextstage(&nextstage.Texture, sf::Vector2u(4, 1), 0.5f);//skill enamy
 	skill animetion_potion(&potion.Texture, sf::Vector2u(5, 1), 0.5f);//potion
 
-	
 	while (window.isOpen())
 	{
-		while (1)
-		{
+		
 			Calculation_system_potion();
 
 			//cheak position player
@@ -202,62 +206,113 @@ int main()
 					//printf("x= %f  y=%f\n", x_playercheak, player1.y);
 
 				}
+				if (section == 0)
+				{
+					switch (event.type)
+					{
+					case sf::Event::KeyReleased:
+						switch (event.key.code)
+						{
+						case sf::Keyboard::Up:
+							menu.MoveUp();
+							break;
+
+						case sf::Keyboard::Down:
+							menu.MoveDown();
+							break;
+
+						case sf::Keyboard::Return:
+							switch (menu.GetPressedItem())
+							{
+							case 0:
+								printf("Play button has been pressed");
+								section = 1;
+								break;
+							case 1:
+								printf("Option button has been pressed");
+								break;
+							case 2:
+								window.close();
+								return 0;
+								break;
+							}
+
+							break;
+						}
+
+						break;
+					case sf::Event::Closed:
+						window.close();
+
+						break;
+
+					}
+					window.clear();
+					menu.draw(window);
+					window.display();
+					
+				}
+				
+				
 			}
 			//printf("x= %f  y=%f\t", x_playercheak, player1.y);
 			//printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
 			//printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
 			
-			
-			if (stop == 0)
+			if (section==1)
 			{
-				control();
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
-			{
-				
+				if (stop == 0)
+				{
+					control();
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
+				{
+
 					stop = 1;
-				
-				
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O))
-			{
-				
+
+
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O))
+				{
+
 					stop = 0;
-				
-			}
-			
-			animetion_skilll_player.Update(0, deltatime_player_skill);
-			animetion_skilll_enamy.Update(0, deltatime_player_skill);
-			sprite_skillthrow_player.setTextureRect(animetion_skilll_player.uvRect);
-			sprite_skillthrow_enamy.setTextureRect(animetion_skilll_enamy.uvRect);
 
-			animetion_nextstage.Update(0, deltatime_player_skill);
-			sprite_nextstage.setTextureRect(animetion_nextstage.uvRect);
-			
-			
-			
-			animetion_potion.Update(0, deltatime_player_skill);
-			sprite_potion.setTextureRect(animetion_potion.uvRect);
-			
-			if (stop == 0)
-			{
-				draw_pic();
-			}
-			
-			damage_player = 0;
-			damage_enamy = 0;
-			manaDel_player = 0;
-			manaDel_enamy = 0;
-			
+				}
 
-		}
+				animetion_skilll_player.Update(0, deltatime_player_skill);
+				animetion_skilll_enamy.Update(0, deltatime_player_skill);
+				sprite_skillthrow_player.setTextureRect(animetion_skilll_player.uvRect);
+				sprite_skillthrow_enamy.setTextureRect(animetion_skilll_enamy.uvRect);
+
+				animetion_nextstage.Update(0, deltatime_player_skill);
+				sprite_nextstage.setTextureRect(animetion_nextstage.uvRect);
+
+
+
+				animetion_potion.Update(0, deltatime_player_skill);
+				sprite_potion.setTextureRect(animetion_potion.uvRect);
+
+				if (stop == 0)
+				{
+					draw_pic();
+				}
+
+				damage_player = 0;
+				damage_enamy = 0;
+				manaDel_player = 0;
+				manaDel_enamy = 0;
+			}
+
+		
 	}	
 	
 	return 0;
 }
 void setup()
 {
-	
+	window.clear();
+	menu.draw(window);
+	window.display();
 
 	total_mana_playyer = 26;
 	total_mana_enamy = 26;
@@ -524,6 +579,7 @@ void draw_pic()
 
 	window.draw(sprite_blackscreen1);
 	window.draw(sprite_blackscreen2);
+	
 	
 	
 	window.display();
@@ -1730,7 +1786,7 @@ void Calculation_system_potion()
 		potion.Texture = selectpotion(randomtypepotion(), &typepotion);
 		sprite_potion.setTexture(&potion.Texture);
 	}
-	if (player1.y >= sprite_potion.getPosition().y && player1.y < sprite_potion.getPosition().y + 10 && x_playercheak >= sprite_potion.getPosition().x && x_playercheak < sprite_potion.getPosition().x + 70 && potionv.direct == 1)
+	if (player1.y >= sprite_potion.getPosition().y && player1.y < sprite_potion.getPosition().y + 10 && x_playercheak+30 >= sprite_potion.getPosition().x && x_playercheak < sprite_potion.getPosition().x + 90 && potionv.direct == 1)
 	{
 		sprite_potion.setPosition(randompositionpotion(), 390);
 
