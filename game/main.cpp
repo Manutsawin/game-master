@@ -114,7 +114,7 @@ struct Vector
 } player , enamy , jump_player , PG_player , J_player ,Uskill_player   ,stun_enamy,stun_player, jump_enamy, PG_enamy, J_enamy, Uskill_enamy,    blackscreen_2,  potionv;
 
 int combo_player, combo_enamy = 0;
-int damage_player=0, total_hp_player =23, damage_enamy = 0, total_hp_enamy = 23; //hp = 1 lose
+int damage_player=0, total_hp_player =48, damage_enamy = 0, total_hp_enamy = 48; //hp = 1 lose
 
 int manaDel_player = 0, total_mana_playyer = 26, manaDel_enamy = 0, total_mana_enamy = 26;// mana
 

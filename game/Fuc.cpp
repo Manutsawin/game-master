@@ -7,6 +7,10 @@ float hpcalculate(float damage, float total_hp)
 	{
 		total_hp = 1;
 	}
+	if (total_hp > 48)
+	{
+		total_hp = 48;
+	}
 	return total_hp;
 
 }
@@ -18,6 +22,10 @@ float manacalculate(float manaDel, float total_mana)
 	if (total_mana < 1)
 	{
 		total_mana = 1;
+	}
+	if (total_mana > 26)
+	{
+		total_mana = 26;
 	}
 	return total_mana;
 
