@@ -58,7 +58,8 @@ struct charecter
   ,skillicon_enamy, skillicon_player
   ,victory,defeat,blackscreen1,blackscreen2,nextstage
   ,iconcharecter_player, iconcharecter_enamy
-  ,potion;
+  ,potion
+  ,bgmenu;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 
@@ -91,6 +92,9 @@ sf::RectangleShape sprite_skillthrow_enamy(sf::Vector2f(300.0f, 500.0f));
 
 //potion
 sf::RectangleShape sprite_potion(sf::Vector2f(70.0f, 70.0f));
+
+//bg menu
+sf::RectangleShape sprite_bgmenu(sf::Vector2f(1200.0f, 800.0f));
 
 //cvictory and defeat
 sf::RectangleShape sprite_victory(sf::Vector2f(600.0f, 200.0f));
@@ -143,11 +147,34 @@ int main()
 	skill animetion_skilll_player(&skillthrow_player.Texture, sf::Vector2u(4, 1), 0.1f);//skill player
 	skill animetion_skilll_enamy(&skillthrow_enamy.Texture, sf::Vector2u(4, 1), 0.1f);//skill enamy
 	skill animetion_nextstage(&nextstage.Texture, sf::Vector2u(4, 1), 0.5f);//skill enamy
+	//potion
 	skill animetion_potion(&potion.Texture, sf::Vector2u(5, 1), 0.5f);//potion
+	//bg menu
+	bgmenu.Texture.loadFromFile("Menu/BG_menu_all.png");
+	sprite_bgmenu.setTexture(&bgmenu.Texture);
+	skill animetion_bgmenu(&bgmenu.Texture, sf::Vector2u(12, 1), 0.095f);//potion
+	
+	
+	
+	animetion_bgmenu.Update(0, deltatime_player_skill);
+	sprite_bgmenu.setTextureRect(animetion_bgmenu.uvRect);
+	window.clear();
+	window.draw(sprite_bgmenu);
+	menu.draw(window);
+	
+	window.display();
 
 	while (window.isOpen())
 	{
-		
+		if (section == 0)
+		{
+			animetion_bgmenu.Update(0, deltatime_player_skill);
+			sprite_bgmenu.setTextureRect(animetion_bgmenu.uvRect);
+			window.clear();
+			window.draw(sprite_bgmenu);
+			menu.draw(window);
+			window.display();
+		}
 			Calculation_system_potion();
 
 			//cheak position player
@@ -236,8 +263,14 @@ int main()
 						case sf::Keyboard::Up:
 							menu.MoveUp();
 							break;
+						case sf::Keyboard::W:
+							menu.MoveUp();
+							break;
 
 						case sf::Keyboard::Down:
+							menu.MoveDown();
+							break;
+						case sf::Keyboard::S:
 							menu.MoveDown();
 							break;
 
@@ -245,11 +278,11 @@ int main()
 							switch (menu.GetPressedItem())
 							{
 							case 0:
-								printf("Play button has been pressed");
+								printf("Play button has been pressed\n");
 								section = 1;
 								break;
 							case 1:
-								printf("Option button has been pressed");
+								printf("High score button has been pressed\n");
 								break;
 							case 2:
 								window.close();
@@ -267,9 +300,7 @@ int main()
 						break;
 
 					}
-					window.clear();
-					menu.draw(window);
-					window.display();
+					
 					
 				}
 				
@@ -318,9 +349,7 @@ int main()
 }
 void setup()
 {
-	window.clear();
-	menu.draw(window);
-	window.display();
+	
 
 	total_mana_playyer = 26;
 	total_mana_enamy = 26;
