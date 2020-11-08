@@ -675,7 +675,7 @@ void draw_pic()
 
 	if (total_hp_enamy == 1 && blackscreen1.x>=0)
 	{
-		window.draw(sprite_nextstage);// test
+		window.draw(sprite_nextstage);
 	}
 
 	window.draw(sprite_blackscreen1);
@@ -1920,7 +1920,7 @@ void section3()
 		{
 			window.draw(sprite_potion);
 		}
-
+		potion_clock.restart().asSeconds();
 		window.draw(sprite_enamy);
 		window.draw(sprite_player1);
 		
@@ -1944,6 +1944,10 @@ void section3()
 		window.draw(sprite_skillicon_enamy);
 		window.draw(sprite_iconcharecter_player);
 		window.draw(sprite_iconcharecter_enamy);
+		if (total_hp_enamy == 1 && blackscreen1.x >= 0)
+		{
+			window.draw(sprite_nextstage);// test
+		}
 		window.draw(sprite_blackscreen1);
 		window.draw(sprite_blackscreen2);
 		menuingame.draw(window);
