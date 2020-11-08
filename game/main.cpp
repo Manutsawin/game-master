@@ -1920,7 +1920,7 @@ void section3()
 		{
 			window.draw(sprite_potion);
 		}
-		potion_clock.restart().asSeconds();
+
 		window.draw(sprite_enamy);
 		window.draw(sprite_player1);
 		
