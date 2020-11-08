@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="bot_control.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Menu_in_game.cpp" />
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="select_enamy.cpp" />
     <ClCompile Include="Skill_player.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="bot_control.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Menu_in_game.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="select_enamy.h" />
     <ClInclude Include="skill_player.h" />

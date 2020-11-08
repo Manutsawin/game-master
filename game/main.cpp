@@ -6,7 +6,8 @@
 #include"bot_control.h"
 #include"select_enamy.h"
 #include "Potion.h"
-#include "Menu.h"
+#include"Menu.h"
+#include"Menu_in_game.h"
 
 //movement control player
 void playerstun();
@@ -42,6 +43,9 @@ void manabar_enamy(float);
 
 //potion
 void Calculation_system_potion();
+
+//section
+void section3();
 
 struct charecter
 {
@@ -132,15 +136,15 @@ sf::Clock enamy_stun_clock, player_stun_clock;
 sf::Clock potion_clock;
 
 Menu menu(window.getSize().x, window.getSize().y);
+Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
-
+int section = 0;
 
 int main()
 {
 	
 	player.direct = 1;
 	blackscreen2.x = -1600;
-	int section = 0;
 	setup();
 
 	//skill
@@ -175,7 +179,13 @@ int main()
 			menu.draw(window);
 			window.display();
 		}
+		section3();
+		
+		if (section == 1)
+		{
 			Calculation_system_potion();
+		}
+		
 
 			//cheak position player
 			if (player.direct == 1 || player.direct == 11)
@@ -233,7 +243,10 @@ int main()
 					//printf("x= %f  y=%f\n", x_playercheak, player1.y);
 
 				}
-				
+				if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
+				{
+					section=3;
+				}
 				if (event.type == sf::Event::TextEntered)
 				{
 					if (event.text.unicode=='p')
@@ -302,6 +315,57 @@ int main()
 					}
 					
 					
+				}
+				if (section == 3)
+				{
+					switch (event.type)
+					{
+					case sf::Event::KeyReleased:
+						switch (event.key.code)
+						{
+						case sf::Keyboard::Up:
+							menuingame.MoveUp();
+							break;
+						case sf::Keyboard::W:
+							menuingame.MoveUp();
+							break;
+
+						case sf::Keyboard::Down:
+							menuingame.MoveDown();
+							break;
+						case sf::Keyboard::S:
+							menuingame.MoveDown();
+							break;
+
+						case sf::Keyboard::Return:
+							switch (menuingame.GetPressedItem())
+							{
+							case 0:
+								printf("Resume button has been pressed\n");
+								section = 1;
+								break;
+							case 1:
+								printf("Menu button has been pressed\n");
+								section = 0;
+								break;
+							case 2:
+								window.close();
+								return 0;
+								break;
+							}
+
+							break;
+						}
+
+						break;
+					case sf::Event::Closed:
+						window.close();
+
+						break;
+
+					}
+
+
 				}
 				
 				
@@ -1843,6 +1907,47 @@ void Calculation_system_potion()
 
 		potionv.direct = 0;
 		potion_clock.restart().asSeconds();
+	}
+}
+void section3()
+{
+	if (section == 3)
+	{
+		window.clear();
+		window.draw(sprite_BG);
+
+		if (potionv.direct == 1)
+		{
+			window.draw(sprite_potion);
+		}
+		potion_clock.restart().asSeconds();
+		window.draw(sprite_enamy);
+		window.draw(sprite_player1);
+		
+		if (Uskill_player.direct == 1 || Uskill_player.direct == 2)
+		{
+			window.draw(sprite_skillthrow_player);
+		}
+
+		if (Uskill_enamy.direct == 1 || Uskill_enamy.direct == 2)
+		{
+			window.draw(sprite_skillthrow_enamy);
+		}
+
+		window.draw(sprite_hpBar_player);
+		window.draw(sprite_hpBar_enamy);
+		window.draw(sprite_manaBar_player);
+		window.draw(sprite_manaBar_enamy);
+		window.draw(sprite_victory);
+		window.draw(sprite_defeat);
+		window.draw(sprite_skillicon_player);
+		window.draw(sprite_skillicon_enamy);
+		window.draw(sprite_iconcharecter_player);
+		window.draw(sprite_iconcharecter_enamy);
+		window.draw(sprite_blackscreen1);
+		window.draw(sprite_blackscreen2);
+		menuingame.draw(window);
+		window.display();
 	}
 }
 
