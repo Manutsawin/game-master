@@ -1,6 +1,6 @@
 #include <sfml/Graphics.hpp>
 #include <stdio.h>
-#define MAX_NUMBER_OF_ITEMS 3
+#define MAX_NUMBER_OF_ITEMS 4
 
 class Menu
 {

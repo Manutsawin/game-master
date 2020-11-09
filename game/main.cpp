@@ -33,6 +33,7 @@ int J_attack_enamy_Fuc(int);
 void U_enamy_Fuc();
 void lose_enamy_Fuc();
 
+//game 
 void control();
 void draw_pic();
 void setup();
@@ -298,6 +299,9 @@ int main()
 								printf("High score button has been pressed\n");
 								break;
 							case 2:
+								printf("How to play button has been pressed\n");
+								break;
+							case 3:
 								window.close();
 								return 0;
 								break;
