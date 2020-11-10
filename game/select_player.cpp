@@ -43,7 +43,7 @@ sf::Texture selectplayer(int position, sf::Texture* playertext, sf::Texture* pal
 		Textureicon.loadFromFile("iconcharecter/3.png");
 		*playertext = Textureicon;
 		
-		skill.loadFromFile("skill/2.png");
+		skill.loadFromFile("skill/3.png");
 		*palyerskill = skill;
 
 		skillicon.loadFromFile("skill icon/1.png");

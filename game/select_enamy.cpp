@@ -40,8 +40,12 @@ sf::Texture selectenamy(int level, sf::Texture* enamytext, sf::Texture* enamyski
 	else if(level==3)
 	{
 		Texture.loadFromFile("Textures/3.png");
+
 		Textureicon.loadFromFile("iconcharecter/33.png");
 		*enamytext = Textureicon;
+
+		skill.loadFromFile("skill/3.png");
+		*enamyskill = skill;
 
 		skillicon.loadFromFile("skill icon/1.png");
 		*iskillenamy = skillicon;
