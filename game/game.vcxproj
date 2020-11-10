@@ -150,6 +150,7 @@
     <ClCompile Include="Menu_in_game.cpp" />
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="select_enamy.cpp" />
+    <ClCompile Include="select_player.cpp" />
     <ClCompile Include="Skill_player.cpp" />
     <ClCompile Include="Fuc.cpp" />
     <ClCompile Include="main.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Menu_in_game.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="select_enamy.h" />
+    <ClInclude Include="select_player.h" />
     <ClInclude Include="skill_player.h" />
     <ClInclude Include="Fuc.h" />
   </ItemGroup>

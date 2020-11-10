@@ -5,6 +5,7 @@
 #include"Fuc.h"
 #include"bot_control.h"
 #include"select_enamy.h"
+#include"select_player.h"
 #include "Potion.h"
 #include"Menu.h"
 #include"Menu_in_game.h"
@@ -117,8 +118,9 @@ sf::RectangleShape sprite_nextstage(sf::Vector2f(1200.0f, 800.0f));
 
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
+sf::Texture enamytext,playertext;
+
 int level = 1;
-sf::Texture enamytext;
 int stop = 0;
 
 int typepotion;
@@ -149,6 +151,8 @@ int section = 0;
 int main()
 {
 	window.setMouseCursorVisible(false);
+	
+	sprite_recselect.setPosition(150, 100);
 
 	player.direct = 1;
 	blackscreen2.x = -1600;
@@ -304,6 +308,7 @@ int main()
 					
 					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
 					{
+						setup();
 						section = 3;
 					}
 					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Left)))
@@ -536,19 +541,6 @@ void setup()
 	sprite_skillicon_player.setPosition(130, 125);
 	sprite_skillicon_player.setTextureRect(skillicon_player.rectSource);
 	
-
-	//charecter icon
-	iconcharecter_player.Texture.loadFromFile("iconcharecter/11.png");
-
-	iconcharecter_player.rectSource.top = 0;
-	iconcharecter_player.rectSource.left = 0;
-	iconcharecter_player.rectSource.width = 300;
-	iconcharecter_player.rectSource.height = 300;
-	sprite_iconcharecter_player.setTexture(&iconcharecter_player.Texture);
-	sprite_iconcharecter_player.setPosition(5,35);
-	sprite_iconcharecter_player.setTextureRect(iconcharecter_player.rectSource);
-
-
 	//BG
 	BG.rectSource.top = 0;
 	BG.rectSource.left = 0;
@@ -581,10 +573,23 @@ void setup()
 	enamy.direct = 2;
 	sprite_enamy.setScale({ -1, 1 });
 	//player.setFillColor(sf::Color::Cyan);
+	
 
-	player1.Texture.loadFromFile("Textures/5.png");
+
+	player1.Texture = selectplayer(sprite_recselect.getPosition().x, &playertext);
+	//player1.Texture.loadFromFile("Textures/5.png");
 	sprite_player1.setTexture(&player1.Texture);
 	sprite_player1.setTextureRect(player1.rectSource);
+
+	//charecter icon
+	iconcharecter_player.Texture = playertext;
+	iconcharecter_player.rectSource.top = 0;
+	iconcharecter_player.rectSource.left = 0;
+	iconcharecter_player.rectSource.width = 300;
+	iconcharecter_player.rectSource.height = 300;
+	sprite_iconcharecter_player.setTexture(&iconcharecter_player.Texture);
+	sprite_iconcharecter_player.setPosition(5, 35);
+	sprite_iconcharecter_player.setTextureRect(iconcharecter_player.rectSource);
 
 	//enamy
 	enamy1.x = 1100;
