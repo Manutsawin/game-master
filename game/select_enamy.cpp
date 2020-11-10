@@ -53,10 +53,40 @@ sf::Texture selectenamy(int level, sf::Texture* enamytext, sf::Texture* enamyski
 		return Texture;
 
 	}
+	else if (level == 4)
+	{
+		Texture.loadFromFile("Textures/4.png");
+		
+		Textureicon.loadFromFile("iconcharecter/33.png");
+		*enamytext = Textureicon;
+
+		skill.loadFromFile("skill/4.png");
+		*enamyskill = skill;
+
+		skillicon.loadFromFile("skill icon/1.png");
+		*iskillenamy = skillicon;
+		
+		return Texture;
+	}
+	else if (level == 5)
+	{
+		Texture.loadFromFile("Textures/5.png");
+
+		Textureicon.loadFromFile("iconcharecter/33.png");
+		*enamytext = Textureicon;
+
+		skill.loadFromFile("skill/5.png");
+		*enamyskill = skill;
+
+		skillicon.loadFromFile("skill icon/1.png");
+		*iskillenamy = skillicon;
+
+		return Texture;
+	}
 	else
 	{
 		Texture.loadFromFile("Textures/3.png");
-		
+
 		Textureicon.loadFromFile("iconcharecter/33.png");
 		*enamytext = Textureicon;
 
@@ -65,7 +95,7 @@ sf::Texture selectenamy(int level, sf::Texture* enamytext, sf::Texture* enamyski
 
 		skillicon.loadFromFile("skill icon/1.png");
 		*iskillenamy = skillicon;
-		
+
 		return Texture;
 	}
 }

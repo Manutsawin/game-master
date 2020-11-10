@@ -51,5 +51,35 @@ sf::Texture selectplayer(int position, sf::Texture* playertext, sf::Texture* pal
 		
 		return Texture;
 	}
+	else if (position == 600)
+	{
+		Texture.loadFromFile("Textures/4.png");
+
+		Textureicon.loadFromFile("iconcharecter/3.png");
+		*playertext = Textureicon;
+
+		skill.loadFromFile("skill/4.png");
+		*palyerskill = skill;
+
+		skillicon.loadFromFile("skill icon/1.png");
+		*iskillplayer = skillicon;
+
+		return Texture;
+	}
+	else if (position == 750)
+	{
+		Texture.loadFromFile("Textures/5.png");
+
+		Textureicon.loadFromFile("iconcharecter/3.png");
+		*playertext = Textureicon;
+
+		skill.loadFromFile("skill/5.png");
+		*palyerskill = skill;
+
+		skillicon.loadFromFile("skill icon/1.png");
+		*iskillplayer = skillicon;
+
+		return Texture;
+	}
 	return Texture;
 }
