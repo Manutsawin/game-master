@@ -64,7 +64,8 @@ struct charecter
   ,victory,defeat,blackscreen1,blackscreen2,nextstage
   ,iconcharecter_player, iconcharecter_enamy
   ,potion
-  ,bgmenu;
+  ,bgmenu
+  ,bgselect,recselect;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 
@@ -100,6 +101,10 @@ sf::RectangleShape sprite_potion(sf::Vector2f(70.0f, 70.0f));
 
 //bg menu
 sf::RectangleShape sprite_bgmenu(sf::Vector2f(1200.0f, 800.0f));
+
+//select player
+sf::RectangleShape sprite_bgselect(sf::Vector2f(1200.0f, 800.0f));
+sf::RectangleShape sprite_recselect(sf::Vector2f(150.0f, 150.0f));
 
 //cvictory and defeat
 sf::RectangleShape sprite_victory(sf::Vector2f(600.0f, 200.0f));
@@ -155,18 +160,30 @@ int main()
 	skill animetion_nextstage(&nextstage.Texture, sf::Vector2u(4, 1), 0.5f);//skill enamy
 	//potion
 	skill animetion_potion(&potion.Texture, sf::Vector2u(5, 1), 0.5f);//potion
+	
 	//bg menu
 	bgmenu.Texture.loadFromFile("Menu/BG_menu_all2.png");
 	sprite_bgmenu.setTexture(&bgmenu.Texture);
 	skill animetion_bgmenu(&bgmenu.Texture, sf::Vector2u(12, 1), 0.095f);//potion
-	
-	
-	
 	animetion_bgmenu.Update(0, deltatime_player_skill);
 	sprite_bgmenu.setTextureRect(animetion_bgmenu.uvRect);
+
+	//bg select
+	bgselect.Texture.loadFromFile("select char/all.png");
+	sprite_bgselect.setTexture(&bgselect.Texture);
+	skill animetion_bgselect(&bgselect.Texture, sf::Vector2u(14, 1), 0.12f);//potion
+	animetion_bgselect.Update(0, deltatime_player_skill);
+	sprite_bgselect.setTextureRect(animetion_bgselect.uvRect);
+	
+	recselect.Texture.loadFromFile("select char/recall.png");
+	sprite_recselect.setTexture(&recselect.Texture);
+	skill animetion_recselect(&recselect.Texture, sf::Vector2u(14, 1), 0.12f);//potion
+	animetion_recselect.Update(0, deltatime_player_skill);
+	sprite_recselect.setTextureRect(animetion_recselect.uvRect);
+	sprite_recselect.setPosition(150, 100);
 	
 	
-	window.display();
+	
 
 	while (window.isOpen())
 	{
@@ -179,9 +196,22 @@ int main()
 			menu.draw(window);
 			window.display();
 		}
+		if (section == 2)
+		{
+			animetion_bgselect.Update(0, deltatime_player_skill);
+			sprite_bgselect.setTextureRect(animetion_bgselect.uvRect);
+
+			animetion_recselect.Update(0, deltatime_player_skill);
+			sprite_recselect.setTextureRect(animetion_recselect.uvRect);
+
+			window.clear();
+			window.draw(sprite_bgselect);
+			window.draw(sprite_recselect);
+			window.display();
+		}
 		section4();
 		
-		if (section == 1)
+		if (section == 3)
 		{
 			Calculation_system_potion();
 		}
@@ -243,28 +273,77 @@ int main()
 					//printf("x= %f  y=%f\n", x_playercheak, player1.y);
 
 				}
-				if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
+
+				if (section == 3)
 				{
-					section=4;
-				}
-				if (event.type == sf::Event::TextEntered)
-				{
-					if (event.text.unicode=='p')
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
 					{
-						if (stop == 0)
+						section = 4;
+					}
+					if (event.type == sf::Event::TextEntered)
+					{
+						if (event.text.unicode == 'p')
 						{
-							stop = 1;
+							if (stop == 0)
+							{
+								stop = 1;
+							}
+							else
+							{
+								stop = 0;
+							}
+
 						}
-						else
-						{
-							stop = 0;
-						}
+
+
 
 					}
-					
-
-
 				}
+				if (section == 2)
+				{
+					
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
+					{
+						section = 3;
+					}
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Left)))
+					{
+						if (sprite_recselect.getPosition().x > 150)
+						{
+							sprite_recselect.move(-150, 0);
+						}
+					}
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Right)))
+					{
+						if (sprite_recselect.getPosition().x <750)
+						{
+							sprite_recselect.move(150, 0);
+						}
+					}
+					if (event.type == sf::Event::TextEntered)
+					{
+						if (event.text.unicode == 'a'|| event.text.unicode == 'A')
+						{
+							if (sprite_recselect.getPosition().x > 150)
+							{
+								sprite_recselect.move(-150, 0);
+							}
+							
+
+						}
+						if (event.text.unicode == 'd' || event.text.unicode == 'D')
+						{
+							if (sprite_recselect.getPosition().x < 750)
+							{
+								sprite_recselect.move(150, 0);
+							}
+						}
+
+
+
+					}
+				}
+				
 
 				if (section == 0)
 				{
@@ -292,7 +371,7 @@ int main()
 							{
 							case 0:
 								printf("Play button has been pressed\n");
-								section = 3;
+								section = 2;
 								break;
 							case 1:
 								printf("High score button has been pressed\n");
@@ -321,6 +400,7 @@ int main()
 				}
 				if (section == 4)
 				{
+					
 					switch (event.type)
 					{
 					case sf::Event::KeyReleased:
