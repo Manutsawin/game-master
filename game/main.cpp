@@ -118,7 +118,9 @@ sf::RectangleShape sprite_nextstage(sf::Vector2f(1200.0f, 800.0f));
 
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
-sf::Texture enamytext,playertext;
+sf::Texture enamytext,playertext,
+			enamyskill,playerskill,
+			iskillplayer,iskillenamy;
 
 int level = 1;
 int stop = 0;
@@ -511,19 +513,6 @@ void setup()
 	
 	potion.Texture.loadFromFile("potion/hpall.png");
 	sprite_potion.setTexture(&potion.Texture);
-
-	//skill player
-	skillthrow_player.Texture.loadFromFile("skill/getsuka.png");
-	sprite_skillthrow_player.setTexture(&skillthrow_player.Texture);
-
-	//skill enamy
-
-	skillthrow_enamy.Texture.loadFromFile("skill/fireball.png");
-	sprite_skillthrow_enamy.setTexture(&skillthrow_enamy.Texture);
-	
-	//skill icon
-	skillicon_player.Texture.loadFromFile("skill icon/ichigozall.png");
-	skillicon_enamy.Texture.loadFromFile("skill icon/ichigozall.png");
 	
 	skillicon_enamy.rectSource.top = 0;
 	skillicon_enamy.rectSource.left = 0;
@@ -576,10 +565,17 @@ void setup()
 	
 
 
-	player1.Texture = selectplayer(sprite_recselect.getPosition().x, &playertext);
+	player1.Texture = selectplayer(sprite_recselect.getPosition().x, &playertext,&playerskill,&iskillplayer);
 	//player1.Texture.loadFromFile("Textures/5.png");
 	sprite_player1.setTexture(&player1.Texture);
 	sprite_player1.setTextureRect(player1.rectSource);
+
+	//skill player
+	skillthrow_player.Texture = playerskill;
+	sprite_skillthrow_player.setTexture(&skillthrow_player.Texture);
+
+	//skill icon player
+	skillicon_player.Texture = iskillplayer;
 
 	//charecter icon
 	iconcharecter_player.Texture = playertext;
@@ -598,9 +594,16 @@ void setup()
 	enamy1.rectSource.width = 80;
 	enamy1.rectSource.height = 60;
 
-	enamy1.Texture=selectenamy(level,&enamytext);
+	enamy1.Texture=selectenamy(level,&enamytext,&enamyskill,&iskillenamy);
 	sprite_enamy.setTexture(&enamy1.Texture);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
+	
+	//skill enamy
+	skillthrow_enamy.Texture = enamyskill;
+	sprite_skillthrow_enamy.setTexture(&skillthrow_enamy.Texture);
+
+	//skill icon enamy
+	skillicon_enamy.Texture = iskillenamy;
 
 	//icon enamy
 	iconcharecter_enamy.Texture = enamytext;
