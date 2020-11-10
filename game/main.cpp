@@ -66,6 +66,7 @@ struct charecter
   ,iconcharecter_player, iconcharecter_enamy
   ,potion
   ,bgmenu
+  ,bgmenuingame
   ,bgselect,recselect;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
@@ -102,6 +103,9 @@ sf::RectangleShape sprite_potion(sf::Vector2f(70.0f, 70.0f));
 
 //bg menu
 sf::RectangleShape sprite_bgmenu(sf::Vector2f(1200.0f, 800.0f));
+
+//menu ingame
+sf::RectangleShape sprite_bgmenuingame(sf::Vector2f(1200.0f, 800.0f));
 
 //select player
 sf::RectangleShape sprite_bgselect(sf::Vector2f(1200.0f, 800.0f));
@@ -173,6 +177,10 @@ int main()
 	skill animetion_bgmenu(&bgmenu.Texture, sf::Vector2u(12, 1), 0.095f);//potion
 	animetion_bgmenu.Update(0, deltatime_player_skill);
 	sprite_bgmenu.setTextureRect(animetion_bgmenu.uvRect);
+
+	//menu ingame
+	bgmenuingame.Texture.loadFromFile("Menu/bgmenuingame.png");
+	sprite_bgmenuingame.setTexture(&bgmenuingame.Texture);
 
 	//bg select
 	bgselect.Texture.loadFromFile("select char/all.png");
@@ -307,7 +315,10 @@ int main()
 				}
 				if (section == 2)
 				{
-					
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
+					{
+						section = 0;
+					}
 					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
 					{
 						setup();
@@ -426,8 +437,7 @@ int main()
 						case sf::Keyboard::S:
 							menuingame.MoveDown();
 							break;
-
-						case sf::Keyboard::Return:
+						case sf::Keyboard::Return: 
 							switch (menuingame.GetPressedItem())
 							{
 							case 0:
@@ -2041,6 +2051,7 @@ void section4()
 		}
 		window.draw(sprite_blackscreen1);
 		window.draw(sprite_blackscreen2);
+		window.draw(sprite_bgmenuingame);
 		menuingame.draw(window);
 		window.display();
 	}
