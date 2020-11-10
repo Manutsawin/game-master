@@ -46,7 +46,7 @@ void manabar_enamy(float);
 void Calculation_system_potion();
 
 //section
-void section3();
+void section4();
 
 struct charecter
 {
@@ -143,7 +143,8 @@ int section = 0;
 
 int main()
 {
-	
+	window.setMouseCursorVisible(false);
+
 	player.direct = 1;
 	blackscreen2.x = -1600;
 	setup();
@@ -163,9 +164,7 @@ int main()
 	
 	animetion_bgmenu.Update(0, deltatime_player_skill);
 	sprite_bgmenu.setTextureRect(animetion_bgmenu.uvRect);
-	window.clear();
-	window.draw(sprite_bgmenu);
-	menu.draw(window);
+	
 	
 	window.display();
 
@@ -180,7 +179,7 @@ int main()
 			menu.draw(window);
 			window.display();
 		}
-		section3();
+		section4();
 		
 		if (section == 1)
 		{
@@ -246,7 +245,7 @@ int main()
 				}
 				if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
 				{
-					section=3;
+					section=4;
 				}
 				if (event.type == sf::Event::TextEntered)
 				{
@@ -293,7 +292,7 @@ int main()
 							{
 							case 0:
 								printf("Play button has been pressed\n");
-								section = 1;
+								section = 3;
 								break;
 							case 1:
 								printf("High score button has been pressed\n");
@@ -320,7 +319,7 @@ int main()
 					
 					
 				}
-				if (section == 3)
+				if (section == 4)
 				{
 					switch (event.type)
 					{
@@ -346,7 +345,7 @@ int main()
 							{
 							case 0:
 								printf("Resume button has been pressed\n");
-								section = 1;
+								section = 3;
 								break;
 							case 1:
 								printf("Menu button has been pressed\n");
@@ -378,7 +377,7 @@ int main()
 			//printf("x= %f  y=%f\t", x_enamycheak, enamy1.y);
 			//printf("x= %f  y=%f\n", x_skillthrowcheak, skillthrow.y);
 			
-			if (section==1)
+			if (section==3)
 			{
 				if (stop == 0)
 				{
@@ -503,7 +502,7 @@ void setup()
 	sprite_enamy.setScale({ -1, 1 });
 	//player.setFillColor(sf::Color::Cyan);
 
-	player1.Texture.loadFromFile("Textures/2.png");
+	player1.Texture.loadFromFile("Textures/5.png");
 	sprite_player1.setTexture(&player1.Texture);
 	sprite_player1.setTextureRect(player1.rectSource);
 
@@ -1913,9 +1912,9 @@ void Calculation_system_potion()
 		potion_clock.restart().asSeconds();
 	}
 }
-void section3()
+void section4()
 {
-	if (section == 3)
+	if (section == 4)
 	{
 		window.clear();
 		window.draw(sprite_BG);
