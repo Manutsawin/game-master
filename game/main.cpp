@@ -9,6 +9,10 @@
 #include"Potion.h"
 #include"Menu.h"
 #include"Menu_in_game.h"
+#include"score.h"
+#include<string.h>
+#include<sstream>
+
 
 //movement control player
 void playerstun();
@@ -154,8 +158,26 @@ Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
 int section = 0;
 
+int point = 0;
+sf::Font font;
+sf::Text score;
+
+
+
 int main()
 {
+	
+	if (!font.loadFromFile("impact.ttf"))
+	{
+		//handle error
+	}
+
+	//setup text
+	score.setFont(font);
+	score.setFillColor(sf::Color::Red);
+	score.setCharacterSize(27);
+	score.setPosition(130, 35);
+
 	window.setMouseCursorVisible(false);
 	
 	sprite_recselect.setPosition(150, 100);
@@ -201,6 +223,7 @@ int main()
 
 	while (window.isOpen())
 	{
+		
 		if (section == 0)
 		{
 			animetion_bgmenu.Update(0, deltatime_player_skill);
@@ -774,6 +797,11 @@ void draw_pic()
 	sprite_iconcharecter_enamy.setTextureRect(iconcharecter_enamy.rectSource);
 	window.draw(sprite_iconcharecter_enamy);
 
+	std::stringstream sc;
+	sc << "Score : " << point << "\n";
+	score.setString(sc.str());
+	window.draw(score);
+
 	if (total_hp_enamy == 1 && blackscreen1.x>=0)
 	{
 		window.draw(sprite_nextstage);
@@ -1256,7 +1284,9 @@ void control()
 	if (blackscreen2.x >= 0 && blackscreen2.x <=1.5)
 	{
 		level++;
+		point += total_hp_player * 2.084;
 		setup();
+		
 	}
 
 	if (total_hp_player == 1 && defeat.x > 0) // defeat
@@ -2005,7 +2035,7 @@ void Calculation_system_potion()
 			manaDel_player = -5;
 			damage_player =  -5;
 		}
-
+		point += 5;
 		potionv.direct = 0;
 		potion_clock.restart().asSeconds();
 	}
