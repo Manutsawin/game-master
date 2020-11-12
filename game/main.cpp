@@ -7,9 +7,9 @@
 #include"select_enamy.h"
 #include"select_player.h"
 #include"Potion.h"
+#include "Map.h"
 #include"Menu.h"
 #include"Menu_in_game.h"
-#include"score.h"
 #include<string.h>
 #include<sstream>
 
@@ -52,6 +52,10 @@ void Calculation_system_potion();
 
 //section
 void section4();
+
+//score print and setup
+void setupscore();
+void drawscore();
 
 struct charecter
 {
@@ -166,18 +170,6 @@ sf::Text score;
 
 int main()
 {
-	
-	if (!font.loadFromFile("impact.ttf"))
-	{
-		//handle error
-	}
-
-	//setup text
-	score.setFont(font);
-	score.setFillColor(sf::Color::Red);
-	score.setCharacterSize(27);
-	score.setPosition(130, 35);
-
 	window.setMouseCursorVisible(false);
 	
 	sprite_recselect.setPosition(150, 100);
@@ -537,7 +529,7 @@ int main()
 void setup()
 {
 	
-
+	setupscore();
 	total_mana_playyer = 26;
 	total_mana_enamy = 26;
 
@@ -569,7 +561,8 @@ void setup()
 	BG.rectSource.width = 1200;
 	BG.rectSource.height = 800;
 
-	BG.Texture.loadFromFile("Map/1.png");
+	BG.Texture = randMap();
+	//BG.Texture.loadFromFile("Map/6.1.png");
 	sprite_BG.setTexture(&BG.Texture);
 	sprite_BG.setTextureRect(BG.rectSource);
 
@@ -797,10 +790,7 @@ void draw_pic()
 	sprite_iconcharecter_enamy.setTextureRect(iconcharecter_enamy.rectSource);
 	window.draw(sprite_iconcharecter_enamy);
 
-	std::stringstream sc;
-	sc << "Score : " << point << "\n";
-	score.setString(sc.str());
-	window.draw(score);
+	drawscore();
 
 	if (total_hp_enamy == 1 && blackscreen1.x>=0)
 	{
@@ -923,7 +913,6 @@ void control()
 		player.direct = Stay_player_Fuc(player.direct);
 	}
 
-
 	if (J_player.direct == 1)
 	{
 		if (clockJ_player.getElapsedTime().asSeconds() > 0.25f&& cheak_damage_and_J_Player == 0)
@@ -931,7 +920,7 @@ void control()
 
 			if (player.direct == 1 || player.direct == 11)
 			{
-				if (x_playercheak + 100 >= x_enamycheak && x_enamycheak > x_playercheak - 40)
+				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak - 40)
 				{
 					if (PG_enamy.direct != 1)
 					{
@@ -1152,7 +1141,7 @@ void control()
 
 			if (enamy.direct == 1 || enamy.direct == 11)
 			{
-				if (x_enamycheak + 100 >= x_playercheak && x_playercheak > x_enamycheak - 40)
+				if (x_enamycheak + 120 >= x_playercheak && x_playercheak > x_enamycheak - 40)
 				{
 					if (PG_player.direct != 1)
 					{
@@ -2006,6 +1995,25 @@ void manabar_enamy(float total_mana)
 	sprite_manaBar_enamy.setPosition(1185, 750);
 	sprite_manaBar_enamy.setTextureRect(manaBar_enamy.rectSource);
 }
+void setupscore()
+{
+	//setup score
+	if (!font.loadFromFile("impact.ttf"))
+	{
+		//handle error
+	}
+	score.setFont(font);
+	score.setFillColor(sf::Color::Black);
+	score.setCharacterSize(27);
+	score.setPosition(130, 35);
+}
+void drawscore()
+{
+	std::stringstream sc;
+	sc << "Score : " << point << "\n";
+	score.setString(sc.str());
+	window.draw(score);
+}
 
 void Calculation_system_potion()
 {
@@ -2075,6 +2083,7 @@ void section4()
 		window.draw(sprite_skillicon_enamy);
 		window.draw(sprite_iconcharecter_player);
 		window.draw(sprite_iconcharecter_enamy);
+		drawscore();
 		if (total_hp_enamy == 1 && blackscreen1.x >= 0)
 		{
 			window.draw(sprite_nextstage);// test

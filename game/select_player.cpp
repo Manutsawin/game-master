@@ -31,7 +31,7 @@ sf::Texture selectplayer(int position, sf::Texture* playertext, sf::Texture* pal
 		skill.loadFromFile("skill/2.png");
 		*palyerskill = skill;
 
-		skillicon.loadFromFile("skill icon/1.png");
+		skillicon.loadFromFile("skill icon/2.png");
 		*iskillplayer = skillicon;
 
 		return Texture;
@@ -40,13 +40,13 @@ sf::Texture selectplayer(int position, sf::Texture* playertext, sf::Texture* pal
 	{
 		Texture.loadFromFile("Textures/3.png");
 		
-		Textureicon.loadFromFile("iconcharecter/3.png");
+		Textureicon.loadFromFile("iconcharecter/33.png");
 		*playertext = Textureicon;
 		
 		skill.loadFromFile("skill/3.png");
 		*palyerskill = skill;
 
-		skillicon.loadFromFile("skill icon/1.png");
+		skillicon.loadFromFile("skill icon/3.png");
 		*iskillplayer = skillicon;
 		
 		return Texture;
@@ -55,13 +55,13 @@ sf::Texture selectplayer(int position, sf::Texture* playertext, sf::Texture* pal
 	{
 		Texture.loadFromFile("Textures/4.png");
 
-		Textureicon.loadFromFile("iconcharecter/3.png");
+		Textureicon.loadFromFile("iconcharecter/44.png");
 		*playertext = Textureicon;
 
 		skill.loadFromFile("skill/4.png");
 		*palyerskill = skill;
 
-		skillicon.loadFromFile("skill icon/1.png");
+		skillicon.loadFromFile("skill icon/4.png");
 		*iskillplayer = skillicon;
 
 		return Texture;
@@ -70,13 +70,13 @@ sf::Texture selectplayer(int position, sf::Texture* playertext, sf::Texture* pal
 	{
 		Texture.loadFromFile("Textures/5.png");
 
-		Textureicon.loadFromFile("iconcharecter/3.png");
+		Textureicon.loadFromFile("iconcharecter/55.png");
 		*playertext = Textureicon;
 
 		skill.loadFromFile("skill/5.png");
 		*palyerskill = skill;
 
-		skillicon.loadFromFile("skill icon/1.png");
+		skillicon.loadFromFile("skill icon/5.png");
 		*iskillplayer = skillicon;
 
 		return Texture;
