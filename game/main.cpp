@@ -75,7 +75,8 @@ struct charecter
   ,potion
   ,bgmenu
   ,bgmenuingame
-  ,bgselect,recselect;
+  ,bgselect,recselect
+  ,bgendgame;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 
@@ -128,6 +129,9 @@ sf::RectangleShape sprite_blackscreen2(sf::Vector2f(1600.0f, 800.0f));
 //nextstage
 sf::RectangleShape sprite_nextstage(sf::Vector2f(1200.0f, 800.0f));
 
+//BG endgame
+sf::RectangleShape sprite_bgendgame(sf::Vector2f(1200.0f, 800.0f));
+
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
 sf::Texture enamytext,playertext,
@@ -160,7 +164,7 @@ sf::Clock potion_clock;
 Menu menu(window.getSize().x, window.getSize().y);
 Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
-int section = 0;
+int section = 7; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
 
 int point = 0;
 sf::Font font;
@@ -205,17 +209,32 @@ int main()
 	
 	recselect.Texture.loadFromFile("select char/recall.png");
 	sprite_recselect.setTexture(&recselect.Texture);
-	skill animetion_recselect(&recselect.Texture, sf::Vector2u(14, 1), 0.12f);//potion
+	skill animetion_recselect(&recselect.Texture, sf::Vector2u(14, 1), 0.12f);//rec select
 	animetion_recselect.Update(0, deltatime_player_skill);
 	sprite_recselect.setTextureRect(animetion_recselect.uvRect);
 	sprite_recselect.setPosition(150, 100);
-	
-	
-	
+
+	bgendgame.Texture.loadFromFile("End game/all bg end.png");
+	sprite_bgendgame.setTexture(&bgendgame.Texture);
+	skill animetion_bgendgame(&bgendgame.Texture, sf::Vector2u(6, 1), 0.12f);//bg endgame
+	animetion_bgendgame.Update(0, deltatime_player_skill);
+	sprite_bgendgame.setTextureRect(animetion_bgendgame.uvRect);
+
+
 
 	while (window.isOpen())
 	{
-		
+		if (section == 7)
+		{
+			animetion_bgendgame.Update(0, deltatime_player_skill);
+			sprite_bgendgame.setTextureRect(animetion_bgendgame.uvRect);
+			sprite_player1.setPosition(537, 530);
+			player.direct = Stay_player_Fuc(11);
+			window.clear();
+			window.draw(sprite_bgendgame);
+			window.draw(sprite_player1);
+			window.display();
+		}
 		if (section == 0)
 		{
 			animetion_bgmenu.Update(0, deltatime_player_skill);
