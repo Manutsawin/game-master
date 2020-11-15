@@ -184,10 +184,6 @@ std::stringstream Hscorename, Hscorescore;
 
 int main()
 {
-	
-
-	
-	
 	window.setMouseCursorVisible(false);
 	
 	sprite_recselect.setPosition(150, 100);
@@ -313,6 +309,7 @@ int main()
 		if (section == 0)
 		{
 			point = 0;
+			level = 1;
 			animetion_bgmenu.Update(0, deltatime_player_skill);
 			sprite_bgmenu.setTextureRect(animetion_bgmenu.uvRect);
 			window.clear();
@@ -473,6 +470,14 @@ int main()
 				}
 				
 				if (section == 7)
+				{
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
+					{
+						section = 5;
+					}
+				}
+
+				if (section == 6)
 				{
 					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
 					{
