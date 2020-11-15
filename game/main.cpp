@@ -142,7 +142,7 @@ sf::Texture enamytext,playertext,
 			enamyskill,playerskill,
 			iskillplayer,iskillenamy;
 
-int level = 1;
+int level = 5;
 int stop = 0;
 
 int typepotion;
@@ -168,7 +168,7 @@ sf::Clock potion_clock;
 Menu menu(window.getSize().x, window.getSize().y);
 Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
-int section = 5; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
+int section = 0; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
 
 char nameplayer[10] = "asd";
 int point = 0;
@@ -268,6 +268,11 @@ int main()
 		if (level == 6)
 		{
 			section = 7;
+			Hscorename = hightscoreupdate(0, point, nameplayer);
+			Hscorescore = hightscoreupdate(1, point, nameplayer);
+			hightscname.setString(Hscorename.str());
+			hightscscore.setString(Hscorescore.str());
+			level = 1;
 		}
 		if (section == 7)
 		{
@@ -461,6 +466,21 @@ int main()
 					}
 				}
 				
+				if (section == 7)
+				{
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
+					{
+						section = 5;
+					}
+				}
+
+				if (section == 5)
+				{
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
+					{
+						section = 0;
+					}
+				}
 
 				if (section == 0)
 				{
@@ -492,6 +512,7 @@ int main()
 								break;
 							case 1:
 								printf("High score button has been pressed\n");
+								section = 5;
 								break;
 							case 2:
 								printf("How to play button has been pressed\n");
@@ -945,7 +966,7 @@ void control()
 		PG_player_Fuc();
 		PG_player.direct = 1;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U) && total_hp_player != 1 && total_mana_playyer > 6 && stun_player.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U) && total_hp_player != 1 && total_mana_playyer > 6 && stun_player.direct != 1&& J_player.direct == 0)
 	{
 		if (Uskill_player.direct != 1 && Uskill_player.direct != 2)
 		{
@@ -1164,7 +1185,7 @@ void control()
 			clockJ_enamy.restart();
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && total_hp_enamy != 1 && total_mana_enamy > 6 && stun_enamy.direct != 1)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y) && total_hp_enamy != 1 && total_mana_enamy > 6 && stun_enamy.direct != 1&& J_enamy.direct == 0)
 	{
 		if (Uskill_enamy.direct != 1 && Uskill_enamy.direct != 2)
 		{

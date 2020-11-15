@@ -15,12 +15,6 @@ std::stringstream hightscoreupdate(int number,int point,char *nameP)
 	{
 		nameplayer[loop] = nameP[loop];
 	}
-	
-	printf("%s\n", nameplayer);
-	
-	
-
-
 	FILE* p;
 
 	p = fopen("score.txt", "r");
