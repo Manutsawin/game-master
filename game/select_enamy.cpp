@@ -93,7 +93,7 @@ sf::Texture selectenamy(int level, sf::Texture* enamytext, sf::Texture* enamyski
 		skill.loadFromFile("skill/2.png");
 		*enamyskill = skill;
 
-		skillicon.loadFromFile("skill icon/6.png");
+		skillicon.loadFromFile("skill icon/5.png");
 		*iskillenamy = skillicon;
 
 		return Texture;

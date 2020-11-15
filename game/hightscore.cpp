@@ -130,18 +130,18 @@ std::stringstream hightscoreupdate(int number,int point,char *nameP)
 	fclose(p);
 
 	std::stringstream Hscorename, Hscorescore;
-	Hscorename << name[0] << "\n"
-		<< name[1] << "\n"
-		<< name[2] << "\n"
-		<< name[3] << "\n"
-		<< name[4] << "\n";
+	Hscorename << "1        " << name[0] << "\n"
+		<< "2        " << name[1] << "\n"
+		<< "3        " << name[2] << "\n"
+		<< "4        " << name[3] << "\n"
+		<< "5        " << name[4] << "\n";
 	//hightscname.setString(Hscorename.str());
 
-	Hscorescore << " :: score : " << pointH[0] << "\n"
-		<< " :: score : " << pointH[1] << "\n"
-		<< " :: score : " << pointH[2] << "\n"
-		<< " :: score : " << pointH[3] << "\n"
-		<< " :: score : " << pointH[4] << "\n";
+	Hscorescore << "  -->   " << pointH[0] << "\n"
+		<< "  -->   " << pointH[1] << "\n"
+		<< "  -->   " << pointH[2] << "\n"
+		<< "  -->   " << pointH[3] << "\n"
+		<< "  -->   " << pointH[4] << "\n";
 	//hightscscore.setString(Hscorescore.str());
 
 	if (number == 0)

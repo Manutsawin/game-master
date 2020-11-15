@@ -77,7 +77,8 @@ struct charecter
   ,bgmenu
   ,bgmenuingame
   ,bgselect,recselect
-  ,bgendgame,bggameover;
+  ,bgendgame,bggameover
+  ,bghightscore;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 
@@ -136,13 +137,16 @@ sf::RectangleShape sprite_bgendgame(sf::Vector2f(1200.0f, 800.0f));
 //BG gameover
 sf::RectangleShape sprite_bggameover(sf::Vector2f(1200.0f, 800.0f));
 
+//BG gameover
+sf::RectangleShape sprite_hightscore(sf::Vector2f(1200.0f, 800.0f));
+
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
 sf::Texture enamytext,playertext,
 			enamyskill,playerskill,
 			iskillplayer,iskillenamy;
 
-int level = 5;
+int level = 1;
 int stop = 0;
 
 int typepotion;
@@ -170,7 +174,7 @@ Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
 int section = 0; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
 
-char nameplayer[10] = "asd";
+char nameplayer[10] = "123456789";
 int point = 0;
 sf::Font font;
 sf::Text score;
@@ -196,12 +200,12 @@ int main()
 	hightscname.setFont(font);
 	hightscname.setFillColor(sf::Color::White);
 	hightscname.setCharacterSize(60);
-	hightscname.setPosition(0, 0);
+	hightscname.setPosition(250, 250);
 
 	hightscscore.setFont(font);
 	hightscscore.setFillColor(sf::Color::White);
 	hightscscore.setCharacterSize(60);
-	hightscscore.setPosition(500, 0);
+	hightscscore.setPosition(650, 250);
 
 
 	Hscorename = hightscoreupdate(0, point, nameplayer);
@@ -261,6 +265,7 @@ int main()
 		if (section == 5)
 		{
 			window.clear();
+			window.draw(sprite_hightscore);
 			window.draw(hightscname);
 			window.draw(hightscscore);
 			window.display();
@@ -307,6 +312,7 @@ int main()
 		}
 		if (section == 0)
 		{
+			point = 0;
 			animetion_bgmenu.Update(0, deltatime_player_skill);
 			sprite_bgmenu.setTextureRect(animetion_bgmenu.uvRect);
 			window.clear();
@@ -641,6 +647,9 @@ void setup()
 	total_hp_player = 48;
 	total_hp_enamy = 48;
 	
+	bghightscore.Texture.loadFromFile("Hightscore/bg.png");
+	sprite_hightscore.setTexture(&bghightscore.Texture);
+
 	potion.Texture.loadFromFile("potion/hpall.png");
 	sprite_potion.setTexture(&potion.Texture);
 	
