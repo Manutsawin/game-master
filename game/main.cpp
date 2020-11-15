@@ -12,6 +12,7 @@
 #include"Menu_in_game.h"
 #include<string.h>
 #include<sstream>
+#include "hightscore.h"
 
 
 //movement control player
@@ -76,7 +77,7 @@ struct charecter
   ,bgmenu
   ,bgmenuingame
   ,bgselect,recselect
-  ,bgendgame;
+  ,bgendgame,bggameover;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 
@@ -132,6 +133,9 @@ sf::RectangleShape sprite_nextstage(sf::Vector2f(1200.0f, 800.0f));
 //BG endgame
 sf::RectangleShape sprite_bgendgame(sf::Vector2f(1200.0f, 800.0f));
 
+//BG gameover
+sf::RectangleShape sprite_bggameover(sf::Vector2f(1200.0f, 800.0f));
+
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
 sf::Texture enamytext,playertext,
@@ -164,16 +168,22 @@ sf::Clock potion_clock;
 Menu menu(window.getSize().x, window.getSize().y);
 Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
-int section = 7; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
+int section = 5; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
 
+char nameplayer[10] = "asd";
 int point = 0;
 sf::Font font;
 sf::Text score;
 
-
+sf::Text hightscname, hightscscore;
+std::stringstream Hscorename, Hscorescore;
 
 int main()
 {
+	
+
+	
+	
 	window.setMouseCursorVisible(false);
 	
 	sprite_recselect.setPosition(150, 100);
@@ -181,6 +191,23 @@ int main()
 	player.direct = 1;
 	blackscreen2.x = -1600;
 	setup();
+
+	//setup hight score
+	hightscname.setFont(font);
+	hightscname.setFillColor(sf::Color::White);
+	hightscname.setCharacterSize(60);
+	hightscname.setPosition(0, 0);
+
+	hightscscore.setFont(font);
+	hightscscore.setFillColor(sf::Color::White);
+	hightscscore.setCharacterSize(60);
+	hightscscore.setPosition(500, 0);
+
+
+	Hscorename = hightscoreupdate(0, point, nameplayer);
+	Hscorescore = hightscoreupdate(1, point, nameplayer);
+	hightscname.setString(Hscorename.str());
+	hightscscore.setString(Hscorescore.str());
 
 	//skill
 	skill animetion_skilll_player(&skillthrow_player.Texture, sf::Vector2u(4, 1), 0.1f);//skill player
@@ -214,18 +241,40 @@ int main()
 	sprite_recselect.setTextureRect(animetion_recselect.uvRect);
 	sprite_recselect.setPosition(150, 100);
 
-	bgendgame.Texture.loadFromFile("End game/all bg end.png");
+	bgendgame.Texture.loadFromFile("End game/all bg end2.png");
 	sprite_bgendgame.setTexture(&bgendgame.Texture);
 	skill animetion_bgendgame(&bgendgame.Texture, sf::Vector2u(6, 1), 0.12f);//bg endgame
 	animetion_bgendgame.Update(0, deltatime_player_skill);
 	sprite_bgendgame.setTextureRect(animetion_bgendgame.uvRect);
 
+	bggameover.Texture.loadFromFile("End game/gameover.png");
+	sprite_bggameover.setTexture(&bggameover.Texture);
+	skill animetion_bggameover(&bggameover.Texture, sf::Vector2u(6, 1), 0.12f);//bg endgame
+	animetion_bggameover.Update(0, deltatime_player_skill);
+	sprite_bggameover.setTextureRect(animetion_bggameover.uvRect);
+
 
 
 	while (window.isOpen())
 	{
+		
+		if (section == 5)
+		{
+			window.clear();
+			window.draw(hightscname);
+			window.draw(hightscscore);
+			window.display();
+		}
+		if (level == 6)
+		{
+			section = 7;
+		}
 		if (section == 7)
 		{
+			score.setFillColor(sf::Color::White);
+			score.setCharacterSize(50);
+			score.setPosition(510, 430);
+
 			animetion_bgendgame.Update(0, deltatime_player_skill);
 			sprite_bgendgame.setTextureRect(animetion_bgendgame.uvRect);
 			sprite_player1.setPosition(537, 530);
@@ -233,6 +282,22 @@ int main()
 			window.clear();
 			window.draw(sprite_bgendgame);
 			window.draw(sprite_player1);
+			drawscore();
+			window.display();
+		}
+		if (section == 6)
+		{
+			score.setFillColor(sf::Color::White);
+			score.setCharacterSize(50);
+			score.setPosition(490, 450);
+			animetion_bggameover.Update(0, deltatime_player_skill);
+			sprite_bggameover.setTextureRect(animetion_bggameover.uvRect);
+			//sprite_player1.setPosition(537, 530);
+			//player.direct = Stay_player_Fuc(11);
+			window.clear();
+			window.draw(sprite_bggameover);
+			drawscore();
+			//window.draw(sprite_player1);
 			window.display();
 		}
 		if (section == 0)
