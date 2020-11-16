@@ -11,13 +11,26 @@ int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, flo
 		{
 			if (per < 50)
 			{
-				return 7;
+				if (xenamy < xplayer)
+				{
+					if (enamydirect == 1 || enamydirect == 11)
+					{
+						return 7;
+					}
+				}
+				if (xenamy > xplayer)
+				{
+					if (enamydirect == 2 || enamydirect == 22)
+					{
+						return 7;
+					}
+				}
+				
 			}
 			
 		}
 		if (J == 1 && xenamy <= xplayer + 100 && xenamy >= xplayer - 100)
 		{
-			printf("4\n");
 			return 4;
 		}
 		
@@ -29,7 +42,6 @@ int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, flo
 				{
 					return 5;
 				}
-				printf("1\n");
 				return 1; //move Right
 			}
 
@@ -39,7 +51,6 @@ int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, flo
 				{
 					return 5;
 				}
-				printf("2\n");
 				return 2; //move left
 			}
 			return 3;
@@ -49,32 +60,83 @@ int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, flo
 		
 		if (xenamy <= xplayer + 70 && xenamy >= xplayer - 70)
 		{
-			printf("6\n");
 			return 6; // J acctack
 		}
 
 		if (xenamy > xplayer + 70)
 		{
-			printf("2\n");
 			return 2; //move left
 		}
 
 		if (xenamy < xplayer - 70)
 		{
-			printf("1\n");
 			return 1; //move right
 		}
 			
 		
-		printf("0\n");
 		return 0;
 		
 	}
-	else if (level>0)
+	
+	if (level == 2)
 	{
+		srand(time(NULL));
+		int per = ((rand() * rand() + rand() - rand()) % 100);
+
+		if (manaenamy > 7)
+		{
+			if (per < 50)
+			{
+				if (xenamy < xplayer)
+				{
+					if (enamydirect == 1 || enamydirect == 11)
+					{
+						return 7;
+					}
+				}
+				if (xenamy > xplayer)
+				{
+					if (enamydirect == 2 || enamydirect == 22)
+					{
+						return 7;
+					}
+				}
+
+			}
+
+		}
+		if (J == 1 && xenamy <= xplayer + 100 && xenamy >= xplayer - 100)
+		{
+			return 4;
+		}
+
+		if (potion == 1)
+		{
+			if (xenamy < potionX - 5)
+			{
+				if (enamydirect == 1 || enamydirect == 11)
+				{
+					return 5;
+				}
+				return 1; //move Right
+			}
+
+			if (xenamy > potionX + 5)
+			{
+				if (enamydirect == 2 || enamydirect == 22)
+				{
+					return 5;
+				}
+				return 2; //move left
+			}
+			return 3;
+
+		}
+
+
 		if (xenamy <= xplayer + 70 && xenamy >= xplayer - 70)
 		{
-			return 6;
+			return 6; // J acctack
 		}
 
 		if (xenamy > xplayer + 70)
@@ -86,6 +148,238 @@ int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, flo
 		{
 			return 1; //move right
 		}
+
+
+		return 0;
+
+	}
+
+	if (level == 3)
+	{
+		srand(time(NULL));
+		int per = ((rand() * rand() + rand() - rand()) % 100);
+
+		if (manaenamy > 7)
+		{
+			if (per < 50)
+			{
+				if (xenamy < xplayer)
+				{
+					if (enamydirect == 1 || enamydirect == 11)
+					{
+						return 7;
+					}
+				}
+				if (xenamy > xplayer)
+				{
+					if (enamydirect == 2 || enamydirect == 22)
+					{
+						return 7;
+					}
+				}
+
+			}
+
+		}
+		if (J == 1 && xenamy <= xplayer + 100 && xenamy >= xplayer - 100)
+		{
+			return 4;
+		}
+
+		if (potion == 1)
+		{
+			if (xenamy < potionX - 5)
+			{
+				if (enamydirect == 1 || enamydirect == 11)
+				{
+					return 5;
+				}
+				return 1; //move Right
+			}
+
+			if (xenamy > potionX + 5)
+			{
+				if (enamydirect == 2 || enamydirect == 22)
+				{
+					return 5;
+				}
+				return 2; //move left
+			}
+			return 3;
+
+		}
+
+
+		if (xenamy <= xplayer + 70 && xenamy >= xplayer - 70)
+		{
+			return 6; // J acctack
+		}
+
+		if (xenamy > xplayer + 70)
+		{
+			return 2; //move left
+		}
+
+		if (xenamy < xplayer - 70)
+		{
+			return 1; //move right
+		}
+
+
+		return 0;
+
+	}
+
+	if (level == 4)
+	{
+		srand(time(NULL));
+		int per = ((rand() * rand() + rand() - rand()) % 100);
+
+		if (manaenamy > 7)
+		{
+			if (per < 50)
+			{
+				if (xenamy < xplayer)
+				{
+					if (enamydirect == 1 || enamydirect == 11)
+					{
+						return 7;
+					}
+				}
+				if (xenamy > xplayer)
+				{
+					if (enamydirect == 2 || enamydirect == 22)
+					{
+						return 7;
+					}
+				}
+
+			}
+
+		}
+		if (J == 1 && xenamy <= xplayer + 100 && xenamy >= xplayer - 100)
+		{
+			return 4;
+		}
+
+		if (potion == 1)
+		{
+			if (xenamy < potionX - 5)
+			{
+				if (enamydirect == 1 || enamydirect == 11)
+				{
+					return 5;
+				}
+				return 1; //move Right
+			}
+
+			if (xenamy > potionX + 5)
+			{
+				if (enamydirect == 2 || enamydirect == 22)
+				{
+					return 5;
+				}
+				return 2; //move left
+			}
+			return 3;
+
+		}
+
+
+		if (xenamy <= xplayer + 70 && xenamy >= xplayer - 70)
+		{
+			return 6; // J acctack
+		}
+
+		if (xenamy > xplayer + 70)
+		{
+			return 2; //move left
+		}
+
+		if (xenamy < xplayer - 70)
+		{
+			return 1; //move right
+		}
+
+
+		return 0;
+
+	}
+
+	if (level == 5)
+	{
+		srand(time(NULL));
+		int per = ((rand() * rand() + rand() - rand()) % 100);
+
+		if (manaenamy > 7)
+		{
+			if (per < 50)
+			{
+				if (xenamy < xplayer)
+				{
+					if (enamydirect == 1 || enamydirect == 11)
+					{
+						return 7;
+					}
+				}
+				if (xenamy > xplayer)
+				{
+					if (enamydirect == 2 || enamydirect == 22)
+					{
+						return 7;
+					}
+				}
+
+			}
+
+		}
+		if (J == 1 && xenamy <= xplayer + 100 && xenamy >= xplayer - 100)
+		{
+			return 4;
+		}
+
+		if (potion == 1)
+		{
+			if (xenamy < potionX - 5)
+			{
+				if (enamydirect == 1 || enamydirect == 11)
+				{
+					return 5;
+				}
+				return 1; //move Right
+			}
+
+			if (xenamy > potionX + 5)
+			{
+				if (enamydirect == 2 || enamydirect == 22)
+				{
+					return 5;
+				}
+				return 2; //move left
+			}
+			return 3;
+
+		}
+
+
+		if (xenamy <= xplayer + 70 && xenamy >= xplayer - 70)
+		{
+			return 6; // J acctack
+		}
+
+		if (xenamy > xplayer + 70)
+		{
+			return 2; //move left
+		}
+
+		if (xenamy < xplayer - 70)
+		{
+			return 1; //move right
+		}
+
+
+		return 0;
+
 	}
 	
 }
