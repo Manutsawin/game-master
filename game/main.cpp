@@ -137,7 +137,7 @@ sf::RectangleShape sprite_bgendgame(sf::Vector2f(1200.0f, 800.0f));
 //BG gameover
 sf::RectangleShape sprite_bggameover(sf::Vector2f(1200.0f, 800.0f));
 
-//BG gameover
+//BG highscore
 sf::RectangleShape sprite_hightscore(sf::Vector2f(1200.0f, 800.0f));
 
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
@@ -926,7 +926,8 @@ void draw_pic()
 
 void control()
 {
-	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level);
+	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level, J_player.direct , potionv.direct, sprite_potion.getPosition().x, sprite_potion.getPosition().y);
+	
 	
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
@@ -1150,9 +1151,24 @@ void control()
 
 	//------------------------------------------------------------------------------------------------------------------------------------------
 	
+	if (botcontrol != 4)
+	{
+		PG_enamy.direct = 0;
+	}
 	
+	if (botcontrol ==1 || botcontrol == 2)
+	{
+		if (J_enamy.direct != 1)
+		{
+			enamy1.rectSource.top = 0;
+		}
+		
+	}
+
+
 	if (botcontrol==1 && total_hp_enamy != 1&& stun_enamy.direct!=1 && Uskill_enamy.direct != 11 && Uskill_enamy.direct != 22)
 	{
+		
 		combo_enamy = 0;
 		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
 		{
@@ -1161,6 +1177,7 @@ void control()
 	}
 	else if(botcontrol == 2 && total_hp_enamy != 1 && stun_enamy.direct != 1 && Uskill_enamy.direct != 11 && Uskill_enamy.direct != 22)
 	{
+		
 		combo_enamy = 0;
 		if (J_enamy.direct != 1 && PG_enamy.direct != 1)
 		{
@@ -1199,7 +1216,7 @@ void control()
 			clockJ_enamy.restart();
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y) && total_hp_enamy != 1 && total_mana_enamy > 6 && stun_enamy.direct != 1&& J_enamy.direct == 0)
+	else if (botcontrol == 7 && total_hp_enamy != 1 && total_mana_enamy > 6 && stun_enamy.direct != 1&& J_enamy.direct == 0)
 	{
 		if (Uskill_enamy.direct != 1 && Uskill_enamy.direct != 2)
 		{
@@ -2161,6 +2178,27 @@ void Calculation_system_potion()
 		{
 			manaDel_player = -5;
 			damage_player =  -5;
+		}
+		point += 5;
+		potionv.direct = 0;
+		potion_clock.restart().asSeconds();
+	}
+	if (enamy1.y >= sprite_potion.getPosition().y && enamy1.y < sprite_potion.getPosition().y + 10 && x_enamycheak + 30 >= sprite_potion.getPosition().x && x_enamycheak < sprite_potion.getPosition().x + 90 && potionv.direct == 1)
+	{
+		sprite_potion.setPosition(randompositionpotion(), 390);
+
+		if (typepotion == 0)
+		{
+			damage_enamy = -7;
+		}
+		if (typepotion == 1)
+		{
+			manaDel_enamy = -7;
+		}
+		if (typepotion == 2)
+		{
+			manaDel_enamy = -5;
+			damage_enamy = -5;
 		}
 		point += 5;
 		potionv.direct = 0;

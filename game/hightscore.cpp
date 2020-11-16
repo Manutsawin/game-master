@@ -110,7 +110,6 @@ std::stringstream hightscoreupdate(int number,int point,char *nameP)
 						nameplayer[loopname] = '_';
 					}
 					name[loop][loopname] = nameplayer[loopname];
-					printf("%c", name[loop][loopname]);
 
 
 				}
