@@ -1,5 +1,5 @@
 #include "bot_control.h"
-int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, float potionX, float potionY)
+int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, float potionX, float potionY,int enamydirect)
 {
 	// 1 move right // 2 move left // 3 jump // 4 PG // 5 flash // 6 J-acctack // 7 U skill
 	if (level == 1)
@@ -16,12 +16,20 @@ int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, flo
 		{
 			if (xenamy < potionX - 5)
 			{
+				if (enamydirect == 1 || enamydirect == 11)
+				{
+					return 5;
+				}
 				printf("1\n");
 				return 1; //move Right
 			}
 
 			if (xenamy > potionX + 5)
 			{
+				if (enamydirect == 2 || enamydirect == 22)
+				{
+					return 5;
+				}
 				printf("2\n");
 				return 2; //move left
 			}

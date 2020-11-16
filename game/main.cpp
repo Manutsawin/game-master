@@ -926,7 +926,7 @@ void draw_pic()
 
 void control()
 {
-	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level, J_player.direct , potionv.direct, sprite_potion.getPosition().x, sprite_potion.getPosition().y);
+	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level, J_player.direct , potionv.direct, sprite_potion.getPosition().x, sprite_potion.getPosition().y,enamy.direct);
 	
 	
 	sprite_player1.setTextureRect(player1.rectSource);
