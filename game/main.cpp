@@ -182,6 +182,9 @@ sf::Text score;
 sf::Text hightscname, hightscscore;
 std::stringstream Hscorename, Hscorescore;
 
+
+float speedflashenamy = 1.0;
+
 int main()
 {
 	window.setMouseCursorVisible(false);
@@ -927,7 +930,8 @@ void draw_pic()
 void control()
 {
 	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level, J_player.direct , potionv.direct, sprite_potion.getPosition().x, sprite_potion.getPosition().y,enamy.direct);
-	
+	int powerenamy_skill = 3;
+	int powerenamy = 1;
 	
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);
@@ -1281,7 +1285,7 @@ void control()
 				{
 					if (PG_player.direct != 1)
 					{
-						damage_player++;
+						damage_player+= powerenamy;
 						if (total_mana_enamy < 26)
 						{
 							total_mana_enamy++;
@@ -1300,7 +1304,7 @@ void control()
 				{
 					if (PG_player.direct != 1)
 					{
-					damage_player++;
+					damage_player+= powerenamy;
 					if (total_mana_enamy < 26)
 					{
 						total_mana_enamy++;
@@ -1354,7 +1358,7 @@ void control()
 		{
 			if (Uskill_enamy.direct == 1 || Uskill_enamy.direct == 2)
 			{
-				damage_player += 3;
+				damage_player += powerenamy_skill;
 				stun_player.direct = 1;
 				player_stun_clock.restart();
 			}
@@ -1363,7 +1367,7 @@ void control()
 		{
 			if (Uskill_enamy.direct == 1 || Uskill_enamy.direct == 2)
 			{
-				damage_player += 3;
+				damage_player += powerenamy_skill;
 				stun_player.direct = 1;
 				player_stun_clock.restart();
 			}
@@ -1869,7 +1873,7 @@ int Flash_enamy_Fuc(int direct)
 
 		if (enamy1.x < 1040)
 		{
-			enamy1.x += 3.0f;
+			enamy1.x += speedflashenamy;
 		}
 
 		if (clock_ani_enamy.getElapsedTime().asSeconds() > 0.100f)
@@ -1908,7 +1912,7 @@ int Flash_enamy_Fuc(int direct)
 		direct = 2;
 		if (enamy1.x >= 160)
 		{
-			enamy1.x += -3.0f;
+			enamy1.x -= speedflashenamy;
 		}
 		if (clock_ani_enamy.getElapsedTime().asSeconds() > 0.100f)
 		{
