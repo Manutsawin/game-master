@@ -184,6 +184,8 @@ std::stringstream Hscorename, Hscorescore;
 
 
 float speedflashenamy = 1.0;
+sf::Clock clock_uskillenamy;
+float timecastskillenamy = 1;
 
 int main()
 {
@@ -929,9 +931,20 @@ void draw_pic()
 
 void control()
 {
-	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level, J_player.direct , potionv.direct, sprite_potion.getPosition().x, sprite_potion.getPosition().y,enamy.direct);
+	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level, J_player.direct , potionv.direct, sprite_potion.getPosition().x, sprite_potion.getPosition().y,enamy.direct, total_mana_enamy, total_hp_player);
 	int powerenamy_skill = 3;
 	int powerenamy = 1;
+	
+	
+	if (botcontrol != 7)
+	{
+		clock_uskillenamy.restart();
+	}
+	
+	if (clock_uskillenamy.getElapsedTime().asSeconds() > timecastskillenamy)
+	{
+		botcontrol = 0;
+	}
 	
 	sprite_player1.setTextureRect(player1.rectSource);
 	sprite_enamy.setTextureRect(enamy1.rectSource);

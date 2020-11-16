@@ -1,11 +1,20 @@
 #include "bot_control.h"
-int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, float potionX, float potionY,int enamydirect)
+int fucbotcontrol(float xplayer, float xenamy, int level, int J, int potion, float potionX, float potionY,int enamydirect,int manaenamy,int hpplayer)
 {
 	// 1 move right // 2 move left // 3 jump // 4 PG // 5 flash // 6 J-acctack // 7 U skill
 	if (level == 1)
 	{
-		
+		srand(time(NULL));
+		int per = ((rand() * rand() + rand() - rand()) % 100);
 
+		if (manaenamy > 7)
+		{
+			if (per < 50)
+			{
+				return 7;
+			}
+			
+		}
 		if (J == 1 && xenamy <= xplayer + 100 && xenamy >= xplayer - 100)
 		{
 			printf("4\n");
