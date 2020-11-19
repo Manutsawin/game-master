@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include<windows.h>
 #include<stdio.h>
 #include"skill_player.h"
@@ -174,7 +175,7 @@ Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
 int section = 0; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
 
-char nameplayer[10] = "123456789";
+char nameplayer[10] = "Test";
 int point = 0;
 sf::Font font;
 sf::Text score;
@@ -187,8 +188,36 @@ float speedflashenamy = 1.0;
 sf::Clock clock_uskillenamy;
 float timecastskillenamy = 1;
 
+sf::SoundBuffer bufferswingsword, bufferblock, bufferbg0, bufferpotion, bufferlose, buffervictory, bufferchampion;
+sf::Sound soundswingsword, soundblock, soundbg0, soundpotion, soundlose, soundvictory, soundchampion;
+
 int main()
 {
+	
+	bufferswingsword.loadFromFile("Sound fx/Sword Swing.wav");
+	soundswingsword.setBuffer(bufferswingsword);
+
+	bufferblock.loadFromFile("Sound fx/block.wav");
+	soundblock.setBuffer(bufferblock);
+
+	bufferbg0.loadFromFile("Sound fx/bleach.wav");
+	soundbg0.setBuffer(bufferbg0);
+
+	bufferpotion.loadFromFile("Sound fx/potion.wav");
+	soundpotion.setBuffer(bufferpotion);
+
+	bufferlose.loadFromFile("Sound fx/lose.wav");
+	soundlose.setBuffer(bufferlose);
+
+
+	buffervictory.loadFromFile("Sound fx/Victory.wav");
+	soundvictory.setBuffer(buffervictory);
+
+
+	bufferchampion.loadFromFile("Sound fx/champion.wav");
+	soundchampion.setBuffer(bufferchampion);
+
+
 	window.setMouseCursorVisible(false);
 	
 	sprite_recselect.setPosition(150, 100);
@@ -257,11 +286,28 @@ int main()
 	skill animetion_bggameover(&bggameover.Texture, sf::Vector2u(6, 1), 0.12f);//bg endgame
 	animetion_bggameover.Update(0, deltatime_player_skill);
 	sprite_bggameover.setTextureRect(animetion_bggameover.uvRect);
+	
 
+	
+	
+	
+	
+	
 
-
+	
 	while (window.isOpen())
 	{
+		
+
+		if (section == 3)
+		{
+			soundbg0.stop();
+		}
+
+		if (section !=7)
+		{
+			soundchampion.stop();
+		}
 		
 		if (section == 5)
 		{
@@ -282,6 +328,12 @@ int main()
 		}
 		if (section == 7)
 		{
+			
+			if (soundchampion.getStatus() == soundchampion.Stopped)
+			{
+				soundchampion.play();
+			}
+			
 			score.setFillColor(sf::Color::White);
 			score.setCharacterSize(50);
 			score.setPosition(510, 430);
@@ -298,6 +350,7 @@ int main()
 		}
 		if (section == 6)
 		{
+			
 			score.setFillColor(sf::Color::White);
 			score.setCharacterSize(50);
 			score.setPosition(490, 450);
@@ -311,8 +364,17 @@ int main()
 			//window.draw(sprite_player1);
 			window.display();
 		}
+
+		
 		if (section == 0)
 		{
+			
+
+			if (soundbg0.getStatus() == soundbg0.Stopped)
+			{
+				soundbg0.play();
+			}
+
 			point = 0;
 			level = 1;
 			animetion_bgmenu.Update(0, deltatime_player_skill);
@@ -321,7 +383,9 @@ int main()
 			window.draw(sprite_bgmenu);
 			menu.draw(window);
 			window.display();
+			level = 2;
 		}
+		
 		if (section == 2)
 		{
 			animetion_bgselect.Update(0, deltatime_player_skill);
@@ -500,6 +564,8 @@ int main()
 
 				if (section == 0)
 				{
+					
+					
 					switch (event.type)
 					{
 					case sf::Event::KeyReleased:
@@ -552,6 +618,9 @@ int main()
 					
 					
 				}
+				
+
+
 				if (section == 4)
 				{
 					
@@ -1055,12 +1124,16 @@ void control()
 		if (clockJ_player.getElapsedTime().asSeconds() > 0.25f&& cheak_damage_and_J_Player == 0)
 		{
 
+
 			if (player.direct == 1 || player.direct == 11)
 			{
 				if (x_playercheak + 120 >= x_enamycheak && x_enamycheak > x_playercheak - 40)
 				{
+					
+					
 					if (PG_enamy.direct != 1)
 					{
+						soundswingsword.play();
 						damage_enamy++;
 						if (total_mana_playyer < 26)
 						{
@@ -1069,6 +1142,15 @@ void control()
 						stun_enamy.direct = 1;
 						enamy_stun_clock.restart();
 						cheak_damage_and_J_Player = 1;
+					}
+					else
+					{
+						if (soundblock.getStatus() == soundblock.Stopped)
+						{
+							soundblock.play();
+						}
+						
+
 					}
 					
 					
@@ -1080,6 +1162,7 @@ void control()
 				{
 					if (PG_enamy.direct != 1)
 					{
+						soundswingsword.play();
 						damage_enamy++;
 						if (total_mana_playyer < 26)
 						{
@@ -1089,6 +1172,13 @@ void control()
 						stun_enamy.direct = 1;
 						enamy_stun_clock.restart();
 						cheak_damage_and_J_Player = 1;
+					}
+					else
+					{
+						if (soundblock.getStatus() == soundblock.Stopped)
+						{
+							soundblock.play();
+						}
 					}
 					
 				}
@@ -1134,6 +1224,7 @@ void control()
 		{
 			if (Uskill_player.direct == 1 || Uskill_player.direct == 2)
 			{
+				soundswingsword.play();
 				damage_enamy += 3;
 				stun_enamy.direct = 1;
 				enamy_stun_clock.restart();
@@ -1143,6 +1234,7 @@ void control()
 		{
 			if (Uskill_player.direct == 1 || Uskill_player.direct == 2)
 			{
+				soundswingsword.play();
 				damage_enamy += 3;
 				stun_enamy.direct = 1;
 				enamy_stun_clock.restart();
@@ -1173,7 +1265,7 @@ void control()
 		PG_enamy.direct = 0;
 	}
 	
-	if (botcontrol ==1 || botcontrol == 2)
+	if (botcontrol ==1 || botcontrol == 2 || botcontrol == 5)
 	{
 		if (J_enamy.direct != 1)
 		{
@@ -1298,6 +1390,7 @@ void control()
 				{
 					if (PG_player.direct != 1)
 					{
+						soundswingsword.play();
 						damage_player+= powerenamy;
 						if (total_mana_enamy < 26)
 						{
@@ -1306,6 +1399,13 @@ void control()
 						stun_player.direct = 1;
 						player_stun_clock.restart();
 						cheak_damage_and_J_enamy = 1;
+					}
+					else
+					{
+						if (soundblock.getStatus() == soundblock.Stopped)
+						{
+							soundblock.play();
+						}
 					}
 
 
@@ -1317,15 +1417,22 @@ void control()
 				{
 					if (PG_player.direct != 1)
 					{
-					damage_player+= powerenamy;
-					if (total_mana_enamy < 26)
-					{
-						total_mana_enamy++;
+						soundswingsword.play();
+						damage_player+= powerenamy;
+						if (total_mana_enamy < 26)
+						{
+							total_mana_enamy++;
+						}
+						stun_player.direct = 1;
+						player_stun_clock.restart();
+						cheak_damage_and_J_enamy = 1;
 					}
-
-					stun_player.direct = 1;
-					player_stun_clock.restart();
-					cheak_damage_and_J_enamy = 1;
+					else
+					{
+						if (soundblock.getStatus() == soundblock.Stopped)
+						{
+							soundblock.play();
+						}
 					}
 
 				}
@@ -1371,6 +1478,7 @@ void control()
 		{
 			if (Uskill_enamy.direct == 1 || Uskill_enamy.direct == 2)
 			{
+				soundswingsword.play();
 				damage_player += powerenamy_skill;
 				stun_player.direct = 1;
 				player_stun_clock.restart();
@@ -1380,6 +1488,7 @@ void control()
 		{
 			if (Uskill_enamy.direct == 1 || Uskill_enamy.direct == 2)
 			{
+				soundswingsword.play();
 				damage_player += powerenamy_skill;
 				stun_player.direct = 1;
 				player_stun_clock.restart();
@@ -1403,6 +1512,10 @@ void control()
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	if (total_hp_enamy == 1 && victory.x < 600) // victory
 	{
+		if (soundvictory.getStatus() == soundvictory.Stopped)
+		{
+			soundvictory.play();
+		}
 		victory.x += 0.7f;
 	}
 	if (total_hp_enamy == 1 && victory.x >= 600)
@@ -1433,7 +1546,21 @@ void control()
 
 	if (total_hp_player == 1 && defeat.x > 0) // defeat
 	{
+		if (soundlose.getStatus() == soundlose.Stopped)
+		{
+			soundlose.play();
+		}
+		
 		defeat.x -= 0.7f;
+	}
+
+	if (total_hp_player == 1 && defeat.x <= 0) // defeat
+	{
+		Hscorename = hightscoreupdate(0, point, nameplayer);
+		Hscorescore = hightscoreupdate(1, point, nameplayer);
+		hightscname.setString(Hscorename.str());
+		hightscscore.setString(Hscorescore.str());
+		section = 6;
 	}
 }
 int Stay_player_Fuc(int direct)
@@ -2156,7 +2283,7 @@ void setupscore()
 		//handle error
 	}
 	score.setFont(font);
-	score.setFillColor(sf::Color::Black);
+	score.setFillColor(sf::Color::Green);
 	score.setCharacterSize(27);
 	score.setPosition(130, 35);
 }
@@ -2196,6 +2323,7 @@ void Calculation_system_potion()
 			manaDel_player = -5;
 			damage_player =  -5;
 		}
+		soundpotion.play();
 		point += 5;
 		potionv.direct = 0;
 		potion_clock.restart().asSeconds();
@@ -2217,7 +2345,7 @@ void Calculation_system_potion()
 			manaDel_enamy = -5;
 			damage_enamy = -5;
 		}
-		point += 5;
+		soundpotion.play();
 		potionv.direct = 0;
 		potion_clock.restart().asSeconds();
 	}

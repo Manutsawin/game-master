@@ -3,7 +3,7 @@ int randompositionpotion()
 {
     
     srand(time(NULL));
-    int position = ((rand()* rand() + rand() - rand()) % 1000) + 50;
+    int position = ((rand()* rand() + rand() - rand()) % 1000) + 90;
     return position;
 }
 
