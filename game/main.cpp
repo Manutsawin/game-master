@@ -150,6 +150,8 @@ sf::Texture enamytext,playertext,
 int level = 1;
 int stop = 0;
 
+int enter = 0;
+
 int typepotion;
 
 struct Vector
@@ -175,7 +177,10 @@ Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
 int section = 0; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
 
-char nameplayer[10] = "Test";
+char nameplayer[10] = " ";
+int looptestname = 0;
+sf::Text textname;
+
 int point = 0;
 sf::Font font;
 sf::Text score;
@@ -193,7 +198,10 @@ sf::Sound soundswingsword, soundblock, soundbg0, soundpotion, soundlose, soundvi
 
 int main()
 {
-	
+	textname.setFont(font);
+	textname.setCharacterSize(24);
+	textname.setFillColor(sf::Color::White);
+
 	bufferswingsword.loadFromFile("Sound fx/Sword Swing.wav");
 	soundswingsword.setBuffer(bufferswingsword);
 
@@ -297,8 +305,16 @@ int main()
 	
 	while (window.isOpen())
 	{
+		textname.setString(nameplayer);
 		
 
+		if (section == 1)
+		{
+			window.clear();
+			window.draw(textname);
+			window.display();
+		}
+		
 		if (section == 3)
 		{
 			soundbg0.stop();
@@ -368,7 +384,17 @@ int main()
 		
 		if (section == 0)
 		{
-			
+			enter = 0;
+			looptestname = 0;
+			nameplayer[0] = '\0';
+			nameplayer[1] = '\0';
+			nameplayer[2] = '\0';
+			nameplayer[3] = '\0';
+			nameplayer[4] = '\0';
+			nameplayer[5] = '\0';
+			nameplayer[6] = '\0';
+			nameplayer[7] = '\0';
+				
 
 			if (soundbg0.getStatus() == soundbg0.Stopped)
 			{
@@ -383,7 +409,8 @@ int main()
 			window.draw(sprite_bgmenu);
 			menu.draw(window);
 			window.display();
-			level = 2;
+			level = 1;
+			point = 900;
 		}
 		
 		if (section == 2)
@@ -464,6 +491,47 @@ int main()
 
 				}
 
+				if (section == 1)
+				{
+					if (event.type == sf::Event::TextEntered)
+					{
+						if (event.text.unicode == 13)
+						{
+							if (looptestname > 0)
+							{
+								section = 2;
+								printf("enter\n");
+
+							}
+							else if (looptestname >= 0)
+							{
+								looptestname--;
+							}
+
+
+						}
+						if (event.text.unicode == 8)
+						{
+							if (looptestname > 0)
+							{
+								looptestname--;
+								nameplayer[looptestname] = '\0';
+							}
+
+						}
+						else
+						{
+							if (looptestname < 8)
+							{
+								printf("%c\n", event.text.unicode);
+								nameplayer[looptestname] = event.text.unicode;
+								looptestname++;
+							}
+
+						}
+					}
+				}
+
 				if (section == 3)
 				{
 					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
@@ -495,11 +563,24 @@ int main()
 					{
 						section = 0;
 					}
-					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
+					if (event.type == sf::Event::TextEntered)
+					{
+						if (event.text.unicode == 13)
+						{
+							enter++;
+							if (enter > 1)
+							{
+								setup();
+								section = 3;
+							}
+							
+						}
+					}
+					/*if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
 					{
 						setup();
 						section = 3;
-					}
+					}*/
 					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Left)))
 					{
 						if (sprite_recselect.getPosition().x > 150)
@@ -548,6 +629,7 @@ int main()
 
 				if (section == 6)
 				{
+					enter = 1;
 					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Return)))
 					{
 						section = 5;
@@ -590,7 +672,7 @@ int main()
 							{
 							case 0:
 								printf("Play button has been pressed\n");
-								section = 2;
+								section = 1;
 								break;
 							case 1:
 								printf("High score button has been pressed\n");
@@ -718,6 +800,8 @@ int main()
 }
 void setup()
 {
+	
+	enter = 0;
 	
 	setupscore();
 	total_mana_playyer = 26;
