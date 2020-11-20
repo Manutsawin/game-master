@@ -79,7 +79,8 @@ struct charecter
   ,bgmenuingame
   ,bgselect,recselect
   ,bgendgame,bggameover
-  ,bghightscore;
+  ,bghightscore
+  ,bginputname;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 
@@ -141,6 +142,9 @@ sf::RectangleShape sprite_bggameover(sf::Vector2f(1200.0f, 800.0f));
 //BG highscore
 sf::RectangleShape sprite_hightscore(sf::Vector2f(1200.0f, 800.0f));
 
+//BG inputname
+sf::RectangleShape sprite_inputname(sf::Vector2f(1200.0f, 800.0f));
+
 sf::Clock clock_ani_player, clockJ_player , clock_ani_enamy, clockJ_enamy;
 
 sf::Texture enamytext,playertext,
@@ -199,8 +203,9 @@ sf::Sound soundswingsword, soundblock, soundbg0, soundpotion, soundlose, soundvi
 int main()
 {
 	textname.setFont(font);
-	textname.setCharacterSize(24);
+	textname.setCharacterSize(50);
 	textname.setFillColor(sf::Color::White);
+	textname.setPosition(510, 370);
 
 	bufferswingsword.loadFromFile("Sound fx/Sword Swing.wav");
 	soundswingsword.setBuffer(bufferswingsword);
@@ -295,7 +300,11 @@ int main()
 	animetion_bggameover.Update(0, deltatime_player_skill);
 	sprite_bggameover.setTextureRect(animetion_bggameover.uvRect);
 	
-
+	bginputname.Texture.loadFromFile("inputname/allinputname.png");
+	sprite_inputname.setTexture(&bginputname.Texture);
+	skill animetion_inputname(&bginputname.Texture, sf::Vector2u(2, 1), 0.12f);//bg endgame
+	animetion_inputname.Update(0, deltatime_player_skill);
+	sprite_inputname.setTextureRect(animetion_inputname.uvRect);
 	
 	
 	
@@ -310,7 +319,16 @@ int main()
 
 		if (section == 1)
 		{
+			if (soundbg0.getStatus() == soundbg0.Stopped)
+			{
+				soundbg0.play();
+			}
+			
+			animetion_inputname.Update(0, deltatime_player_skill);
+			sprite_inputname.setTextureRect(animetion_inputname.uvRect);
+			
 			window.clear();
+			window.draw(sprite_inputname);
 			window.draw(textname);
 			window.display();
 		}
@@ -409,12 +427,16 @@ int main()
 			window.draw(sprite_bgmenu);
 			menu.draw(window);
 			window.display();
-			level = 1;
-			point = 900;
+
 		}
 		
 		if (section == 2)
 		{
+			if (soundbg0.getStatus() == soundbg0.Stopped)
+			{
+				soundbg0.play();
+			}
+
 			animetion_bgselect.Update(0, deltatime_player_skill);
 			sprite_bgselect.setTextureRect(animetion_bgselect.uvRect);
 
@@ -495,6 +517,10 @@ int main()
 				{
 					if (event.type == sf::Event::TextEntered)
 					{
+						if (event.text.unicode == 27)
+						{
+							section = 0;
+						}
 						if (event.text.unicode == 13)
 						{
 							if (looptestname > 0)
