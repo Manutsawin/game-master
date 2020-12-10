@@ -59,6 +59,9 @@ void section4();
 void setupscore();
 void drawscore();
 
+//set fillter
+void fillter();
+
 struct charecter
 {
 	float x= 0, y= 530;
@@ -196,6 +199,8 @@ std::stringstream Hscorename, Hscorescore;
 float speedflashenamy = 1.0;
 sf::Clock clock_uskillenamy;
 float timecastskillenamy = 1;
+int powerenamy_skill = 3;
+int powerenamy = 1;
 
 sf::SoundBuffer bufferswingsword, bufferblock, bufferbg0, bufferpotion, bufferlose, buffervictory, bufferchampion;
 sf::Sound soundswingsword, soundblock, soundbg0, soundpotion, soundlose, soundvictory, soundchampion;
@@ -359,6 +364,7 @@ int main()
 			hightscname.setString(Hscorename.str());
 			hightscscore.setString(Hscorescore.str());
 			level = 1;
+		
 		}
 		if (section == 7)
 		{
@@ -699,6 +705,7 @@ int main()
 							case 0:
 								printf("Play button has been pressed\n");
 								section = 1;
+								//section = 2;
 								break;
 							case 1:
 								printf("High score button has been pressed\n");
@@ -825,7 +832,10 @@ int main()
 	return 0;
 }
 void setup()
-{
+{	
+	fillter();
+
+	upgradebot(&speedflashenamy, &timecastskillenamy, &powerenamy, &powerenamy_skill, level);	
 	
 	enter = 0;
 	
@@ -1111,8 +1121,7 @@ void draw_pic()
 void control()
 {
 	int botcontrol = fucbotcontrol(x_playercheak, x_enamycheak,level, J_player.direct , potionv.direct, sprite_potion.getPosition().x, sprite_potion.getPosition().y,enamy.direct, total_mana_enamy, total_hp_player);
-	int powerenamy_skill = 3;
-	int powerenamy = 1;
+	
 	
 	
 	if (botcontrol != 7)
@@ -2505,6 +2514,33 @@ void section4()
 		window.draw(sprite_bgmenuingame);
 		menuingame.draw(window);
 		window.display();
+	}
+}
+void fillter()
+{
+	if (sprite_recselect.getPosition().x == 150 && level == 1)
+	{
+		sprite_enamy.setFillColor(sf::Color::Cyan);
+	}
+	else if (sprite_recselect.getPosition().x == 300 && level == 2)
+	{
+		sprite_enamy.setFillColor(sf::Color::Cyan);
+	}
+	else if (sprite_recselect.getPosition().x == 450 && level == 3)
+	{
+		sprite_enamy.setFillColor(sf::Color::Cyan);
+	}
+	else if (sprite_recselect.getPosition().x == 600 && level == 4)
+	{
+		sprite_enamy.setFillColor(sf::Color::Cyan);
+	}
+	else if (sprite_recselect.getPosition().x == 750 && level == 5)
+	{
+		sprite_enamy.setFillColor(sf::Color::Cyan);
+	}
+	else
+	{
+		sprite_enamy.setFillColor(sf::Color::White);
 	}
 }
 
