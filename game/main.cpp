@@ -83,7 +83,8 @@ struct charecter
   ,bgselect,recselect
   ,bgendgame,bggameover
   ,bghightscore
-  ,bginputname;
+  ,bginputname
+  ,bghowtoplay;
 
 sf::RenderWindow window(sf::VideoMode(1200,800),"Road to champions");
 
@@ -145,6 +146,9 @@ sf::RectangleShape sprite_bggameover(sf::Vector2f(1200.0f, 800.0f));
 //BG highscore
 sf::RectangleShape sprite_hightscore(sf::Vector2f(1200.0f, 800.0f));
 
+//BG howtoplay
+sf::RectangleShape sprite_howtoplay(sf::Vector2f(1200.0f, 800.0f)); 
+
 //BG inputname
 sf::RectangleShape sprite_inputname(sf::Vector2f(1200.0f, 800.0f));
 
@@ -154,7 +158,7 @@ sf::Texture enamytext,playertext,
 			enamyskill,playerskill,
 			iskillplayer,iskillenamy;
 
-int level = 1;
+int level = 0;
 int stop = 0;
 
 int enter = 0;
@@ -182,7 +186,7 @@ sf::Clock potion_clock;
 Menu menu(window.getSize().x, window.getSize().y);
 Menu_in_game menuingame(window.getSize().x, window.getSize().y);
 
-int section = 0; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 4 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
+int section = 0; //0 = menu :: 1 = name input :: 2 = selectplayer :: 3 = game :: 9 = how to play :: 5 = hight score :: 6 = game over :: 7 = champion  
 
 char nameplayer[10] = " ";
 int looptestname = 0;
@@ -356,6 +360,14 @@ int main()
 			window.draw(hightscscore);
 			window.display();
 		}
+
+		if (section == 9)
+		{
+			window.clear();
+			window.draw(sprite_howtoplay);
+			window.display();
+		}
+
 		if (level == 6)
 		{
 			section = 7;
@@ -564,6 +576,15 @@ int main()
 					}
 				}
 
+				if (section == 9)
+				{
+					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
+					{
+						section = 0;
+					}
+					
+				}
+
 				if (section == 3)
 				{
 					if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key::Escape)))
@@ -713,6 +734,7 @@ int main()
 								break;
 							case 2:
 								printf("How to play button has been pressed\n");
+								section = 9;
 								break;
 							case 3:
 								window.close();
@@ -848,6 +870,9 @@ void setup()
 	
 	bghightscore.Texture.loadFromFile("Hightscore/bg.png");
 	sprite_hightscore.setTexture(&bghightscore.Texture);
+
+	bghowtoplay.Texture.loadFromFile("how to play/howtoplay.png");
+	sprite_howtoplay.setTexture(&bghowtoplay.Texture);
 
 	potion.Texture.loadFromFile("potion/hpall.png");
 	sprite_potion.setTexture(&potion.Texture);
