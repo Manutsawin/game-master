@@ -273,7 +273,7 @@ int main()
 	skill animetion_potion(&potion.Texture, sf::Vector2u(5, 1), 0.5f);//potion
 	
 	//bg menu
-	bgmenu.Texture.loadFromFile("Menu/BG_menu_all2.png");
+	bgmenu.Texture.loadFromFile("Menu/BG_menu_all3.png");
 	sprite_bgmenu.setTexture(&bgmenu.Texture);
 	skill animetion_bgmenu(&bgmenu.Texture, sf::Vector2u(12, 1), 0.095f);//potion
 	animetion_bgmenu.Update(0, deltatime_player_skill);
