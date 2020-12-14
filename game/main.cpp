@@ -439,6 +439,9 @@ int main()
 
 			point = 0;
 			level = 1;
+			Uskill_player.direct = 0;
+			Uskill_enamy.direct = 0;
+
 			animetion_bgmenu.Update(0, deltatime_player_skill);
 			sprite_bgmenu.setTextureRect(animetion_bgmenu.uvRect);
 			window.clear();
